@@ -11,7 +11,9 @@
       nixosModules.default = import ./nix/host.nix { zenlink = self; };
       devShells.${system}.default = pkgs.mkShell {
         inputsFrom = [ package ];
-        packages = [ pkgs.zip pkgs.python3 pkgs.pulseaudio ];
+        packages = with pkgs; [ zip python3 pulseaudio
+          gst_all_1.gstreamer gst_all_1.gst-plugins-base
+          gst_all_1.gst-plugins-good gst_all_1.gst-plugins-bad ];
       };
       checks.${system}.media-protocol = pkgs.runCommand "zenlink-media-protocol" {
         nativeBuildInputs = [ pkgs.gjs ];
