@@ -68,11 +68,17 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
         --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.gst_all_1.gstreamer pkgs.pulseaudio ]} \
         --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : ${pkgs.lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [ pkgs.gst_all_1.gstreamer pkgs.gst_all_1.gst-plugins-base pkgs.gst_all_1.gst-plugins-good pkgs.gst_all_1.gst-plugins-bad ]}
     done
+    mkdir -p "$out/bin"
+    makeWrapper "$extensionDir/service/daemon.js" "$out/bin/zenlink"
+    makeWrapper "$extensionDir/zenlink-preferences" "$out/bin/zenlink-preferences"
   '';
+
+  passthru.extensionUuid = "zenlink@zenos-n.github.io";
 
   meta = {
     description = "ZenLink device integration for ZenOS and GNOME";
     license = pkgs.lib.licenses.gpl2Plus;
     platforms = pkgs.lib.platforms.linux;
+    mainProgram = "zenlink";
   };
 })
