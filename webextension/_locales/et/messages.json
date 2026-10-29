@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "Jaga linke GSConnectiga, otse brauserisse või SMSi teel.",
+        "message": "Jaga linke ZenLinkiga, otse brauserisse või SMSi teel.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

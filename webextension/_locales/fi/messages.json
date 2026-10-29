@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "Jaa linkkejä GSConnectin avulla suoraan selaimeen tai tekstiviestillä.",
+        "message": "Jaa linkkejä ZenLinkin avulla suoraan selaimeen tai tekstiviestillä.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

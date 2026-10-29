@@ -13,7 +13,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('Mousepad'),
     description: _('Enables the paired device to act as a remote mouse and keyboard'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.Mousepad',
+    id: 'org.zenos.ZenLink.Plugin.Mousepad',
     incomingCapabilities: [
         'kdeconnect.mousepad.echo',
         'kdeconnect.mousepad.request',
@@ -119,7 +119,7 @@ const KeyMapCodes = new Map([
  * TODO: support outgoing mouse events?
  */
 const MousepadPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectMousepadPlugin',
+    GTypeName: 'ZenLinkMousepadPlugin',
     Properties: {
         'state': GObject.ParamSpec.boolean(
             'state',

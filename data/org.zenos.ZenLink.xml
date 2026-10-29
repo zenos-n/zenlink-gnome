@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
 
 <node>
   <!-- Device -->
-  <interface name="org.gnome.Shell.Extensions.GSConnect.Device">
+  <interface name="org.zenos.ZenLink.Device">
     <property type="b" name="Connected" access="read"/>
     <property type="s" name="EncryptionInfo" access="read"/>
     <property type="s" name="Id" access="read"/>

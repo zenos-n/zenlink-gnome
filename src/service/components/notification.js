@@ -57,7 +57,7 @@ const GTK_MATCH = "interface='org.gtk.Notifications',member='AddNotification',ty
  * notifications and forwarding them to supporting devices.
  */
 const Listener = GObject.registerClass({
-    GTypeName: 'GSConnectNotificationListener',
+    GTypeName: 'ZenLinkNotificationListener',
     Signals: {
         'notification-added': {
             flags: GObject.SignalFlags.RUN_LAST,
@@ -376,7 +376,7 @@ const Listener = GObject.registerClass({
 
     AddNotification(application, id, notification) {
         // Ignore our own notifications or we'll cause a notification loop
-        if (application === 'org.gnome.Shell.Extensions.GSConnect')
+        if (application === 'org.zenos.ZenLink')
             return;
 
         const appInfo = GioUnix.DesktopAppInfo.new(`${application}.desktop`);

@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-APP_ID="org.gnome.Shell.Extensions.GSConnect"
+APP_ID="org.zenos.ZenLink"
 #G_TEST_BUILDDIR=${MESON_BUILD_ROOT}/installed-tests
 
 # Copy source files

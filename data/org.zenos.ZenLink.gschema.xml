@@ -6,8 +6,8 @@ SPDX-FileCopyrightText: GSConnect Developers https://github.com/GSConnect
 SPDX-License-Identifier: GPL-2.0-or-later
 -->
 
-<schemalist gettext-domain="org.gnome.Shell.Extensions.GSConnect">
-  <schema id="org.gnome.Shell.Extensions.GSConnect" path="/org/gnome/shell/extensions/gsconnect/">
+<schemalist gettext-domain="org.zenos.ZenLink">
+  <schema id="org.zenos.ZenLink" path="/org/zenos/zenlink/">
     <!-- Extension Settings -->
     <key name="enabled" type="b">
       <default>true</default>
@@ -44,7 +44,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
   </schema>
 
   <!-- Window Geometry -->
-  <schema id="org.gnome.Shell.Extensions.GSConnect.WindowState">
+  <schema id="org.zenos.ZenLink.WindowState">
     <key name="window-size" type="(ii)">
       <default>(0, 0)</default>
     </key>
@@ -54,7 +54,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
   </schema>
 
   <!-- Device Settings -->
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Device">
+  <schema id="org.zenos.ZenLink.Device">
     <key name="certificate-pem" type="s">
       <default>""</default>
     </key>
@@ -62,7 +62,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
       <default>{}</default>
     </key>
     <key name="menu-actions" type="as">
-      <default>["sms", "ring", "mount", "commands", "share", "keyboard"]</default>
+      <default>["media", "sms", "ring", "mount", "commands", "share", "keyboard"]</default>
     </key>
     <key name="name" type="s">
       <default>""</default>
@@ -90,7 +90,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
     </key>
   </schema>
 
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Battery">
+  <schema id="org.zenos.ZenLink.Plugin.Battery">
     <key name="send-statistics" type="b">
       <default>false</default>
     </key>
@@ -109,7 +109,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
       <default>false</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Clipboard">
+  <schema id="org.zenos.ZenLink.Plugin.Clipboard">
     <key name="receive-content" type="b">
       <default>false</default>
     </key>
@@ -117,23 +117,24 @@ SPDX-License-Identifier: GPL-2.0-or-later
       <default>false</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Contacts">
+  <schema id="org.zenos.ZenLink.Plugin.Contacts">
     <key name="contacts-source" type="b">
       <default>true</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.FindMyPhone"/>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Mousepad">
+  <schema id="org.zenos.ZenLink.Plugin.FindMyPhone"/>
+  <schema id="org.zenos.ZenLink.Plugin.Media"/>
+  <schema id="org.zenos.ZenLink.Plugin.Mousepad">
     <key name="share-control" type="b">
       <default>true</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.MPRIS">
+  <schema id="org.zenos.ZenLink.Plugin.MPRIS">
     <key name="share-players" type="b">
       <default>true</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Notification">
+  <schema id="org.zenos.ZenLink.Plugin.Notification">
     <key name="send-notifications" type="b">
       <default>true</default>
     </key>
@@ -144,19 +145,19 @@ SPDX-License-Identifier: GPL-2.0-or-later
       <default>'{}'</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Ping"/>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Presenter"/>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.RunCommand">
+  <schema id="org.zenos.ZenLink.Plugin.Ping"/>
+  <schema id="org.zenos.ZenLink.Plugin.Presenter"/>
+  <schema id="org.zenos.ZenLink.Plugin.RunCommand">
     <key name="command-list" type="a{sv}">
       <default><![CDATA[{'lock': <{'name': 'Lock', 'command': 'xdg-screensaver lock'}>, 'restart': <{'name': 'Restart', 'command': 'systemctl reboot'}>, 'logout': <{'name': 'Log Out', 'command': 'gnome-session-quit --logout --no-prompt'}>, 'poweroff': <{'name': 'Power Off', 'command': 'systemctl poweroff'}>, 'suspend': <{'name': 'Suspend', 'command': 'systemctl suspend'}>}]]></default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.SFTP">
+  <schema id="org.zenos.ZenLink.Plugin.SFTP">
     <key name="automount" type="b">
       <default>true</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Share">
+  <schema id="org.zenos.ZenLink.Plugin.Share">
     <key name="receive-files" type="b">
       <default>true</default>
     </key>
@@ -167,17 +168,17 @@ SPDX-License-Identifier: GPL-2.0-or-later
       <default>false</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.SMS">
+  <schema id="org.zenos.ZenLink.Plugin.SMS">
     <key name="legacy-sms" type="b">
       <default>false</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.SystemVolume">
+  <schema id="org.zenos.ZenLink.Plugin.SystemVolume">
     <key name="share-sinks" type="b">
       <default>true</default>
     </key>
   </schema>
-  <schema id="org.gnome.Shell.Extensions.GSConnect.Plugin.Telephony">
+  <schema id="org.zenos.ZenLink.Plugin.Telephony">
     <key name="ringing-volume" type="s">
       <default>"lower"</default>
     </key>

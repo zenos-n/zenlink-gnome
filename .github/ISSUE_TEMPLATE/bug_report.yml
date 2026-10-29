@@ -2,11 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 name: Bug report
-description: Report an issue to help us improve GSConnect
+description: Report an issue to help us improve ZenLink
 body:
 - type: markdown
   attributes:
-    value: "> **ATTENTION**: GSConnect only supports the latest, stable version of GNOME. We are no longer accepting bug reports for previous versions."
+    value: "> **ATTENTION**: ZenLink only supports the latest, stable version of GNOME. We are no longer accepting bug reports for previous versions."
 
 - type: textarea
   id: summary
@@ -40,7 +40,7 @@ body:
 - type: input
   id: gsconnect_version
   attributes:
-    label: GSConnect version
+    label: ZenLink version
     description: (Launch "Mobile Settings" and select "About" from the menu)
   validations:
     required: true
@@ -71,7 +71,7 @@ body:
 
 - type: markdown
   attributes:
-    value: "# GSConnect environment"
+    value: "# ZenLink environment"
 
 - type: input
   id: devices

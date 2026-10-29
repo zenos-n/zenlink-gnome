@@ -88,7 +88,7 @@ export function _configureSocket(connection) {
  * itself. We respond by opening a TCP connection to that address.
  */
 export const ChannelService = GObject.registerClass({
-    GTypeName: 'GSConnectLanChannelService',
+    GTypeName: 'ZenLinkLanChannelService',
     Properties: {
         'certificate': GObject.ParamSpec.object(
             'certificate',
@@ -543,7 +543,7 @@ export const ChannelService = GObject.registerClass({
  * and negotiate TLS encrypted connections.
  */
 export const Channel = GObject.registerClass({
-    GTypeName: 'GSConnectLanChannel',
+    GTypeName: 'ZenLinkLanChannel',
 }, class LanChannel extends Core.Channel {
 
     _init(params) {
@@ -622,10 +622,10 @@ export const Channel = GObject.registerClass({
             const id = this.identity.body.deviceId;
             settings = new Gio.Settings({
                 settings_schema: Config.GSCHEMA.lookup(
-                    'org.gnome.Shell.Extensions.GSConnect.Device',
+                    'org.zenos.ZenLink.Device',
                     true
                 ),
-                path: `/org/gnome/shell/extensions/gsconnect/device/${id}/`,
+                path: `/org/zenos/zenlink/device/${id}/`,
             });
         }
 

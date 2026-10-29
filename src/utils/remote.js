@@ -6,9 +6,9 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 
-const SERVICE_NAME = 'org.gnome.Shell.Extensions.GSConnect';
-const SERVICE_PATH = '/org/gnome/Shell/Extensions/GSConnect';
-const DEVICE_NAME = 'org.gnome.Shell.Extensions.GSConnect.Device';
+const SERVICE_NAME = 'org.zenos.ZenLink';
+const SERVICE_PATH = '/org/zenos/ZenLink';
+const DEVICE_NAME = 'org.zenos.ZenLink.Device';
 
 
 const _PROPERTIES = {
@@ -56,7 +56,7 @@ function _proxyInit(proxy, cancellable = null) {
  * A simple proxy wrapper for devices exported over DBus.
  */
 export const Device = GObject.registerClass({
-    GTypeName: 'GSConnectRemoteDevice',
+    GTypeName: 'ZenLinkRemoteDevice',
     Implements: [Gio.DBusInterface],
     Properties: {
         'connected': GObject.ParamSpec.boolean(
@@ -224,10 +224,10 @@ export const Device = GObject.registerClass({
 
 
 /**
- * A simple proxy wrapper for the GSConnect service.
+ * A simple proxy wrapper for the ZenLink service.
  */
 export const Service = GObject.registerClass({
-    GTypeName: 'GSConnectRemoteService',
+    GTypeName: 'ZenLinkRemoteService',
     Implements: [Gio.DBusInterface],
     Properties: {
         'active': GObject.ParamSpec.boolean(

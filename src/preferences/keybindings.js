@@ -41,8 +41,8 @@ export const ResponseType = {
  * A simplified version of the shortcut editor from GNOME Control Center
  */
 export const ShortcutChooserDialog = GObject.registerClass({
-    GTypeName: 'GSConnectPreferencesShortcutEditor',
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/preferences-shortcut-editor.ui',
+    GTypeName: 'ZenLinkPreferencesShortcutEditor',
+    Template: 'resource:///org/zenos/ZenLink/ui/preferences-shortcut-editor.ui',
     Children: [
         'cancel-button', 'set-button',
         'stack', 'summary-label',

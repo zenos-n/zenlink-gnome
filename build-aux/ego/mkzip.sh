@@ -25,6 +25,9 @@ cp -pr ${DESTDIR}/${DATADIR}/nautilus-python/extensions/* ${ZIP_DIR}
 cp -pr ${DESTDIR}/${LOCALEDIR} ${ZIP_DIR}
 cp -pr ${DESTDIR}/${GSCHEMADIR} ${ZIP_DIR}
 
+# Meson skips post-install schema compilation when staging with DESTDIR.
+glib-compile-schemas --strict "${ZIP_DIR}/schemas" || exit 1
+
 # Stop without zipping dir, if requested
 if [ "$NOZIP" = true ]; then
     echo "Extension staged in ${ZIP_DIR}";

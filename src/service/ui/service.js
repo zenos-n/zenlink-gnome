@@ -16,7 +16,7 @@ import Config from '../../config.js';
  * Issue Header
  */
 const ISSUE_HEADER = `
-GSConnect: ${Config.PACKAGE_VERSION} (${Config.IS_USER ? 'user' : 'system'})
+ZenLink: ${Config.PACKAGE_VERSION} (${Config.IS_USER ? 'user' : 'system'})
 GJS:       ${system.version}
 Session:   ${GLib.getenv('XDG_SESSION_TYPE')}
 OS:        ${GLib.get_os_info('PRETTY_NAME')}
@@ -27,7 +27,7 @@ OS:        ${GLib.get_os_info('PRETTY_NAME')}
  * A dialog for selecting a device
  */
 export const DeviceChooser = GObject.registerClass({
-    GTypeName: 'GSConnectServiceDeviceChooser',
+    GTypeName: 'ZenLinkServiceDeviceChooser',
     Properties: {
         'action-name': GObject.ParamSpec.string(
             'action-name',
@@ -45,7 +45,7 @@ export const DeviceChooser = GObject.registerClass({
             GObject.ParamFlags.READWRITE
         ),
     },
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/service-device-chooser.ui',
+    Template: 'resource:///org/zenos/ZenLink/ui/service-device-chooser.ui',
     Children: ['device-list', 'cancel-button', 'select-button'],
 }, class DeviceChooser extends Gtk.Dialog {
 
@@ -193,8 +193,8 @@ export const DeviceChooser = GObject.registerClass({
  * A dialog for reporting an error.
  */
 export const ErrorDialog = GObject.registerClass({
-    GTypeName: 'GSConnectServiceErrorDialog',
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/service-error-dialog.ui',
+    GTypeName: 'ZenLinkServiceErrorDialog',
+    Template: 'resource:///org/zenos/ZenLink/ui/service-error-dialog.ui',
     Children: [
         'error-stack',
         'expander-arrow',
@@ -207,7 +207,7 @@ export const ErrorDialog = GObject.registerClass({
     _init(error) {
         super._init({
             application: Gio.Application.get_default(),
-            title: `GSConnect: ${error.name}`,
+            title: `ZenLink: ${error.name}`,
         });
         this.set_keep_above(true);
 

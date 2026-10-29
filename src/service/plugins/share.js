@@ -14,7 +14,7 @@ import * as URI from '../utils/uri.js';
 
 export const Metadata = {
     label: _('Share'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.Share',
+    id: 'org.zenos.ZenLink.Plugin.Share',
     description: _('Share files and URLs between devices'),
     incomingCapabilities: ['kdeconnect.share.request'],
     outgoingCapabilities: ['kdeconnect.share.request'],
@@ -63,7 +63,7 @@ export const Metadata = {
  *       https://github.com/KDE/kdeconnect-kde/commit/28f11bd5c9a717fb9fbb3f02ddd6cea62021d055
  */
 const SharePlugin = GObject.registerClass({
-    GTypeName: 'GSConnectSharePlugin',
+    GTypeName: 'ZenLinkSharePlugin',
 }, class SharePlugin extends Plugin {
 
     _init(device) {
@@ -388,7 +388,7 @@ const SharePlugin = GObject.registerClass({
 
 /** A simple FileChooserDialog for sharing files */
 const FileChooserDialog = GObject.registerClass({
-    GTypeName: 'GSConnectShareFileChooserDialog',
+    GTypeName: 'ZenLinkShareFileChooserDialog',
 }, class FileChooserDialog extends Gtk.FileChooserDialog {
 
     _init(device) {

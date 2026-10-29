@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
 -->
 
 <service>
-  <short>GSConnect</short>
+  <short>ZenLink</short>
   <description>KDE Connect implementation for GNOME</description>
   <port port="1716" protocol="tcp"/>
   <port port="1716" protocol="udp"/>

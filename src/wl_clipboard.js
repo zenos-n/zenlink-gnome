@@ -15,11 +15,11 @@ const launcher = new Gio.SubprocessLauncher({
 /*
  * DBus Interface Info
  */
-const DBUS_NAME = 'org.gnome.Shell.Extensions.GSConnect.Clipboard';
-const DBUS_PATH = '/org/gnome/Shell/Extensions/GSConnect/Clipboard';
+const DBUS_NAME = 'org.zenos.ZenLink.Clipboard';
+const DBUS_PATH = '/org/zenos/ZenLink/Clipboard';
 const DBUS_NODE = Gio.DBusNodeInfo.new_for_xml(`
 <node>
-  <interface name="org.gnome.Shell.Extensions.GSConnect.Clipboard">
+  <interface name="org.zenos.ZenLink.Clipboard">
     <!-- Methods -->
     <method name="GetMimetypes">
       <arg direction="out" type="as" name="mimetypes"/>
@@ -48,16 +48,16 @@ const TEXT_MIMETYPES = [
     'STRING',
 ];
 
-/* GSConnectClipboardPortal:
+/* ZenLinkClipboardPortal:
  *
  * A simple clipboard portal, especially useful on Wayland where GtkClipboard
  * doesn't work in the background.
  */
 export const Clipboard = GObject.registerClass(
     {
-        GTypeName: 'GSConnectShellClipboard',
+        GTypeName: 'ZenLinkShellClipboard',
     },
-    class GSConnectShellClipboard extends GjsPrivate.DBusImplementation {
+    class ZenLinkShellClipboard extends GjsPrivate.DBusImplementation {
         _init() {
             super._init({
                 g_interface_info: DBUS_INFO,
@@ -282,7 +282,7 @@ export function watchService() {
 
     _portalId = Gio.bus_watch_name(
         Gio.BusType.SESSION,
-        'org.gnome.Shell.Extensions.GSConnect',
+        'org.zenos.ZenLink',
         Gio.BusNameWatcherFlags.NONE,
         () => {
             if (_portal === null)

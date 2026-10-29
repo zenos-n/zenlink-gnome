@@ -210,8 +210,8 @@ function setAvatarVisible(row, visible) {
  * A ListBoxRow for a preview of a conversation
  */
 const ConversationMessage = GObject.registerClass({
-    GTypeName: 'GSConnectMessagingConversationMessage',
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/messaging-conversation-message.ui',
+    GTypeName: 'ZenLinkMessagingConversationMessage',
+    Template: 'resource:///org/zenos/ZenLink/ui/messaging-conversation-message.ui',
     Children: ['grid', 'avatar', 'sender-label', 'message-label'],
 }, class ConversationMessage extends Gtk.ListBoxRow {
     _init(contact, message) {
@@ -278,7 +278,7 @@ const ConversationMessage = GObject.registerClass({
  * A widget for displaying a conversation thread, with an entry for responding.
  */
 const Conversation = GObject.registerClass({
-    GTypeName: 'GSConnectMessagingConversation',
+    GTypeName: 'ZenLinkMessagingConversation',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',
@@ -309,7 +309,7 @@ const Conversation = GObject.registerClass({
             ''
         ),
     },
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/messaging-conversation.ui',
+    Template: 'resource:///org/zenos/ZenLink/ui/messaging-conversation.ui',
     Children: [
         'entry', 'list', 'scrolled',
         'pending', 'pending-box',
@@ -725,8 +725,8 @@ const Conversation = GObject.registerClass({
  * A ListBoxRow for a preview of a conversation
  */
 const ConversationSummary = GObject.registerClass({
-    GTypeName: 'GSConnectMessagingConversationSummary',
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/messaging-conversation-summary.ui',
+    GTypeName: 'ZenLinkMessagingConversationSummary',
+    Template: 'resource:///org/zenos/ZenLink/ui/messaging-conversation-summary.ui',
     Children: ['avatar', 'name-label', 'time-label', 'body-label'],
 }, class ConversationSummary extends Gtk.ListBoxRow {
     _init(contacts, message) {
@@ -807,7 +807,7 @@ const ConversationSummary = GObject.registerClass({
  * A Gtk.ApplicationWindow for SMS conversations
  */
 export const Window = GObject.registerClass({
-    GTypeName: 'GSConnectMessagingWindow',
+    GTypeName: 'ZenLinkMessagingWindow',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',
@@ -831,7 +831,7 @@ export const Window = GObject.registerClass({
             ''
         ),
     },
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/messaging-window.ui',
+    Template: 'resource:///org/zenos/ZenLink/ui/messaging-window.ui',
     Children: [
         'headerbar', 'infobar',
         'thread-list', 'stack',
@@ -1226,7 +1226,7 @@ export const Window = GObject.registerClass({
  * A Gtk.ApplicationWindow for selecting from open conversations
  */
 export const ConversationChooser = GObject.registerClass({
-    GTypeName: 'GSConnectConversationChooser',
+    GTypeName: 'ZenLinkConversationChooser',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',

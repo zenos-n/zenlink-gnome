@@ -14,7 +14,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('Find My Phone'),
     description: _('Ring your paired device'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.FindMyPhone',
+    id: 'org.zenos.ZenLink.Plugin.FindMyPhone',
     incomingCapabilities: ['kdeconnect.findmyphone.request'],
     outgoingCapabilities: ['kdeconnect.findmyphone.request'],
     actions: {
@@ -35,7 +35,7 @@ export const Metadata = {
  * https://github.com/KDE/kdeconnect-kde/tree/master/plugins/findmyphone
  */
 const FindMyPhonePlugin = GObject.registerClass({
-    GTypeName: 'GSConnectFindMyPhonePlugin',
+    GTypeName: 'ZenLinkFindMyPhonePlugin',
 }, class FindMyPhonePlugin extends Plugin {
 
     _init(device) {
@@ -124,7 +124,7 @@ const _WM_SETTINGS = new Gio.Settings({
  * A custom GtkMessageDialog for alerting of incoming requests
  */
 const Dialog = GObject.registerClass({
-    GTypeName: 'GSConnectFindMyPhoneDialog',
+    GTypeName: 'ZenLinkFindMyPhoneDialog',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',

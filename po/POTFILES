@@ -1,4 +1,4 @@
-data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in
+data/metainfo/org.zenos.ZenLink.metainfo.xml.in
 data/ui/connect-dialog.ui
 data/ui/contact-chooser.ui
 data/ui/contacts-address-row.ui
@@ -16,7 +16,7 @@ data/ui/preferences-shortcut-editor.ui
 data/ui/preferences-window.ui
 data/ui/service-device-chooser.ui
 data/ui/service-error-dialog.ui
-nautilus-extension/nautilus-gsconnect.py
+nautilus-extension/nautilus-zenlink.py
 src/extension.js
 src/preferences/device.js
 src/preferences/keybindings.js

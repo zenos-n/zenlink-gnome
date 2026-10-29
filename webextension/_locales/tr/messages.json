@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "GSConnect ile bağlantıları doğrudan tarayıcı veya SMS ile paylaş.",
+        "message": "ZenLink ile bağlantıları doğrudan tarayıcı veya SMS ile paylaş.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

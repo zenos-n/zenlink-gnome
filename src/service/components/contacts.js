@@ -26,7 +26,7 @@ try {
  * A store for contacts
  */
 const Store = GObject.registerClass({
-    GTypeName: 'GSConnectContactsStore',
+    GTypeName: 'ZenLinkContactsStore',
     Properties: {
         'context': GObject.ParamSpec.string(
             'context',

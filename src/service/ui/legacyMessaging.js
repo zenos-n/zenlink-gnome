@@ -13,7 +13,7 @@ import '../utils/ui.js';
 
 
 const Dialog = GObject.registerClass({
-    GTypeName: 'GSConnectLegacyMessagingDialog',
+    GTypeName: 'ZenLinkLegacyMessagingDialog',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',
@@ -30,7 +30,7 @@ const Dialog = GObject.registerClass({
             GObject.Object
         ),
     },
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/legacy-messaging-dialog.ui',
+    Template: 'resource:///org/zenos/ZenLink/ui/legacy-messaging-dialog.ui',
     Children: [
         'infobar', 'stack',
         'message-box', 'message-avatar', 'message-label', 'entry',

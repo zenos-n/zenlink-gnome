@@ -18,7 +18,7 @@ describe('Manager', function () {
 
     beforeAll(function () {
         manager = new Manager({
-            object_path: '/org/gnome/Shell/Extensions/GSConnect/Test',
+            object_path: '/org/zenos/ZenLink/Test',
         });
 
         testRig = new Utils.TestRig();

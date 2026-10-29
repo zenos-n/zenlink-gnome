@@ -98,7 +98,7 @@ class MockStream {
 
 
 const Component = GObject.registerClass({
-    GTypeName: 'GSConnectMockMixer',
+    GTypeName: 'ZenLinkMockMixer',
     Signals: {
         'output-added': {
             param_types: [GObject.TYPE_UINT],

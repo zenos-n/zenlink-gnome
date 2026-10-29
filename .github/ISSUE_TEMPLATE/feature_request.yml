@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 name: Feature request or idea
-description: Suggest an improvement to GSConnect
+description: Suggest an improvement to ZenLink
 labels: enhancement
 body:
 - type: textarea
@@ -39,7 +39,7 @@ body:
 - type: input
   id: gsconnect_version
   attributes:
-    label: GSConnect version
+    label: ZenLink version
     description: (Launch "Mobile Settings" and select "About" from the menu)
   validations:
     required: true
@@ -82,18 +82,18 @@ body:
 - type: markdown
   attributes:
     value: >
-      GSConnect works in concert with the
+      ZenLink works in concert with the
       [KDE Connect](https://community.kde.org/KDEConnect)
       app on paired Android devices.
-      Communication between GSConnect and the device is controlled by **KDE Connect**,
-      _not_ GSConnect.
+      Communication between ZenLink and the device is controlled by **KDE Connect**,
+      _not_ ZenLink.
 
 
       Any request that would require features not supported in KDE Connect,
-      or would require GSConnect to deviate from the KDE Connect protocols,
+      or would require ZenLink to deviate from the KDE Connect protocols,
       cannot be implemented and will not be considered.
       
       
       All such requests should be made to the KDE Connect project.
-      The requested functionality can only be implemented in GSConnect
+      The requested functionality can only be implemented in ZenLink
       **after** support is added to KDE Connect.

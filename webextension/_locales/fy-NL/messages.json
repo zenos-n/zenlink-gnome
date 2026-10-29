@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "Keppelingen mei GSConnect ferstjoere, direkt nei de browser of mei SMS.",
+        "message": "Keppelingen mei ZenLink ferstjoere, direkt nei de browser of mei SMS.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

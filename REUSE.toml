@@ -31,7 +31,7 @@ SPDX-License-Identifier = "CC-BY-SA-3.0"
 [[annotations]]
 path = ["po/**.po", "po/**.pot"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "GSConnect Community"
+SPDX-FileCopyrightText = "ZenLink Community"
 SPDX-License-Identifier = "GPL-2.0-or-later"
 
 [[annotations]]

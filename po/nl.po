@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 msgid ""
 msgstr ""
-"Project-Id-Version: org.gnome.Shell.Extensions.GSConnect\n"
+"Project-Id-Version: org.zenos.ZenLink\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 13:38-0500\n"
 "PO-Revision-Date: 2021-10-04 16:59+0200\n"
@@ -17,76 +17,76 @@ msgstr ""
 "X-Generator: Poedit 3.0\n"
 
 #. TRANSLATORS: Extension name
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:12
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:12
 #: webextension/gettext.js:30
-msgid "GSConnect"
-msgstr "GSConnect"
+msgid "ZenLink"
+msgstr "ZenLink"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:13
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:13
 msgid "KDE Connect implementation for GNOME"
 msgstr "KDE Connect-implementatie voor GNOME"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:24
-msgid "GSConnect Team"
-msgstr "GSConnect-team"
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:24
+msgid "ZenLink Team"
+msgstr "ZenLink-team"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:41
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:41
 #, fuzzy
 msgid ""
-"GSConnect is a complete implementation of KDE Connect especially for GNOME "
+"ZenLink is a complete implementation of KDE Connect especially for GNOME "
 "Shell with Nautilus, Chrome and Firefox integration. The KDE Connect team "
 "has applications for Linux, BSD, Android, Sailfish, iOS, macOS and Windows."
 msgstr ""
-"GSConnect is een volledige implementatie van KDE Connect voor GNOME Shell, "
+"ZenLink is een volledige implementatie van KDE Connect voor GNOME Shell, "
 "met Nautilus-, Chrome- en Firefox-integratie. Het KDE Connect-team biedt "
 "clients aan voor Linux, BSD, Android, Sailfish OS, macOS en Windows."
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:44
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:44
 msgid ""
-"With GSConnect you can securely connect to mobile devices and other desktops "
+"With ZenLink you can securely connect to mobile devices and other desktops "
 "to:"
 msgstr ""
-"Met GSConnect kun je veilig verbinden met mobiele apparaten en computers om:"
+"Met ZenLink kun je veilig verbinden met mobiele apparaten en computers om:"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:48
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:48
 msgid "Share files, links and text"
 msgstr "Bestanden, links en tekst te delen"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:49
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:49
 msgid "Send and receive messages"
 msgstr "Berichten te versturen en ontvangen"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:50
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:50
 msgid "Sync clipboard content"
 msgstr "De klembordinhoud te synchroniseren"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:51
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:51
 msgid "Sync contacts"
 msgstr "Contactpersonen te synchroniseren"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:52
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:52
 msgid "Sync notifications"
 msgstr "Meldingen te synchroniseren"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:53
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:53
 msgid "Control media players"
 msgstr "Mediaspelers te bedienen"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:54
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:54
 msgid "Control system volume"
 msgstr "Het volumeniveau van het systeem aan te passen"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:55
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:55
 msgid "Execute predefined commands"
 msgstr "Opgegeven opdrachten uit te voeren"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:56
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:56
 msgid "And more…"
 msgstr "En nog veel meer…"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:141
-msgid "GSConnect in GNOME Shell"
-msgstr "GSConnect in GNOME Shell"
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:141
+msgid "ZenLink in GNOME Shell"
+msgstr "ZenLink in GNOME Shell"
 
 #: data/ui/connect-dialog.ui:20
 msgid "Connect to…"
@@ -514,8 +514,8 @@ msgstr "Apparaatinstellingen"
 
 #: data/ui/preferences-window.ui:390
 #, fuzzy
-msgid "GSConnect remains active when GNOME Shell is locked"
-msgstr "GSConnect in GNOME Shell"
+msgid "ZenLink remains active when GNOME Shell is locked"
+msgstr "ZenLink in GNOME Shell"
 
 #: data/ui/preferences-window.ui:410
 msgid "Browser Add-Ons"
@@ -558,8 +558,8 @@ msgid "Generate Support Log"
 msgstr "Ondersteuningslogboek samenstellen"
 
 #: data/ui/preferences-window.ui:851
-msgid "About GSConnect"
-msgstr "Over GSConnect"
+msgid "About ZenLink"
+msgstr "Over ZenLink"
 
 #: data/ui/service-device-chooser.ui:15
 msgid "Select a Device"
@@ -588,7 +588,7 @@ msgstr "Er is iets misgegaan"
 
 #: data/ui/service-error-dialog.ui:91
 msgid ""
-"GSConnect encountered an unexpected error. Please report the problem and "
+"ZenLink encountered an unexpected error. Please report the problem and "
 "include any information that may help."
 msgstr ""
 "Er is een onverwachte fout opgetreden. Meld dit probleem aan de ontwikkelaar "
@@ -602,14 +602,14 @@ msgstr "Technische gegevens"
 #. context menu
 #. TRANSLATORS: A phone number (eg. "Send to 555-5555")
 #. Update UI
-#: nautilus-extension/nautilus-gsconnect.py:187 src/service/ui/contacts.js:509
+#: nautilus-extension/nautilus-zenlink.py:187 src/service/ui/contacts.js:509
 #: src/service/ui/contacts.js:524
 #, python-format, javascript-format
 msgid "Send to %s"
 msgstr "Versturen naar %s"
 
-#. TRANSLATORS: Top-level context menu item for GSConnect
-#: nautilus-extension/nautilus-gsconnect.py:195 webextension/gettext.js:34
+#. TRANSLATORS: Top-level context menu item for ZenLink
+#: nautilus-extension/nautilus-zenlink.py:195 webextension/gettext.js:34
 msgid "Send To Mobile Device"
 msgstr "Versturen naar mobiel apparaat"
 
@@ -1236,10 +1236,10 @@ msgstr "Beantwoorden"
 
 #. TRANSLATORS: Chrome/Firefox WebExtension description
 #: webextension/gettext.js:32
-msgid "Share links with GSConnect, direct to the browser or by SMS."
-msgstr "Deel links met GSConnect, direct naar de browser of via sms."
+msgid "Share links with ZenLink, direct to the browser or by SMS."
+msgstr "Deel links met ZenLink, direct naar de browser of via sms."
 
-#. TRANSLATORS: WebExtension can't connect to GSConnect
+#. TRANSLATORS: WebExtension can't connect to ZenLink
 #: webextension/gettext.js:36
 msgid "Service Unavailable"
 msgstr "Dienst niet beschikbaar"
@@ -1388,8 +1388,8 @@ msgstr "Openen in browser"
 #~ msgid "Remote input not supported on Wayland"
 #~ msgstr "Externe invoer wordt niet ondersteund op Wayland"
 
-#~ msgid "GSConnect: %s"
-#~ msgstr "GSConnect: %s"
+#~ msgid "ZenLink: %s"
+#~ msgstr "ZenLink: %s"
 
 #~ msgid "Locate Device"
 #~ msgstr "Apparaat lokaliseren"

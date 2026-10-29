@@ -46,6 +46,6 @@ SPDX-License-Identifier: GPL-2.0-or-later
   </attribute>
   <!-- Service name -->
   <attribute id="0x0100">
-    <text value="GSConnect" />
+    <text value="ZenLink" />
   </attribute>
 </record>

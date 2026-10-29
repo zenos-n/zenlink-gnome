@@ -21,7 +21,7 @@ const ALLOWED_TIMESTAMP_TIME_DIFFERENCE_SECONDS = 1800; // 30 min
  *
  */
 const Device = GObject.registerClass({
-    GTypeName: 'GSConnectDevice',
+    GTypeName: 'ZenLinkDevice',
     Properties: {
         'connected': GObject.ParamSpec.boolean(
             'connected',
@@ -104,10 +104,10 @@ const Device = GObject.registerClass({
         // GSettings
         this.settings = new Gio.Settings({
             settings_schema: Config.GSCHEMA.lookup(
-                'org.gnome.Shell.Extensions.GSConnect.Device',
+                'org.zenos.ZenLink.Device',
                 true
             ),
-            path: `/org/gnome/shell/extensions/gsconnect/device/${this.id}/`,
+            path: `/org/zenos/zenlink/device/${this.id}/`,
         });
         this._migratePlugins();
 

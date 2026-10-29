@@ -15,8 +15,8 @@ import * as LanBackend from './backends/lan.js';
 
 import {MissingOpensslError} from '../utils/exceptions.js';
 
-const DEVICE_NAME = 'org.gnome.Shell.Extensions.GSConnect.Device';
-const DEVICE_PATH = '/org/gnome/Shell/Extensions/GSConnect/Device';
+const DEVICE_NAME = 'org.zenos.ZenLink.Device';
+const DEVICE_PATH = '/org/zenos/ZenLink/Device';
 const DEVICE_IFACE = Config.DBUS.lookup_interface(DEVICE_NAME);
 
 
@@ -29,7 +29,7 @@ const backends = {
  * A manager for devices.
  */
 const Manager = GObject.registerClass({
-    GTypeName: 'GSConnectManager',
+    GTypeName: 'ZenLinkManager',
     Properties: {
         'active': GObject.ParamSpec.boolean(
             'active',
@@ -41,7 +41,7 @@ const Manager = GObject.registerClass({
         'debug': GObject.ParamSpec.boolean(
             'debug',
             'Debug',
-            'Whether debug logging is enabled in GSConnect',
+            'Whether debug logging is enabled in ZenLink',
             GObject.ParamFlags.READWRITE,
             false
         ),
@@ -71,7 +71,7 @@ const Manager = GObject.registerClass({
             'Name',
             'The name announced to the network',
             GObject.ParamFlags.READWRITE,
-            'GSConnect'
+            'ZenLink'
         ),
     },
 }, class Manager extends Gio.DBusObjectManagerServer {
@@ -438,7 +438,7 @@ const Manager = GObject.registerClass({
      */
     _removeDevice(id) {
         // Delete all GSettings
-        const settings_path = `/org/gnome/shell/extensions/gsconnect/device/${id}/`;
+        const settings_path = `/org/zenos/zenlink/device/${id}/`;
         GLib.spawn_command_line_async(`dconf reset -f ${settings_path}`);
 
         // Delete the cache

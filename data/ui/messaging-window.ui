@@ -6,11 +6,11 @@ SPDX-FileCopyrightText: GSConnect Developers https://github.com/GSConnect
 SPDX-License-Identifier: GPL-2.0-or-later
 -->
 
-<interface domain="org.gnome.Shell.Extensions.GSConnect">
+<interface domain="org.zenos.ZenLink">
   <requires lib="gtk+" version="3.24"/>
-  <template class="GSConnectMessagingWindow" parent="GtkApplicationWindow">
+  <template class="ZenLinkMessagingWindow" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
-    <property name="icon_name">org.gnome.Shell.Extensions.GSConnect-symbolic</property>
+    <property name="icon_name">org.zenos.ZenLink-symbolic</property>
     <property name="default_width">640</property>
     <property name="default_height">480</property>
     <property name="show_menubar">False</property>

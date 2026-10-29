@@ -7,7 +7,7 @@
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 
-const _ = (msgid) => GLib.dgettext('org.gnome.Shell.Extensions.GSConnect', msgid);
+const _ = (msgid) => GLib.dgettext('org.zenos.ZenLink', msgid);
 
 // POT Patterns
 const MSGID_REGEX = /^msgid "(.+)"$/;
@@ -15,8 +15,8 @@ const MSGSTR_REGEX = /^msgstr "(.+)"$/;
 
 // MSGID -> MESSAGE Reverse Map
 const MSGID = {
-    'GSConnect': 'extensionName',
-    'Share links with GSConnect, direct to the browser or by SMS.': 'extensionDescription',
+    'ZenLink': 'extensionName',
+    'Share links with ZenLink, direct to the browser or by SMS.': 'extensionDescription',
     'Send To Mobile Device': 'contextMenuMultipleDevices',
     'Service Unavailable': 'popupMenuDisconnected',
     'No Device Found': 'popupMenuNoDevices',
@@ -26,12 +26,12 @@ const MSGID = {
 
 
 // TRANSLATORS: Extension name
-_('GSConnect');
+_('ZenLink');
 // TRANSLATORS: Chrome/Firefox WebExtension description
-_('Share links with GSConnect, direct to the browser or by SMS.');
-// TRANSLATORS: Top-level context menu item for GSConnect
+_('Share links with ZenLink, direct to the browser or by SMS.');
+// TRANSLATORS: Top-level context menu item for ZenLink
 _('Send To Mobile Device');
-// TRANSLATORS: WebExtension can't connect to GSConnect
+// TRANSLATORS: WebExtension can't connect to ZenLink
 _('Service Unavailable');
 // TRANSLATORS: No devices are known or available
 _('No Device Found');

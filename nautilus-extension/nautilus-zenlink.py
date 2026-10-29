@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 """
-nautilus-gsconnect.py - A Nautilus extension for sending files via GSConnect.
+nautilus-zenlink.py - A Nautilus extension for sending files via ZenLink.
 
 A great deal of credit and appreciation is owed to the indicator-kdeconnect
 developers for the sister Python script 'kdeconnect-send-nautilus.py':
@@ -37,15 +37,15 @@ else:
     from gi.repository import Nautilus as FileManager
 
 
-SERVICE_NAME = "org.gnome.Shell.Extensions.GSConnect"
-SERVICE_PATH = "/org/gnome/Shell/Extensions/GSConnect"
+SERVICE_NAME = "org.zenos.ZenLink"
+SERVICE_PATH = "/org/zenos/ZenLink"
 
 # Init gettext translations
 LOCALE_DIR = os.path.join(
     GLib.get_user_data_dir(),
     "gnome-shell",
     "extensions",
-    "gsconnect@andyholmes.github.io",
+    "zenlink@zenos-n.github.io",
     "locale",
 )
 
@@ -57,15 +57,15 @@ try:
     _ = i18n.gettext
 
 except (IOError, OSError) as e:
-    print("GSConnect: {0}".format(str(e)))
+    print("ZenLink: {0}".format(str(e)))
     i18n = gettext.translation(
         SERVICE_NAME, localedir=LOCALE_DIR, fallback=True
     )
     _ = i18n.gettext
 
 
-class GSConnectShareExtension(GObject.Object, FileManager.MenuProvider):
-    """A context menu for sending files via GSConnect."""
+class ZenLinkShareExtension(GObject.Object, FileManager.MenuProvider):
+    """A context menu for sending files via ZenLink."""
 
     def __init__(self):
         """Initialize the DBus ObjectManager."""
@@ -101,7 +101,7 @@ class GSConnectShareExtension(GObject.Object, FileManager.MenuProvider):
 
         if signal_name == "InterfacesAdded":
             for object_path, props in objects.items():
-                props = props["org.gnome.Shell.Extensions.GSConnect.Device"]
+                props = props["org.zenos.ZenLink.Device"]
 
                 self.devices[object_path] = (
                     props["Name"],
@@ -135,7 +135,7 @@ class GSConnectShareExtension(GObject.Object, FileManager.MenuProvider):
         objects = proxy.call_finish(res)[0]
 
         for object_path, props in objects.items():
-            props = props["org.gnome.Shell.Extensions.GSConnect.Device"]
+            props = props["org.zenos.ZenLink.Device"]
             if not props:
                 continue
 
@@ -181,7 +181,7 @@ class GSConnectShareExtension(GObject.Object, FileManager.MenuProvider):
         if len(devices) == 1:
             name, action_group = devices[0]
             menu = FileManager.MenuItem(
-                name="GSConnectShareExtension::Device" + name,
+                name="ZenLinkShareExtension::Device" + name,
                 # TRANSLATORS: Send to <device_name>, for file manager
                 # context menu
                 label=_("Send to %s") % name,
@@ -191,7 +191,7 @@ class GSConnectShareExtension(GObject.Object, FileManager.MenuProvider):
         else:
             # Context Menu Item
             menu = FileManager.MenuItem(
-                name="GSConnectShareExtension::Devices",
+                name="ZenLinkShareExtension::Devices",
                 label=_("Send To Mobile Device"),
             )
 
@@ -202,7 +202,7 @@ class GSConnectShareExtension(GObject.Object, FileManager.MenuProvider):
             # Context Submenu Items
             for name, action_group in devices:
                 item = FileManager.MenuItem(
-                    name="GSConnectShareExtension::Device" + name, label=name
+                    name="ZenLinkShareExtension::Device" + name, label=name
                 )
 
                 item.connect("activate", self.send_files, files, action_group)

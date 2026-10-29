@@ -8,7 +8,7 @@ import GObject from 'gi://GObject';
 
 
 export const Player = GObject.registerClass({
-    GTypeName: 'GSConnectMediaPlayerInterface',
+    GTypeName: 'ZenLinkMediaPlayerInterface',
     Properties: {
         // Application Properties
         'CanQuit': GObject.ParamSpec.boolean(
@@ -224,7 +224,7 @@ export const Player = GObject.registerClass({
 
     get DesktopEntry() {
         if (this._DesktopEntry === undefined)
-            return 'org.gnome.Shell.Extensions.GSConnect';
+            return 'org.zenos.ZenLink';
 
         return this._DesktopEntry;
     }
@@ -469,11 +469,11 @@ export const Player = GObject.registerClass({
  * interfaces.
  */
 const PlayerProxy = GObject.registerClass({
-    GTypeName: 'GSConnectMPRISPlayer',
+    GTypeName: 'ZenLinkMPRISPlayer',
 }, class PlayerProxy extends Player {
 
     /**
-     * @constructs GSConnectMPRISPlayer
+     * @constructs ZenLinkMPRISPlayer
      * @param {string} name - The name of the player
      */
     _init(name) {
@@ -793,7 +793,7 @@ const PlayerProxy = GObject.registerClass({
  * A manager for media players
  */
 const Manager = GObject.registerClass({
-    GTypeName: 'GSConnectMPRISManager',
+    GTypeName: 'ZenLinkMPRISManager',
     Signals: {
         'player-added': {
             param_types: [GObject.TYPE_OBJECT],
@@ -853,7 +853,7 @@ const Manager = GObject.registerClass({
                 if (!name.startsWith('org.mpris.MediaPlayer2'))
                     continue;
 
-                if (!name.includes('GSConnect'))
+                if (!name.includes('ZenLink'))
                     this._addPlayer(name);
             }
         } catch (e) {
@@ -865,7 +865,7 @@ const Manager = GObject.registerClass({
     _onNameOwnerChanged(connection, sender, object, iface, signal, parameters) {
         const [name, oldOwner, newOwner] = parameters.deepUnpack();
 
-        if (name.includes('GSConnect'))
+        if (name.includes('ZenLink'))
             return;
 
         if (newOwner.length)
@@ -933,7 +933,7 @@ const Manager = GObject.registerClass({
      * Get a player by its Identity.
      *
      * @param {string} identity - A player name
-     * @returns {GSConnectMPRISPlayer|null} A player or %null
+     * @returns {ZenLinkMPRISPlayer|null} A player or %null
      */
     getPlayer(identity) {
         for (const player of this._players.values()) {

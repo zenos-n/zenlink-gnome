@@ -1,0 +1,7 @@
+{
+    "name": "org.zenos.zenlink",
+    "description": "Native messaging host for ZenLink WebExtension",
+    "path": "@PACKAGE_DATADIR@/service/nativeMessagingHost.js",
+    "type": "stdio",
+    "allowed_extensions": [ "zenlink@zenos-n.github.io" ]
+}

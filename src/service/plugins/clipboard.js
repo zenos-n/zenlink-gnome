@@ -11,7 +11,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('Clipboard'),
     description: _('Share the clipboard content'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.Clipboard',
+    id: 'org.zenos.ZenLink.Plugin.Clipboard',
     incomingCapabilities: [
         'kdeconnect.clipboard',
         'kdeconnect.clipboard.connect',
@@ -46,7 +46,7 @@ export const Metadata = {
  * https://github.com/KDE/kdeconnect-kde/tree/master/plugins/clipboard
  */
 const ClipboardPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectClipboardPlugin',
+    GTypeName: 'ZenLinkClipboardPlugin',
 }, class ClipboardPlugin extends Plugin {
 
     _init(device) {

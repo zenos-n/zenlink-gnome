@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 msgid ""
 msgstr ""
-"Project-Id-Version: org.gnome.Shell.Extensions.GSConnect\n"
+"Project-Id-Version: org.zenos.ZenLink\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 13:38-0500\n"
 "PO-Revision-Date: 2022-04-28 22:33+0200\n"
@@ -17,78 +17,78 @@ msgstr ""
 "X-Generator: Poedit 2.2.1\n"
 
 #. TRANSLATORS: Extension name
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:12
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:12
 #: webextension/gettext.js:30
-msgid "GSConnect"
-msgstr "GSConnect"
+msgid "ZenLink"
+msgstr "ZenLink"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:13
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:13
 msgid "KDE Connect implementation for GNOME"
 msgstr "Implementácia aplikácie KDE Connect pre prostredie GNOME"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:24
-msgid "GSConnect Team"
-msgstr "Tím GSConnect"
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:24
+msgid "ZenLink Team"
+msgstr "Tím ZenLink"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:41
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:41
 #, fuzzy
 msgid ""
-"GSConnect is a complete implementation of KDE Connect especially for GNOME "
+"ZenLink is a complete implementation of KDE Connect especially for GNOME "
 "Shell with Nautilus, Chrome and Firefox integration. The KDE Connect team "
 "has applications for Linux, BSD, Android, Sailfish, iOS, macOS and Windows."
 msgstr ""
-"GSConnect je kompletná implementácia nástroja KDE Connect určená "
+"ZenLink je kompletná implementácia nástroja KDE Connect určená "
 "predovšetkým pre prostredie GNOME Shell s integráciou správcu súborov "
 "Nautilus a internetové prehliadače Chrome a Firefox. Tím KDE Connect "
 "vytvoril aplikácie pre Linux, BSD, Android, Sailfish, macOS a Windows."
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:44
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:44
 msgid ""
-"With GSConnect you can securely connect to mobile devices and other desktops "
+"With ZenLink you can securely connect to mobile devices and other desktops "
 "to:"
 msgstr ""
-"Vďaka GSConnect-u sa môžete bezpečne pripojiť k mobilným zariadeniam a "
+"Vďaka ZenLink-u sa môžete bezpečne pripojiť k mobilným zariadeniam a "
 "ďalším stolným počítačom a:"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:48
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:48
 msgid "Share files, links and text"
 msgstr "Zdieľať súbory, prepojenia a text"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:49
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:49
 msgid "Send and receive messages"
 msgstr "Posielať a prijímať správy"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:50
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:50
 msgid "Sync clipboard content"
 msgstr "Synchronizovať obsah schránky"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:51
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:51
 msgid "Sync contacts"
 msgstr "Synchronizovať kontakty"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:52
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:52
 msgid "Sync notifications"
 msgstr "Synchronizovať oznámenia"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:53
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:53
 msgid "Control media players"
 msgstr "Ovládať multimediálne prehrávače"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:54
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:54
 msgid "Control system volume"
 msgstr "Ovládať systémovú hlasitosť"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:55
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:55
 msgid "Execute predefined commands"
 msgstr "Spustiť predpripravené príkazy"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:56
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:56
 msgid "And more…"
 msgstr "A viac…"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:141
-msgid "GSConnect in GNOME Shell"
-msgstr "GSConnect v GNOME Shelli"
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:141
+msgid "ZenLink in GNOME Shell"
+msgstr "ZenLink v GNOME Shelli"
 
 #: data/ui/connect-dialog.ui:20
 msgid "Connect to…"
@@ -516,8 +516,8 @@ msgstr "Nastavenie zariadenia"
 
 #: data/ui/preferences-window.ui:390
 #, fuzzy
-msgid "GSConnect remains active when GNOME Shell is locked"
-msgstr "GSConnect v GNOME Shelli"
+msgid "ZenLink remains active when GNOME Shell is locked"
+msgstr "ZenLink v GNOME Shelli"
 
 #: data/ui/preferences-window.ui:410
 msgid "Browser Add-Ons"
@@ -560,8 +560,8 @@ msgid "Generate Support Log"
 msgstr "Vytvoriť záznam pre technickú podporu"
 
 #: data/ui/preferences-window.ui:851
-msgid "About GSConnect"
-msgstr "O programe GSConnect"
+msgid "About ZenLink"
+msgstr "O programe ZenLink"
 
 #: data/ui/service-device-chooser.ui:15
 msgid "Select a Device"
@@ -590,10 +590,10 @@ msgstr "Niečo sa pokazilo"
 
 #: data/ui/service-error-dialog.ui:91
 msgid ""
-"GSConnect encountered an unexpected error. Please report the problem and "
+"ZenLink encountered an unexpected error. Please report the problem and "
 "include any information that may help."
 msgstr ""
-"GSConnect narazil na neočakávanú chybu. Prosím, nahláste tento problém a "
+"ZenLink narazil na neočakávanú chybu. Prosím, nahláste tento problém a "
 "priložte všetky informácie, ktoré môžu byť užitočné."
 
 #: data/ui/service-error-dialog.ui:125
@@ -604,14 +604,14 @@ msgstr "Technické podrobnosti"
 #. context menu
 #. TRANSLATORS: A phone number (eg. "Send to 555-5555")
 #. Update UI
-#: nautilus-extension/nautilus-gsconnect.py:187 src/service/ui/contacts.js:509
+#: nautilus-extension/nautilus-zenlink.py:187 src/service/ui/contacts.js:509
 #: src/service/ui/contacts.js:524
 #, python-format, javascript-format
 msgid "Send to %s"
 msgstr "Odoslať na číslo %s"
 
-#. TRANSLATORS: Top-level context menu item for GSConnect
-#: nautilus-extension/nautilus-gsconnect.py:195 webextension/gettext.js:34
+#. TRANSLATORS: Top-level context menu item for ZenLink
+#: nautilus-extension/nautilus-zenlink.py:195 webextension/gettext.js:34
 msgid "Send To Mobile Device"
 msgstr "Odoslať do mobilného zariadenia"
 
@@ -1241,12 +1241,12 @@ msgstr "Odpovedať"
 
 #. TRANSLATORS: Chrome/Firefox WebExtension description
 #: webextension/gettext.js:32
-msgid "Share links with GSConnect, direct to the browser or by SMS."
+msgid "Share links with ZenLink, direct to the browser or by SMS."
 msgstr ""
-"Zdieľanie odkazov s aplikáciou GSConnect, priamo cez prehliadač alebo formou "
+"Zdieľanie odkazov s aplikáciou ZenLink, priamo cez prehliadač alebo formou "
 "SMS."
 
-#. TRANSLATORS: WebExtension can't connect to GSConnect
+#. TRANSLATORS: WebExtension can't connect to ZenLink
 #: webextension/gettext.js:36
 msgid "Service Unavailable"
 msgstr "Služba nedostupná"
@@ -1368,8 +1368,8 @@ msgstr "Otvoriť v prehliadači"
 #~ msgid "%s Plugin Failed To Load"
 #~ msgstr "Zlyhalo načítanie zásuvného modulu %s"
 
-#~ msgid "GSConnect: %s"
-#~ msgstr "GSConnect: %s"
+#~ msgid "ZenLink: %s"
+#~ msgstr "ZenLink: %s"
 
 #~ msgid "Reconnect"
 #~ msgstr "Znovu pripojiť"

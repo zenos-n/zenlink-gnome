@@ -14,70 +14,70 @@ msgstr ""
 "X-Crowdin-Project: gsconnect\n"
 "X-Crowdin-Project-ID: 327933\n"
 "X-Crowdin-Language: id\n"
-"X-Crowdin-File: /[GSConnect.gnome-shell-extension-gsconnect] main/po/org.gnome.Shell.Extensions.GSConnect.pot\n"
+"X-Crowdin-File: /[ZenLink.gnome-shell-extension-gsconnect] main/po/org.zenos.ZenLink.pot\n"
 "X-Crowdin-File-ID: 18\n"
 
 #. TRANSLATORS: Extension name
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:12
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:12
 #: webextension/gettext.js:29
-msgid "GSConnect"
-msgstr "GSConnect"
+msgid "ZenLink"
+msgstr "ZenLink"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:13
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:13
 msgid "KDE Connect implementation for GNOME"
 msgstr "Implementasi KDE Connect untuk GNOME"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:24
-msgid "GSConnect Team"
-msgstr "Tim GSConnect"
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:24
+msgid "ZenLink Team"
+msgstr "Tim ZenLink"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:41
-msgid "GSConnect is a complete implementation of KDE Connect especially for GNOME Shell with Nautilus, Chrome and Firefox integration. The KDE Connect team has applications for Linux, BSD, Android, Sailfish, iOS, macOS and Windows."
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:41
+msgid "ZenLink is a complete implementation of KDE Connect especially for GNOME Shell with Nautilus, Chrome and Firefox integration. The KDE Connect team has applications for Linux, BSD, Android, Sailfish, iOS, macOS and Windows."
 msgstr ""
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:44
-msgid "With GSConnect you can securely connect to mobile devices and other desktops to:"
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:44
+msgid "With ZenLink you can securely connect to mobile devices and other desktops to:"
 msgstr ""
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:48
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:48
 msgid "Share files, links and text"
 msgstr "Membagikan berkas, tautan, dan teks"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:49
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:49
 msgid "Send and receive messages"
 msgstr "Mengirim serta menerima pesan"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:50
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:50
 msgid "Sync clipboard content"
 msgstr "Menyinkronkan isi papan klip"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:51
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:51
 msgid "Sync contacts"
 msgstr "Menyinkronkan kontak"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:52
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:52
 msgid "Sync notifications"
 msgstr "Menyinkronkan notifikasi"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:53
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:53
 msgid "Control media players"
 msgstr ""
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:54
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:54
 msgid "Control system volume"
 msgstr "Mengendalikan volume sistem"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:55
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:55
 msgid "Execute predefined commands"
 msgstr ""
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:56
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:56
 msgid "And more…"
 msgstr "Dan banyak lagi…"
 
-#: data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in:165
-msgid "GSConnect in GNOME Shell"
-msgstr "GSConnect di GNOME Shell"
+#: data/metainfo/org.zenos.ZenLink.metainfo.xml.in:165
+msgid "ZenLink in GNOME Shell"
+msgstr "ZenLink di GNOME Shell"
 
 #: data/ui/connect-dialog.ui:20
 msgid "Connect to…"
@@ -507,7 +507,7 @@ msgid "Extension Settings"
 msgstr ""
 
 #: data/ui/preferences-window.ui:390
-msgid "GSConnect remains active when GNOME Shell is locked"
+msgid "ZenLink remains active when GNOME Shell is locked"
 msgstr ""
 
 #: data/ui/preferences-window.ui:410
@@ -533,7 +533,7 @@ msgstr ""
 #: data/ui/preferences-window.ui:858
 msgid "The <tt>openssl</tt> command-line tool does not appear to be installed.\n"
 "Use your distro's package manager to install it.\n"
-"For more information, visit <a href=\"https://github.com/gsconnect/gnome-shell-extension-gsconnect/wiki/Error#openssl-not-found\">the GSConnect wiki</a>."
+"For more information, visit <a href=\"https://github.com/gsconnect/gnome-shell-extension-gsconnect/wiki/Error#openssl-not-found\">the ZenLink wiki</a>."
 msgstr ""
 
 #: data/ui/preferences-window.ui:874 src/service/init.js:361
@@ -565,8 +565,8 @@ msgid "Generate Support Log"
 msgstr "Hasilkan Log Dukungan"
 
 #: data/ui/preferences-window.ui:953
-msgid "About GSConnect"
-msgstr "Tentang GSConnect"
+msgid "About ZenLink"
+msgstr "Tentang ZenLink"
 
 #: data/ui/service-device-chooser.ui:15
 msgid "Select a Device"
@@ -594,8 +594,8 @@ msgid "Something’s gone wrong"
 msgstr "Ada yang salah"
 
 #: data/ui/service-error-dialog.ui:91
-msgid "GSConnect encountered an unexpected error. Please report the problem and include any information that may help."
-msgstr "GSConnect mengalami kesalahan yang tak terduga. Harap laporkan masalahnya dan sertakan informasi yang mungkin membantu."
+msgid "ZenLink encountered an unexpected error. Please report the problem and include any information that may help."
+msgstr "ZenLink mengalami kesalahan yang tak terduga. Harap laporkan masalahnya dan sertakan informasi yang mungkin membantu."
 
 #: data/ui/service-error-dialog.ui:125
 msgid "Technical Details"
@@ -605,14 +605,14 @@ msgstr "Keterangan Teknis"
 #. context menu
 #. TRANSLATORS: A phone number (eg. "Send to 555-5555")
 #. Update UI
-#: nautilus-extension/nautilus-gsconnect.py:187 src/service/ui/contacts.js:518
+#: nautilus-extension/nautilus-zenlink.py:187 src/service/ui/contacts.js:518
 #: src/service/ui/contacts.js:533
 #, python-format, javascript-format
 msgid "Send to %s"
 msgstr "Kirim ke %s"
 
-#. TRANSLATORS: Top-level context menu item for GSConnect
-#: nautilus-extension/nautilus-gsconnect.py:195 webextension/gettext.js:33
+#. TRANSLATORS: Top-level context menu item for ZenLink
+#: nautilus-extension/nautilus-zenlink.py:195 webextension/gettext.js:33
 msgid "Send To Mobile Device"
 msgstr ""
 
@@ -717,7 +717,7 @@ msgid "Settings Migrated"
 msgstr ""
 
 #: src/service/daemon.js:100
-msgid "GSConnect has updated to support changes to the KDE Connect protocol. Some devices may need to be re-paired."
+msgid "ZenLink has updated to support changes to the KDE Connect protocol. Some devices may need to be re-paired."
 msgstr ""
 
 #: src/service/daemon.js:241
@@ -1248,10 +1248,10 @@ msgstr "Balas"
 
 #. TRANSLATORS: Chrome/Firefox WebExtension description
 #: webextension/gettext.js:31
-msgid "Share links with GSConnect, direct to the browser or by SMS."
+msgid "Share links with ZenLink, direct to the browser or by SMS."
 msgstr ""
 
-#. TRANSLATORS: WebExtension can't connect to GSConnect
+#. TRANSLATORS: WebExtension can't connect to ZenLink
 #: webextension/gettext.js:35
 msgid "Service Unavailable"
 msgstr "Layanan Tidak Tersedia"

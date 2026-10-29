@@ -17,7 +17,7 @@ import ReplyDialog from '../ui/notification.js';
 export const Metadata = {
     label: _('Notifications'),
     description: _('Share notifications with the paired device'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.Notification',
+    id: 'org.zenos.ZenLink.Plugin.Notification',
     incomingCapabilities: [
         'kdeconnect.notification',
         'kdeconnect.notification.request',
@@ -162,7 +162,7 @@ function _removeNotification(id, application = null) {
  * https://github.com/KDE/kdeconnect-kde/tree/master/plugins/sendnotifications
  */
 const NotificationPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectNotificationPlugin',
+    GTypeName: 'ZenLinkNotificationPlugin',
 }, class NotificationPlugin extends Plugin {
 
     _init(device) {

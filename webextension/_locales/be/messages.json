@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "Абагульвайце спасылкі з GSConnect, напрамую ў браўзер або праз SMS.",
+        "message": "Абагульвайце спасылкі з ZenLink, напрамую ў браўзер або праз SMS.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

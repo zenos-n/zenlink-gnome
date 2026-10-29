@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "Sdílet odkazy pomocí GSConnect, přímo do prohlížeče nebo prostřednictvím SMS.",
+        "message": "Sdílet odkazy pomocí ZenLink, přímo do prohlížeče nebo prostřednictvím SMS.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

@@ -93,6 +93,6 @@ jobs:
       - name: Create and upload packaged artifact
         uses: actions/upload-artifact@v5
         with:
-          name: gsconnect@andyholmes.github.io
-          path: _build/gsconnect@andyholmes.github.io/
+          name: zenlink@zenos-n.github.io
+          path: _build/zenlink@zenos-n.github.io/
 

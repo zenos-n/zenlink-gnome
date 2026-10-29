@@ -15,7 +15,7 @@ import SmsURI from '../utils/uri.js';
 export const Metadata = {
     label: _('SMS'),
     description: _('Send and read SMS of the paired device and be notified of new SMS'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.SMS',
+    id: 'org.zenos.ZenLink.Plugin.SMS',
     incomingCapabilities: [
         'kdeconnect.sms.messages',
     ],
@@ -132,7 +132,7 @@ export const MessageBox = {
  * https://github.com/KDE/kdeconnect-android/tree/master/src/org/kde/kdeconnect/Plugins/SMSPlugin/
  */
 const SMSPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectSMSPlugin',
+    GTypeName: 'ZenLinkSMSPlugin',
     Properties: {
         'threads': GObject.param_spec_variant(
             'threads',

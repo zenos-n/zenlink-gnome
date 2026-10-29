@@ -15,7 +15,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('Telephony'),
     description: _('Be notified about calls and adjust system volume during ringing/ongoing calls'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.Telephony',
+    id: 'org.zenos.ZenLink.Plugin.Telephony',
     incomingCapabilities: [
         'kdeconnect.telephony',
     ],
@@ -43,7 +43,7 @@ export const Metadata = {
  * https://github.com/KDE/kdeconnect-android/tree/master/src/org/kde/kdeconnect/Plugins/TelephonyPlugin
  */
 const TelephonyPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectTelephonyPlugin',
+    GTypeName: 'ZenLinkTelephonyPlugin',
 }, class TelephonyPlugin extends Plugin {
 
     _init(device) {

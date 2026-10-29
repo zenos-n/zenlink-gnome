@@ -18,7 +18,7 @@ const MPRISPlayerIface = Config.DBUS.lookup_interface('org.mpris.MediaPlayer2.Pl
 
 
 const MockPlayer = GObject.registerClass({
-    GTypeName: 'GSConnectMockPlayer',
+    GTypeName: 'ZenLinkMockPlayer',
 }, class MockPlayer extends MPRIS.Player {
 
     _init(identity) {

@@ -13,7 +13,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('Connectivity Report'),
     description: _('Display connectivity status'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.ConnectivityReport',
+    id: 'org.zenos.ZenLink.Plugin.ConnectivityReport',
     incomingCapabilities: [
         'kdeconnect.connectivity_report',
     ],
@@ -29,7 +29,7 @@ export const Metadata = {
  * https://invent.kde.org/network/kdeconnect-kde/-/tree/master/plugins/connectivity_report
  */
 const ConnectivityReportPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectConnectivityReportPlugin',
+    GTypeName: 'ZenLinkConnectivityReportPlugin',
 }, class ConnectivityReportPlugin extends Plugin {
 
     _init(device) {

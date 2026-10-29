@@ -35,21 +35,21 @@ import {MissingOpensslError} from '../utils/exceptions.js';
 
 
 /**
- * Class representing the GSConnect service daemon.
+ * Class representing the ZenLink service daemon.
  */
 const Service = GObject.registerClass({
-    GTypeName: 'GSConnectService',
+    GTypeName: 'ZenLinkService',
 }, class Service extends Gtk.Application {
 
     _init() {
         super._init({
-            application_id: 'org.gnome.Shell.Extensions.GSConnect',
+            application_id: 'org.zenos.ZenLink',
             flags: Gio.ApplicationFlags.HANDLES_OPEN,
-            resource_base_path: '/org/gnome/Shell/Extensions/GSConnect',
+            resource_base_path: '/org/zenos/ZenLink',
         });
 
         GLib.set_prgname('gsconnect');
-        GLib.set_application_name('GSConnect');
+        GLib.set_application_name('ZenLink');
 
         // Command-line
         this._initOptions();
@@ -81,7 +81,7 @@ const Service = GObject.registerClass({
         // For each device, remove it entirely if it violates the device ID
         // constraints, otherwise mark it unpaired to preserve the settings.
         const deviceList = this.settings.get_strv('devices').filter(id => {
-            const settingsPath = `/org/gnome/shell/extensions/gsconnect/device/${id}/`;
+            const settingsPath = `/org/zenos/zenlink/device/${id}/`;
             if (!Device.validateId(id)) {
                 GLib.spawn_command_line_async(`dconf reset -f ${settingsPath}`);
                 Gio.File.rm_rf(GLib.build_filenamev([Config.CACHEDIR, id]));
@@ -91,7 +91,7 @@ const Service = GObject.registerClass({
 
             const settings = new Gio.Settings({
                 settings_schema: Config.GSCHEMA.lookup(
-                    'org.gnome.Shell.Extensions.GSConnect.Device', true),
+                    'org.zenos.ZenLink.Device', true),
                 path: settingsPath,
             });
             settings.set_boolean('paired', false);
@@ -101,7 +101,7 @@ const Service = GObject.registerClass({
 
         // Notify the user
         const notification = Gio.Notification.new(_('Settings Migrated'));
-        notification.set_body(_('GSConnect has updated to support changes to the KDE Connect protocol. Some devices may need to be re-paired.'));
+        notification.set_body(_('ZenLink has updated to support changes to the KDE Connect protocol. Some devices may need to be re-paired.'));
         notification.set_icon(new Gio.ThemedIcon({name: 'dialog-warning'}));
         notification.set_priority(Gio.NotificationPriority.HIGH);
         this.send_notification('settings-migrated', notification);
@@ -214,7 +214,7 @@ const Service = GObject.registerClass({
             {flags: Gio.SubprocessFlags.NONE}
         );
         _launcher.set_cwd(Config.PACKAGE_DATADIR);
-        _launcher.spawnv(['gjs', '-m', 'gsconnect-preferences.js']);
+        _launcher.spawnv(['gjs', '-m', 'zenlink-preferences.js']);
     }
 
     /**
@@ -263,7 +263,7 @@ const Service = GObject.registerClass({
                 });
             }
 
-            notif.set_title(`GSConnect: ${error.name.trim()}`);
+            notif.set_title(`ZenLink: ${error.name.trim()}`);
             notif.set_body(body);
             notif.set_icon(icon);
             notif.set_priority(priority);
@@ -383,7 +383,7 @@ const Service = GObject.registerClass({
                     action_target: parameter,
                 });
             } catch (e) {
-                logError(e, `GSConnect: Opening ${file.get_uri()}`);
+                logError(e, `ZenLink: Opening ${file.get_uri()}`);
             }
         }
     }
@@ -609,8 +609,8 @@ const Service = GObject.registerClass({
         id = id.replace(/\W+/g, '_');
 
         Gio.DBus.session.call_sync(
-            'org.gnome.Shell.Extensions.GSConnect',
-            `/org/gnome/Shell/Extensions/GSConnect/Device/${id}`,
+            'org.zenos.ZenLink',
+            `/org/zenos/ZenLink/Device/${id}`,
             'org.gtk.Actions',
             'Activate',
             GLib.Variant.new('(sava{sv})', [name, parameters, {}]),
@@ -623,8 +623,8 @@ const Service = GObject.registerClass({
 
     _cliListDevices(full = true) {
         const result = Gio.DBus.session.call_sync(
-            'org.gnome.Shell.Extensions.GSConnect',
-            '/org/gnome/Shell/Extensions/GSConnect',
+            'org.zenos.ZenLink',
+            '/org/zenos/ZenLink',
             'org.freedesktop.DBus.ObjectManager',
             'GetManagedObjects',
             null,
@@ -639,7 +639,7 @@ const Service = GObject.registerClass({
 
         for (let object of Object.values(variant)) {
             object = object.recursiveUnpack();
-            device = object['org.gnome.Shell.Extensions.GSConnect.Device'];
+            device = object['org.zenos.ZenLink.Device'];
 
             if (full)
                 print(`${device.Id}\t${device.Name}\t${device.Connected}\t${device.Paired}`);
@@ -668,7 +668,7 @@ const Service = GObject.registerClass({
         let body = '';
         let icon = null;
         let nid = `${Date.now()}`;
-        let appName = 'GSConnect CLI';
+        let appName = 'ZenLink CLI';
 
         if (options.contains('notification-id'))
             nid = options.lookup_value('notification-id', null).unpack();
@@ -684,7 +684,7 @@ const Service = GObject.registerClass({
             icon = Gio.Icon.new_for_string(icon);
         } else {
             icon = new Gio.ThemedIcon({
-                name: 'org.gnome.Shell.Extensions.GSConnect',
+                name: 'org.zenos.ZenLink',
             });
         }
 
@@ -726,8 +726,8 @@ const Service = GObject.registerClass({
 
     _findDeviceID(name) {
         const result = Gio.DBus.session.call_sync(
-            'org.gnome.Shell.Extensions.GSConnect',
-            '/org/gnome/Shell/Extensions/GSConnect',
+            'org.zenos.ZenLink',
+            '/org/zenos/ZenLink',
             'org.freedesktop.DBus.ObjectManager',
             'GetManagedObjects',
             null,
@@ -742,7 +742,7 @@ const Service = GObject.registerClass({
 
         for (let object of Object.values(variant)) {
             object = object.recursiveUnpack();
-            device = object['org.gnome.Shell.Extensions.GSConnect.Device'];
+            device = object['org.zenos.ZenLink.Device'];
 
             if (name === device.Name)
                 return device.Id;
@@ -753,7 +753,7 @@ const Service = GObject.registerClass({
     vfunc_handle_local_options(options) {
         try {
             if (options.contains('version')) {
-                print(`GSConnect ${Config.PACKAGE_VERSION}`);
+                print(`ZenLink ${Config.PACKAGE_VERSION}`);
                 return 0;
             }
 

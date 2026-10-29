@@ -18,8 +18,8 @@ const {NotificationMessage} = HAS_MESSAGELIST_NOTIFICATIONMESSAGE
     ? await import('resource:///org/gnome/shell/ui/messageList.js')  // GNOME 48+
     : await import('resource:///org/gnome/shell/ui/calendar.js');    // GNOME 46/47
 
-const APP_ID = 'org.gnome.Shell.Extensions.GSConnect';
-const APP_PATH = '/org/gnome/Shell/Extensions/GSConnect';
+const APP_ID = 'org.zenos.ZenLink';
+const APP_PATH = '/org/zenos/ZenLink';
 
 
 // deviceId Pattern (<device-id>|<remote-id>)
@@ -48,7 +48,7 @@ const GtkNotificationDaemon = Main.notificationDaemon._gtkNotificationDaemon.con
  * A slightly modified Notification Banner with an entry field
  */
 const NotificationBanner = GObject.registerClass({
-    GTypeName: 'GSConnectNotificationBanner',
+    GTypeName: 'ZenLinkNotificationBanner',
 }, class NotificationBanner extends NotificationMessage {
 
     constructor(notification) {
@@ -168,10 +168,10 @@ const NotificationBanner = GObject.registerClass({
  * into existing sources.
  */
 const Source = GObject.registerClass({
-    GTypeName: 'GSConnectNotificationSource',
+    GTypeName: 'ZenLinkNotificationSource',
 }, class Source extends NotificationDaemon.GtkNotificationDaemonAppSource {
 
-    _closeGSConnectNotification(notification, reason) {
+    _closeZenLinkNotification(notification, reason) {
         if (reason !== MessageTray.NotificationDestroyedReason.DISMISSED)
             return;
 
@@ -267,7 +267,7 @@ const Source = GObject.registerClass({
             notification.requestReplyId = requestReplyId;
 
             notification.connect('destroy', (notification, reason) => {
-                this._closeGSConnectNotification(notification, reason);
+                this._closeZenLinkNotification(notification, reason);
                 delete this._notifications[localId];
             });
 
@@ -338,15 +338,15 @@ const Source = GObject.registerClass({
 
 
 /**
- * If there is an active GtkNotificationDaemonAppSource for GSConnect when the
+ * If there is an active GtkNotificationDaemonAppSource for ZenLink when the
  * extension is loaded, it has to be patched in place.
  */
-export function patchGSConnectNotificationSource() {
+export function patchZenLinkNotificationSource() {
     const source = Main.notificationDaemon._gtkNotificationDaemon._sources[APP_ID];
 
     if (source !== undefined) {
         // Patch in the subclassed methods
-        source._closeGSConnectNotification = Source.prototype._closeGSConnectNotification;
+        source._closeZenLinkNotification = Source.prototype._closeZenLinkNotification;
         source._parseNotificationId = Source.prototype._parseNotificationId;
         source._createNotification = Source.prototype._createNotification;
         source.addNotification = Source.prototype.addNotification;
@@ -357,7 +357,7 @@ export function patchGSConnectNotificationSource() {
         for (const notification of Object.values(source._notifications)) {
 
             const _id = notification.connect('destroy', (notification, reason) => {
-                source._closeGSConnectNotification(notification, reason);
+                source._closeZenLinkNotification(notification, reason);
                 notification.disconnect(_id);
             });
         }
@@ -366,7 +366,7 @@ export function patchGSConnectNotificationSource() {
 
 
 /**
- * Wrap GtkNotificationDaemon._ensureAppSource() to patch GSConnect's app source
+ * Wrap GtkNotificationDaemon._ensureAppSource() to patch ZenLink's app source
  * https://gitlab.gnome.org/GNOME/gnome-shell/blob/master/js/ui/notificationDaemon.js#L742-755
  */
 const __ensureAppSource = GtkNotificationDaemon.prototype._ensureAppSource;
@@ -376,7 +376,7 @@ const _ensureAppSource = function (appId) {
     const source = __ensureAppSource.call(this, appId);
 
     if (source._appId === APP_ID) {
-        source._closeGSConnectNotification = Source.prototype._closeGSConnectNotification;
+        source._closeZenLinkNotification = Source.prototype._closeZenLinkNotification;
         source._parseNotificationId = Source.prototype._parseNotificationId;
         source._createNotification = Source.prototype._createNotification;
         source.addNotification = Source.prototype.addNotification;
@@ -414,7 +414,7 @@ const _addNotification = NotificationDaemon.GtkNotificationDaemonAppSource.proto
  */
 export function patchGtkNotificationSources() {
     // eslint-disable-next-line func-style
-    const _withdrawGSConnectNotification = function (id, notification, reason) {
+    const _withdrawZenLinkNotification = function (id, notification, reason) {
         if (reason !== MessageTray.NotificationDestroyedReason.DISMISSED)
             return;
 
@@ -454,7 +454,7 @@ export function patchGtkNotificationSources() {
         );
     };
 
-    NotificationDaemon.GtkNotificationDaemonAppSource.prototype._withdrawGSConnectNotification = _withdrawGSConnectNotification;
+    NotificationDaemon.GtkNotificationDaemonAppSource.prototype._withdrawZenLinkNotification = _withdrawZenLinkNotification;
 }
 
 
@@ -463,5 +463,5 @@ export function patchGtkNotificationSources() {
  */
 export function unpatchGtkNotificationSources() {
     NotificationDaemon.GtkNotificationDaemonAppSource.prototype.addNotification = _addNotification;
-    delete NotificationDaemon.GtkNotificationDaemonAppSource.prototype._withdrawGSConnectNotification;
+    delete NotificationDaemon.GtkNotificationDaemonAppSource.prototype._withdrawZenLinkNotification;
 }

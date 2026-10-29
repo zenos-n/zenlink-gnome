@@ -119,7 +119,7 @@ Promise.idle = function (priority = GLib.PRIORITY_DEFAULT_IDLE) {
 /**
  * Get a pseudo-random device type
  *
- * @returns {string} A GSConnect device type
+ * @returns {string} A ZenLink device type
  */
 function getDeviceType() {
     const types = [
@@ -237,7 +237,7 @@ Plugin.prototype.awaitPacket = _awaitPacket;
 
 
 /**
- * Create temporary directories used by GSConnect.
+ * Create temporary directories used by ZenLink.
  *
  * @returns {string} The root temporary directory
  */

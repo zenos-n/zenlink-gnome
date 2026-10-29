@@ -30,7 +30,7 @@ export default class Controller {
     constructor() {
         // Atspi.init() return 2 on fail, but still marks itself as inited. We
         // uninit before throwing an error otherwise any future call to init()
-        // will appear successful and other calls will cause GSConnect to exit.
+        // will appear successful and other calls will cause ZenLink to exit.
         // See: https://gitlab.gnome.org/GNOME/at-spi2-core/blob/master/atspi/atspi-misc.c
         if (Atspi.init() === 2) {
             this.destroy();
@@ -229,7 +229,7 @@ export default class Controller {
     _pressUnicode(key, modifiers) {
         try {
             if (modifiers > 0)
-                log('GSConnect: ignoring modifiers for unicode keyboard event');
+                log('ZenLink: ignoring modifiers for unicode keyboard event');
 
             // TODO: Using Control and Shift keysym is not working (it triggers
             // key release). Probably using LOCKMODIFIERS will not work either

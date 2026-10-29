@@ -6,7 +6,7 @@ import GObject from 'gi://GObject';
 
 
 const Component = GObject.registerClass({
-    GTypeName: 'GSConnectMockBattery',
+    GTypeName: 'ZenLinkMockBattery',
     Signals: {
         'changed': {flags: GObject.SignalFlags.RUN_FIRST},
     },

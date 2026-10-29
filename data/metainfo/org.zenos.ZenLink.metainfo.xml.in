@@ -7,9 +7,9 @@ SPDX-License-Identifier: CC0-1.0
 -->
 
 <component type="desktop-application">
-  <id>org.gnome.Shell.Extensions.GSConnect</id>
+  <id>org.zenos.ZenLink</id>
 
-  <name>GSConnect</name>
+  <name>ZenLink</name>
   <summary>KDE Connect implementation for GNOME</summary>
 
   <metadata_license>CC0-1.0</metadata_license>
@@ -21,14 +21,14 @@ SPDX-License-Identifier: CC0-1.0
   <url type="translate">https://crwd.in/gsconnect</url>
 
   <developer id="io.github.gsconnect">
-      <name>GSConnect Team</name>
+      <name>ZenLink Team</name>
   </developer>
 
-  <launchable type="desktop-id">org.gnome.Shell.Extensions.GSConnect.desktop</launchable>
-  <launchable type="desktop-id">org.gnome.Shell.Extensions.GSConnect.Preferences.desktop</launchable>
+  <launchable type="desktop-id">org.zenos.ZenLink.desktop</launchable>
+  <launchable type="desktop-id">org.zenos.ZenLink.Preferences.desktop</launchable>
 
   <provides>
-    <dbus type="session">org.gnome.Shell.Extensions.GSConnect</dbus>
+    <dbus type="session">org.zenos.ZenLink</dbus>
   </provides>
 
   <requires>
@@ -39,10 +39,10 @@ SPDX-License-Identifier: CC0-1.0
 
   <description>
     <p>
-      GSConnect is a complete implementation of KDE Connect especially for GNOME Shell with Nautilus, Chrome and Firefox integration. The KDE Connect team has applications for Linux, BSD, Android, Sailfish, iOS, macOS and Windows.
+      ZenLink is a complete implementation of KDE Connect especially for GNOME Shell with Nautilus, Chrome and Firefox integration. The KDE Connect team has applications for Linux, BSD, Android, Sailfish, iOS, macOS and Windows.
     </p>
     <p>
-      With GSConnect you can securely connect to mobile devices and other desktops to:
+      With ZenLink you can securely connect to mobile devices and other desktops to:
     </p>
     <ul>
       <li>Share files, links and text</li>
@@ -179,8 +179,8 @@ SPDX-License-Identifier: CC0-1.0
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/GSConnect/gnome-shell-extension-gsconnect/master/data/metainfo/image-01.png</image>
-      <caption>GSConnect in GNOME Shell</caption>
+      <image>https://raw.githubusercontent.com/ZenLink/gnome-shell-extension-gsconnect/master/data/metainfo/image-01.png</image>
+      <caption>ZenLink in GNOME Shell</caption>
     </screenshot>
   </screenshots>
 </component>

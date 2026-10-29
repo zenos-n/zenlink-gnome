@@ -21,21 +21,21 @@ import('gi://GioUnix?version=2.0').catch(() => {}); // Set version for optional 
 
 
 /**
- * Class representing the GSConnect service daemon.
+ * Class representing the ZenLink service daemon.
  */
 const Preferences = GObject.registerClass({
-    GTypeName: 'GSConnectPreferences',
+    GTypeName: 'ZenLinkPreferences',
     Implements: [Gio.ActionGroup],
 }, class Preferences extends Gtk.Application {
 
     _init() {
         super._init({
-            application_id: 'org.gnome.Shell.Extensions.GSConnect.Preferences',
-            resource_base_path: '/org/gnome/Shell/Extensions/GSConnect',
+            application_id: 'org.zenos.ZenLink.Preferences',
+            resource_base_path: '/org/zenos/ZenLink',
         });
 
-        GLib.set_prgname('gsconnect-preferences');
-        GLib.set_application_name(_('GSConnect Preferences'));
+        GLib.set_prgname('zenlink-preferences');
+        GLib.set_application_name(_('ZenLink Preferences'));
     }
 
     vfunc_activate() {
@@ -82,8 +82,8 @@ const Preferences = GObject.registerClass({
                 paramArray[0] = parameter;
 
             this.get_dbus_connection().call(
-                'org.gnome.Shell.Extensions.GSConnect',
-                '/org/gnome/Shell/Extensions/GSConnect',
+                'org.zenos.ZenLink',
+                '/org/zenos/ZenLink',
                 'org.freedesktop.Application',
                 'ActivateAction',
                 GLib.Variant.new('(sava{sv})', [action_name, paramArray, {}]),

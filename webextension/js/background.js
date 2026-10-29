@@ -351,7 +351,7 @@ async function onDisconnect() {
  */
 async function connect() {
     try {
-        State.port = browser.runtime.connectNative('org.gnome.shell.extensions.gsconnect');
+        State.port = browser.runtime.connectNative('org.zenos.zenlink');
 
         // Clear the badge and tell the popup we're disconnected
         browser.browserAction.setBadgeText({text: ''});

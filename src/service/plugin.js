@@ -15,7 +15,7 @@ import plugins from './plugins/index.js';
  * Base class for device plugins.
  */
 const Plugin = GObject.registerClass({
-    GTypeName: 'GSConnectPlugin',
+    GTypeName: 'ZenLinkPlugin',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',

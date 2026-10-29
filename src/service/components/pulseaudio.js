@@ -123,10 +123,10 @@ class Stream {
  * and offers a few convenience functions.
  */
 const Mixer = !Gvc ? null : GObject.registerClass({
-    GTypeName: 'GSConnectAudioMixer',
+    GTypeName: 'ZenLinkAudioMixer',
 }, class Mixer extends Gvc.MixerControl {
     _init(params) {
-        super._init({name: 'GSConnect'});
+        super._init({name: 'ZenLink'});
 
         this._previousVolume = undefined;
         this._volumeMuted = false;

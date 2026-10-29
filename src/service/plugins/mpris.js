@@ -17,7 +17,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('MPRIS'),
     description: _('Bidirectional remote media playback control'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.MPRIS',
+    id: 'org.zenos.ZenLink.Plugin.MPRIS',
     incomingCapabilities: ['kdeconnect.mpris', 'kdeconnect.mpris.request'],
     outgoingCapabilities: ['kdeconnect.mpris', 'kdeconnect.mpris.request'],
     actions: {},
@@ -33,7 +33,7 @@ export const Metadata = {
  *     https://github.com/GNOME/gnome-shell/blob/master/js/ui/mpris.js
  */
 const MPRISPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectMPRISPlugin',
+    GTypeName: 'ZenLinkMPRISPlugin',
 }, class MPRISPlugin extends Plugin {
 
     _init(device) {
@@ -457,7 +457,7 @@ const MPRISPlugin = GObject.registerClass({
  * A class for mirroring a remote Media Player on DBus
  */
 const PlayerRemote = GObject.registerClass({
-    GTypeName: 'GSConnectMPRISPlayerRemote',
+    GTypeName: 'ZenLinkMPRISPlayerRemote',
 }, class PlayerRemote extends Player {
 
     _init(device, identity) {
@@ -600,7 +600,7 @@ const PlayerRemote = GObject.registerClass({
 
             this._ownerId = Gio.bus_own_name_on_connection(
                 this._connection,
-                `org.mpris.MediaPlayer2.GSConnect.${name}`,
+                `org.mpris.MediaPlayer2.ZenLink.${name}`,
                 Gio.BusNameOwnerFlags.NONE,
                 null,
                 null

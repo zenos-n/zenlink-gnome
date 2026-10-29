@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
 -->
 
 <gresources>
-  <gresource prefix="/org/gnome/Shell/Extensions/GSConnect">
+  <gresource prefix="/org/zenos/ZenLink">
     <!-- UI -->
     <file compressed="true">application.css</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/connect-dialog.ui</file>
@@ -29,15 +29,15 @@ SPDX-License-Identifier: GPL-2.0-or-later
     <file compressed="true" preprocess="xml-stripblanks">ui/service-error-dialog.ui</file>
 
     <!-- DBus Service Files -->
-    <file compressed="true">org.gnome.Shell.Extensions.GSConnect.desktop</file>
-    <file compressed="true">org.gnome.Shell.Extensions.GSConnect.Preferences.desktop</file>
-    <file compressed="true">org.gnome.Shell.Extensions.GSConnect.service.in</file>
-    <file compressed="true" preprocess="xml-stripblanks">org.gnome.Shell.Extensions.GSConnect.xml</file>
-    <file compressed="true" preprocess="xml-stripblanks">org.gnome.Shell.Extensions.GSConnect.sdp.xml</file>
+    <file compressed="true">org.zenos.ZenLink.desktop</file>
+    <file compressed="true">org.zenos.ZenLink.Preferences.desktop</file>
+    <file compressed="true">org.zenos.ZenLink.service.in</file>
+    <file compressed="true" preprocess="xml-stripblanks">org.zenos.ZenLink.xml</file>
+    <file compressed="true" preprocess="xml-stripblanks">org.zenos.ZenLink.sdp.xml</file>
 
     <!-- Application Icons -->
-    <file compressed="true" preprocess="xml-stripblanks">icons/org.gnome.Shell.Extensions.GSConnect.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/org.gnome.Shell.Extensions.GSConnect-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/org.zenos.ZenLink.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/org.zenos.ZenLink-symbolic.svg</file>
 
     <!-- Device Icons (Fallback) c/o GNOME -->
     <file compressed="true" preprocess="xml-stripblanks">icons/computer-symbolic.svg</file>
@@ -70,8 +70,8 @@ SPDX-License-Identifier: GPL-2.0-or-later
     <file compressed="true" preprocess="xml-stripblanks">icons/mouse-with-smaller-scrollwheel-symbolic.svg</file>
 
     <!-- WebExtension Manifests & Badges -->
-    <file compressed="true">webextension/org.gnome.shell.extensions.gsconnect.json.google.in</file>
-    <file compressed="true">webextension/org.gnome.shell.extensions.gsconnect.json.mozilla.in</file>
+    <file compressed="true">webextension/org.zenos.zenlink.json.google.in</file>
+    <file compressed="true">webextension/org.zenos.zenlink.json.mozilla.in</file>
     <file compressed="true">images/chrome-badge.png</file>
     <file compressed="true">images/firefox-badge.png</file>
   </gresource>

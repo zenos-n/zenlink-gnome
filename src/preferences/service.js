@@ -20,7 +20,7 @@ import {Service} from '../utils/remote.js';
  * Header for support logs
  */
 const LOG_HEADER = new GLib.Bytes(`
-GSConnect: ${Config.PACKAGE_VERSION} (${Config.IS_USER ? 'user' : 'system'})
+ZenLink: ${Config.PACKAGE_VERSION} (${Config.IS_USER ? 'user' : 'system'})
 GJS:       ${system.version}
 Session:   ${GLib.getenv('XDG_SESSION_TYPE')}
 OS:        ${GLib.get_os_info('PRETTY_NAME')}
@@ -92,8 +92,8 @@ async function generateSupportLog(time) {
  * "Connect to..." Dialog
  */
 const ConnectDialog = GObject.registerClass({
-    GTypeName: 'GSConnectConnectDialog',
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/connect-dialog.ui',
+    GTypeName: 'ZenLinkConnectDialog',
+    Template: 'resource:///org/zenos/ZenLink/ui/connect-dialog.ui',
     Children: [
         'cancel-button', 'connect-button',
         'lan-grid', 'lan-ip', 'lan-port',
@@ -133,7 +133,7 @@ const ConnectDialog = GObject.registerClass({
 
 
 export const Window = GObject.registerClass({
-    GTypeName: 'GSConnectPreferencesWindow',
+    GTypeName: 'ZenLinkPreferencesWindow',
     Properties: {
         'display-mode': GObject.ParamSpec.string(
             'display-mode',
@@ -143,7 +143,7 @@ export const Window = GObject.registerClass({
             null
         ),
     },
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/preferences-window.ui',
+    Template: 'resource:///org/zenos/ZenLink/ui/preferences-window.ui',
     Children: [
         // HeaderBar
         'headerbar', 'stack',
@@ -168,7 +168,7 @@ export const Window = GObject.registerClass({
         // Service Settings
         this.settings = new Gio.Settings({
             settings_schema: Config.GSCHEMA.lookup(
-                'org.gnome.Shell.Extensions.GSConnect',
+                'org.zenos.ZenLink',
                 true
             ),
         });
@@ -272,7 +272,7 @@ export const Window = GObject.registerClass({
             this._onServiceChanged(this.service, null);
             await this.service.reload();
         } catch (e) {
-            logError(e, 'GSConnect');
+            logError(e, 'ZenLink');
         }
     }
 
@@ -325,10 +325,10 @@ export const Window = GObject.registerClass({
     _restoreGeometry() {
         this._windowState = new Gio.Settings({
             settings_schema: Config.GSCHEMA.lookup(
-                'org.gnome.Shell.Extensions.GSConnect.WindowState',
+                'org.zenos.ZenLink.WindowState',
                 true
             ),
-            path: '/org/gnome/shell/extensions/gsconnect/preferences/',
+            path: '/org/zenos/zenlink/preferences/',
         });
 
         // Size
@@ -372,12 +372,12 @@ export const Window = GObject.registerClass({
                 ],
                 comments: _('A complete KDE Connect implementation for GNOME'),
                 logo: GdkPixbuf.Pixbuf.new_from_resource_at_scale(
-                    '/org/gnome/Shell/Extensions/GSConnect/icons/org.gnome.Shell.Extensions.GSConnect.svg',
+                    '/org/zenos/ZenLink/icons/org.zenos.ZenLink.svg',
                     128,
                     128,
                     true
                 ),
-                program_name: 'GSConnect',
+                program_name: 'ZenLink',
                 // TRANSLATORS: eg. 'Translator Name <your.email@domain.com>'
                 translator_credits: _('translator-credits'),
                 version: Config.PACKAGE_VERSION.toString(),

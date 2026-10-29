@@ -6,9 +6,9 @@ SPDX-FileCopyrightText: GSConnect Developers https://github.com/GSConnect
 SPDX-License-Identifier: GPL-2.0-or-later
 -->
 
-<interface domain="org.gnome.Shell.Extensions.GSConnect">
+<interface domain="org.zenos.ZenLink">
   <requires lib="gtk+" version="3.24"/>
-  <template class="GSConnectMessagingConversation" parent="GtkGrid">
+  <template class="ZenLinkMessagingConversation" parent="GtkGrid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
@@ -37,7 +37,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
                     <property name="hexpand">True</property>
                     <property name="activatable">False</property>
                     <property name="selectable">False</property>
-                    <property name="visible" bind-source="GSConnectMessagingConversation" bind-property="has-pending" bind-flags="sync-create"/>
+                    <property name="visible" bind-source="ZenLinkMessagingConversation" bind-property="has-pending" bind-flags="sync-create"/>
                     <child>
                       <object class="GtkBox" id="pending-box">
                         <property name="visible">True</property>

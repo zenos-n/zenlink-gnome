@@ -11,7 +11,7 @@ import Plugin from '../plugin.js';
 
 export const Metadata = {
     label: _('Run Commands'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.RunCommand',
+    id: 'org.zenos.ZenLink.Plugin.RunCommand',
     description: _('Run commands on your paired device or let the device run predefined commands on this PC'),
     incomingCapabilities: [
         'kdeconnect.runcommand',
@@ -48,7 +48,7 @@ export const Metadata = {
  * https://github.com/KDE/kdeconnect-kde/tree/master/plugins/runcommand
  */
 const RunCommandPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectRunCommandPlugin',
+    GTypeName: 'ZenLinkRunCommandPlugin',
     Properties: {
         'remote-commands': GObject.param_spec_variant(
             'remote-commands',

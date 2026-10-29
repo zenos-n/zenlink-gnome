@@ -13,7 +13,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('System Volume'),
     description: _('Enable the paired device to control the system volume'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.SystemVolume',
+    id: 'org.zenos.ZenLink.Plugin.SystemVolume',
     incomingCapabilities: ['kdeconnect.systemvolume.request'],
     outgoingCapabilities: ['kdeconnect.systemvolume'],
     actions: {},
@@ -26,7 +26,7 @@ export const Metadata = {
  * https://github.com/KDE/kdeconnect-android/tree/master/src/org/kde/kdeconnect/Plugins/SystemvolumePlugin/
  */
 const SystemVolumePlugin = GObject.registerClass({
-    GTypeName: 'GSConnectSystemVolumePlugin',
+    GTypeName: 'ZenLinkSystemVolumePlugin',
 }, class SystemVolumePlugin extends Plugin {
 
     _init(device) {

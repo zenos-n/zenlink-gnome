@@ -9,15 +9,15 @@ import Gio from 'gi://Gio';
 import GObject from 'gi://GObject';
 
 
-const DBUS_NAME = 'org.gnome.Shell.Extensions.GSConnect.Clipboard';
-const DBUS_PATH = '/org/gnome/Shell/Extensions/GSConnect/Clipboard';
+const DBUS_NAME = 'org.zenos.ZenLink.Clipboard';
+const DBUS_PATH = '/org/zenos/ZenLink/Clipboard';
 
 
 /**
  * The service class for this component
  */
 const Clipboard = GObject.registerClass({
-    GTypeName: 'GSConnectClipboard',
+    GTypeName: 'ZenLinkClipboard',
     Properties: {
         'text': GObject.ParamSpec.string(
             'text',

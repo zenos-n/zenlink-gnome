@@ -4,7 +4,7 @@
 
 # build translations in LINGUAS
 i18n.gettext(
-  'org.gnome.Shell.Extensions.GSConnect',
+  'org.zenos.ZenLink',
   preset: 'glib'
 )
 

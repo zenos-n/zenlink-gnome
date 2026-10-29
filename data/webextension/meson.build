@@ -4,12 +4,12 @@
 
 # WebExtension Manifests
 if get_option('webextension')
-  nmh_manifest = 'org.gnome.shell.extensions.gsconnect.json'
+  nmh_manifest = 'org.zenos.zenlink.json'
 
   # Google (Chrome/Chromium)
   google_nmh = configure_file(
-    input: 'org.gnome.shell.extensions.gsconnect.json.google.in',
-    output: 'org.gnome.shell.extensions.gsconnect.json.google',
+    input: 'org.zenos.zenlink.json.google.in',
+    output: 'org.zenos.zenlink.json.google',
     configuration: extconfig
   )
 
@@ -37,8 +37,8 @@ if get_option('webextension')
 
   # Mozilla
   mozilla_nmh = configure_file(
-    input: 'org.gnome.shell.extensions.gsconnect.json.mozilla.in',
-    output: 'org.gnome.shell.extensions.gsconnect.json.mozilla',
+    input: 'org.zenos.zenlink.json.mozilla.in',
+    output: 'org.zenos.zenlink.json.mozilla',
     configuration: extconfig
   )
 

@@ -12,10 +12,10 @@ export class LockscreenRemoteAccess {
         this._inhibitor = null;
         this._settings = new Gio.Settings({
             settings_schema: Config.GSCHEMA.lookup(
-                'org.gnome.Shell.Extensions.GSConnect',
+                'org.zenos.ZenLink',
                 null
             ),
-            path: '/org/gnome/shell/extensions/gsconnect/',
+            path: '/org/zenos/zenlink/',
         });
     }
 

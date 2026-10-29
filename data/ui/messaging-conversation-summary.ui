@@ -6,9 +6,9 @@ SPDX-FileCopyrightText: GSConnect Developers https://github.com/GSConnect
 SPDX-License-Identifier: GPL-2.0-or-later
 -->
 
-<interface domain="org.gnome.Shell.Extensions.GSConnect">
+<interface domain="org.zenos.ZenLink">
   <requires lib="gtk+" version="3.24"/>
-  <template class="GSConnectMessagingConversationSummary" parent="GtkListBoxRow">
+  <template class="ZenLinkMessagingConversationSummary" parent="GtkListBoxRow">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <child>
@@ -20,7 +20,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
         <property name="column_spacing">8</property>
         <property name="visible">True</property>
         <child>
-          <object class="GSConnectContactAvatar" id="avatar">
+          <object class="ZenLinkContactAvatar" id="avatar">
             <property name="visible">True</property>
           </object>
           <packing>

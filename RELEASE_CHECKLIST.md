@@ -13,7 +13,7 @@ Steps to prepare a new release.
 - [ ] IF NECESSARY: Bump the `project(version)` value in `meson.build`
 - [ ] Add a corresponding `<release>...</release>` block
       to the top of the `<releases>` section in
-      `data/metainfo/org.gnome.Shell.Extensions.GSConnect.metainfo.xml.in`
+      `data/metainfo/org.zenos.ZenLink.metainfo.xml.in`
 - [ ] Merge the PR to create a release commit
 
 > [!CAUTION]
@@ -43,7 +43,7 @@ Steps to prepare a new release.
     - [ ] (Optional) Write an introductory "What's New" section,
           highlighting any notable changes or new features.
 
-- [ ] Attach the `_build/gsconnect@andyholmes.github.io.zip` file
+- [ ] Attach the `_build/zenlink@zenos-n.github.io.zip` file
 - [ ] Publish the release
 
 ## Submit to EGO

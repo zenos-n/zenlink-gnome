@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
 
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <template class="GSConnectServiceErrorDialog" parent="GtkWindow">
+  <template class="ZenLinkServiceErrorDialog" parent="GtkWindow">
     <property name="default_width">600</property>
     <property name="default_height">400</property>
     <property name="type_hint">dialog</property>
@@ -88,7 +88,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">GSConnect encountered an unexpected error. Please report the problem and include any information that may help.</property>
+                    <property name="label" translatable="yes">ZenLink encountered an unexpected error. Please report the problem and include any information that may help.</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>
                     <property name="xalign">0.5</property>

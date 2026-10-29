@@ -48,7 +48,7 @@ and it will be reviewed.
 
 ### Code Style
 
-GSConnect ships with an ESLint file, which is run on all code by the CI and can
+ZenLink ships with an ESLint file, which is run on all code by the CI and can
 be run on code simply with `eslint src/`. When in doubt, copy the existing code
 style.
 
@@ -56,7 +56,7 @@ style.
 
 ### Architecture
 
-GSConnect is composed of three relatively distinct components:
+ZenLink is composed of three relatively distinct components:
 
 * Service (`/service`)
 
@@ -67,24 +67,24 @@ GSConnect is composed of three relatively distinct components:
 * Shell Extension (`extension.js`, `/shell`)
 
   The GNOME Shell extension controls starting and stopping the service, and
-  consumes the DBus interfaces exposed by the service. It also helps GSConnect
+  consumes the DBus interfaces exposed by the service. It also helps ZenLink
   to integrate into GNOME Shell.
   
-* Preferences (`gsconnect-preferences`, `/preferences`)
+* Preferences (`zenlink-preferences`, `/preferences`)
 
-  Unlike most extensions, GSConnect has it's own process for configuring the
+  Unlike most extensions, ZenLink has it's own process for configuring the
   service and devices, which also communicates with the service over DBus.
   
 ### Building and Installing
 
-GSConnect uses a [`meson`][meson] build system which can accomodate system or
-user installs. Typically, GSConnect should be developed and installed as a user
+ZenLink uses a [`meson`][meson] build system which can accomodate system or
+user installs. Typically, ZenLink should be developed and installed as a user
 extension, while support for system installs exists primarily for distributions
-that want to package GSConnect.
+that want to package ZenLink.
 
 #### User Install
 
-When installing as a user extension, GSConnect will try its best to detect
+When installing as a user extension, ZenLink will try its best to detect
 necessary paths and automatically install required files required for the
 service to run. The example below will build a user extension ZIP, then install
 it:
@@ -95,7 +95,7 @@ $ ninja -C _build install-zip
 ```
 
 Use the `make-zip` target instead to simple build a distributable ZIP, which
-will be output as `_build/gsconnect@andyholmes.github.io.zip`:
+will be output as `_build/zenlink@zenos-n.github.io.zip`:
 
 ```sh
 $ meson _build
@@ -105,7 +105,7 @@ $ ninja -C _build make-zip
 #### System Install
 
 When installing as a system extension, the build must be configured to ensure
-GSConnect can function properly when run (details in `meson_options.txt`). Below
+ZenLink can function properly when run (details in `meson_options.txt`). Below
 is a typical example for Fedora:
 
 ```sh
@@ -119,7 +119,7 @@ $ ninja -C _build install
 
 ### Typical Workflow
 
-The typical workflow for developing GSConnect will mainly involve working on the
+The typical workflow for developing ZenLink will mainly involve working on the
 service. First build and install the extension:
 
 ```sh
@@ -131,7 +131,7 @@ Next restart GNOME Shell and enable the extension. While developing you should
 enable debugging output and watch the output with `journalctl`:
 
 ```sh
-$ dconf write /org/gnome/shell/extensions/gsconnect/debug true
+$ dconf write /org/zenos/zenlink/debug true
 $ journalctl -f -o cat /usr/bin/gjs
 ```
 
@@ -150,8 +150,8 @@ window after running the `install-zip` target. You can use `journalctl` to watch
 the output or if it's more convenient simply run the application from the shell:
 
 ```sh
-$ cd ~/.local/share/gnome-shell/extensions/gsconnect@andyholmes.github.io
-$ ./gsconnect-preferences
+$ cd ~/.local/share/gnome-shell/extensions/zenlink@zenos-n.github.io
+$ ./zenlink-preferences
 ```
 
 #### Shell Extension
@@ -166,7 +166,7 @@ $ journalctl -f -o cat /usr/bin/gnome-shell
 
 ## Questions
 
-For general discussion, there is an IRC/Matrix channel for GSConnect:
+For general discussion, there is an IRC/Matrix channel for ZenLink:
 
 * Matrix: https://matrix.to/#/#_gimpnet_#gsconnect:matrix.org
 * IRC: irc://irc.gimp.org/#gsconnect

@@ -41,7 +41,7 @@
 
 
 /**
- * GSConnectContactChooser
+ * ZenLinkContactChooser
  */
 .contact-window {
   border-top: 1px solid @borders;
@@ -53,14 +53,14 @@
 
 
 /**
- * GSConnectConversationWidget
+ * ZenLinkConversationWidget
  */
 .message-scrolled {
   border-bottom: 1px solid @borders;
 }
 
 /**
- * GSConnectMessagingWindow
+ * ZenLinkMessagingWindow
  */
 .message-list > label {
   font-size: small;

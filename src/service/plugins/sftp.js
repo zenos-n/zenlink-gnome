@@ -13,7 +13,7 @@ import Plugin from '../plugin.js';
 
 export const Metadata = {
     label: _('SFTP'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.SFTP',
+    id: 'org.zenos.ZenLink.Plugin.SFTP',
     description: _('Browse the paired device filesystem'),
     incomingCapabilities: ['kdeconnect.sftp'],
     outgoingCapabilities: ['kdeconnect.sftp.request'],
@@ -47,7 +47,7 @@ const MAX_MOUNT_DIRS = 12;
  * https://github.com/KDE/kdeconnect-android/tree/master/src/org/kde/kdeconnect/Plugins/SftpPlugin
  */
 const SFTPPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectSFTPPlugin',
+    GTypeName: 'ZenLinkSFTPPlugin',
 }, class SFTPPlugin extends Plugin {
 
     _init(device) {
@@ -244,7 +244,7 @@ const SFTPPlugin = GObject.registerClass({
     }
 
     /**
-     * Add GSConnect's private key identity to the authentication agent so our
+     * Add ZenLink's private key identity to the authentication agent so our
      * identity can be verified by Android during private key authentication.
      *
      * @returns {Promise} A promise for the operation

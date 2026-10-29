@@ -11,9 +11,9 @@ project('gsconnect',
 gnome = import('gnome')
 i18n = import('i18n')
 
-app_id = 'org.gnome.Shell.Extensions.GSConnect'
-app_path = '/org/gnome/Shell/Extensions/GSConnect'
-extuuid = 'gsconnect@andyholmes.github.io'
+app_id = 'org.zenos.ZenLink'
+app_path = '/org/zenos/ZenLink'
+extuuid = 'zenlink@zenos-n.github.io'
 
 prefix = get_option('prefix')
 datadir = join_paths(prefix, get_option('datadir'))

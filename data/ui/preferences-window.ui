@@ -6,7 +6,7 @@ SPDX-FileCopyrightText: GSConnect Developers https://github.com/GSConnect
 SPDX-License-Identifier: GPL-2.0-or-later
 -->
 
-<interface domain="org.gnome.Shell.Extensions.GSConnect">
+<interface domain="org.zenos.ZenLink">
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkPopover" id="rename-popover">
     <property name="can_focus">False</property>
@@ -78,9 +78,9 @@ SPDX-License-Identifier: GPL-2.0-or-later
       </object>
     </child>
   </object>
-  <template class="GSConnectPreferencesWindow" parent="GtkApplicationWindow">
+  <template class="ZenLinkPreferencesWindow" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
-    <property name="icon_name">org.gnome.Shell.Extensions.GSConnect-symbolic</property>
+    <property name="icon_name">org.zenos.ZenLink-symbolic</property>
     <property name="default_width">640</property>
     <property name="default_height">550</property>
     <child type="titlebar">
@@ -387,7 +387,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="margin_bottom">12</property>
-                                <property name="label" translatable="yes">GSConnect remains active when GNOME Shell is locked</property>
+                                <property name="label" translatable="yes">ZenLink remains active when GNOME Shell is locked</property>
                                 <accessibility>
                                   <relation type="label-for" target="keep-alive-when-locked"/>
                                 </accessibility>
@@ -443,7 +443,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
                                     <property name="height_request">60</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="resource">/org/gnome/Shell/Extensions/GSConnect/images/firefox-badge.png</property>
+                                    <property name="resource">/org/zenos/ZenLink/images/firefox-badge.png</property>
                                   </object>
                                 </child>
                                 <child internal-child="accessible">
@@ -476,7 +476,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
                                     <property name="height_request">58</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="resource">/org/gnome/Shell/Extensions/GSConnect/images/chrome-badge.png</property>
+                                    <property name="resource">/org/zenos/ZenLink/images/chrome-badge.png</property>
                                   </object>
                                 </child>
                                 <child internal-child="accessible">
@@ -857,7 +857,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
                                 <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">The &lt;tt&gt;openssl&lt;/tt&gt; command-line tool does not appear to be installed.
 Use your distro's package manager to install it.
-For more information, visit &lt;a href="https://github.com/gsconnect/gnome-shell-extension-gsconnect/wiki/Error#openssl-not-found"&gt;the GSConnect wiki&lt;/a&gt;.</property>
+For more information, visit &lt;a href="https://github.com/gsconnect/gnome-shell-extension-gsconnect/wiki/Error#openssl-not-found"&gt;the ZenLink wiki&lt;/a&gt;.</property>
                                 <property name="use-markup">True</property>
                                 <property name="track-visited-links">True</property>
                               </object>
@@ -950,7 +950,7 @@ For more information, visit &lt;a href="https://github.com/gsconnect/gnome-shell
         <attribute name="action">win.help</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">About GSConnect</attribute>
+        <attribute name="label" translatable="yes">About ZenLink</attribute>
         <attribute name="action">win.about</attribute>
       </item>
     </section>

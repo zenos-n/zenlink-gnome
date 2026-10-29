@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "通过 GSConnect 直接将链接发送到浏览器或短信。",
+        "message": "通过 ZenLink 直接将链接发送到浏览器或短信。",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

@@ -16,10 +16,10 @@ import Config from '../../config.js';
 Gtk.Window.prototype.restoreGeometry = function (context = 'default') {
     this._windowState = new Gio.Settings({
         settings_schema: Config.GSCHEMA.lookup(
-            'org.gnome.Shell.Extensions.GSConnect.WindowState',
+            'org.zenos.ZenLink.WindowState',
             true
         ),
-        path: `/org/gnome/shell/extensions/gsconnect/${context}/`,
+        path: `/org/zenos/zenlink/${context}/`,
     });
 
     // Size

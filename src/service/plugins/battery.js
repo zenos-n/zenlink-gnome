@@ -14,7 +14,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('Battery'),
     description: _('Exchange battery information'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.Battery',
+    id: 'org.zenos.ZenLink.Plugin.Battery',
     incomingCapabilities: [
         'kdeconnect.battery',
         'kdeconnect.battery.request',
@@ -32,7 +32,7 @@ export const Metadata = {
  * https://github.com/KDE/kdeconnect-kde/tree/master/plugins/battery
  */
 const BatteryPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectBatteryPlugin',
+    GTypeName: 'ZenLinkBatteryPlugin',
 }, class BatteryPlugin extends Plugin {
 
     _init(device) {

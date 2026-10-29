@@ -72,7 +72,7 @@ const isSuper = (key) => [Gdk.KEY_Super_L, Gdk.KEY_Super_R].includes(key);
 
 
 export const InputDialog = GObject.registerClass({
-    GTypeName: 'GSConnectMousepadInputDialog',
+    GTypeName: 'ZenLinkMousepadInputDialog',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',
@@ -89,7 +89,7 @@ export const InputDialog = GObject.registerClass({
             GObject.Object
         ),
     },
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/mousepad-input-dialog.ui',
+    Template: 'resource:///org/zenos/ZenLink/ui/mousepad-input-dialog.ui',
     Children: [
         'infobar', 'infobar-label',
         'touchpad-eventbox', 'mouse-left-button', 'mouse-middle-button', 'mouse-right-button',

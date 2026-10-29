@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-# A script for building GSConnect WebExtension zips for Chrome or Firefox.
+# A script for building ZenLink WebExtension zips for Chrome or Firefox.
 # TODO: Mozilla Firefox extension requires node 'web-ext'
 
 # Update translations

@@ -4,18 +4,18 @@ SPDX-FileCopyrightText: GSConnect Developers https://github.com/GSConnect
 SPDX-License-Identifier: GPL-2.0-or-later
 -->
 
-# GSConnect
+# ZenLink
 
-[<img src="https://raw.githubusercontent.com/andyholmes/gnome-shell-extensions-badge/master/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">][ego] [<img alt="Available in the Chrome Web Store" src="https://raw.githubusercontent.com/GSConnect/gnome-shell-extension-gsconnect/main/data/images/chrome-badge.png" align="middle" hspace="12"/>][chrome] [<img src="https://raw.githubusercontent.com/GSConnect/gnome-shell-extension-gsconnect/main/data/images/firefox-badge.png" alt="Get the Add-On" align="middle">][firefox]
+[<img src="https://raw.githubusercontent.com/andyholmes/gnome-shell-extensions-badge/master/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">][ego] [<img alt="Available in the Chrome Web Store" src="https://raw.githubusercontent.com/ZenLink/gnome-shell-extension-gsconnect/main/data/images/chrome-badge.png" align="middle" hspace="12"/>][chrome] [<img src="https://raw.githubusercontent.com/ZenLink/gnome-shell-extension-gsconnect/main/data/images/firefox-badge.png" alt="Get the Add-On" align="middle">][firefox]
 
 ## Overview
 
-[GSConnect][ego] is a complete implementation of [KDE Connect][kdeconnect]
+[ZenLink][ego] is a complete implementation of [KDE Connect][kdeconnect]
 especially for GNOME Shell with Nautilus, [Chrome][chrome] and
 [Firefox][firefox] integration. The KDE Connect team has applications for Linux,
 BSD, Android, Sailfish, iOS, macOS and Windows.
 
-With GSConnect you can securely connect to mobile devices and other desktops to:
+With ZenLink you can securely connect to mobile devices and other desktops to:
 
 * Share files, links and text
 * Send and receive messages
@@ -32,15 +32,15 @@ Please see the **[Wiki][wiki]** for more information about
 
 ## Project Status
 
-GSConnect is now under the GitHub organisation [GSConnect][gsconnect-org].
+ZenLink is now under the GitHub organisation [ZenLink][gsconnect-org].
 
 Please note, this project has migrated from a developer-driven model to a
-community-driven model. This means that GSConnect does not have dedicated
+community-driven model. This means that ZenLink does not have dedicated
 developers working on new features or bug fixes. Instead, the project relies on
 contributions from its users and distributions that choose to package it.
 
 If you would like to take a more active role in the development and maintenance
-of GSConnect, you can start by [triaging new issues][issues],
+of ZenLink, you can start by [triaging new issues][issues],
 [fixing confirmed issues][help-wanted] and [reviewing contributions][needs-review].
 If you need additional permissions, you may request them from one of the
 [current maintainers][people].
@@ -48,7 +48,7 @@ If you need additional permissions, you may request them from one of the
 ## Nightly Builds
 
 For early updaters of GNOME Shell and those that wish to test the upcoming version
-of GSConnect, there are automated builds available for [download][nightly-build].
+of ZenLink, there are automated builds available for [download][nightly-build].
 See [Installing from Nightly Build][nightly-install] for installation instructions.
 
 [ego]: https://extensions.gnome.org/extension/1319/gsconnect/
@@ -63,6 +63,6 @@ See [Installing from Nightly Build][nightly-install] for installation instructio
 [issues]: https://github.com/GSConnect/gnome-shell-extension-gsconnect/issues
 [help-wanted]: https://github.com/GSConnect/gnome-shell-extension-gsconnect/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 [needs-review]: https://github.com/GSConnect/gnome-shell-extension-gsconnect/pulls?q=is%3Apr+is%3Aopen+label%3A%22needs+review%22
-[people]: https://github.com/orgs/GSConnect/people
-[nightly-build]: https://nightly.link/GSConnect/gnome-shell-extension-gsconnect/workflows/main/main/gsconnect@andyholmes.github.io.zip
+[people]: https://github.com/orgs/ZenLink/people
+[nightly-build]: https://nightly.link/ZenLink/gnome-shell-extension-gsconnect/workflows/main/main/zenlink@zenos-n.github.io.zip
 [nightly-install]: https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki/Installation#install-from-nightly-build

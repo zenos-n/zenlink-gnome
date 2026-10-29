@@ -4,11 +4,11 @@
 
 [Desktop Entry]
 Type=Application
-Name=GSConnect
-Exec=gapplication launch org.gnome.Shell.Extensions.GSConnect %U
+Name=ZenLink
+Exec=gapplication launch org.zenos.ZenLink %U
 Terminal=false
 NoDisplay=true
-Icon=org.gnome.Shell.Extensions.GSConnect
+Icon=org.zenos.ZenLink
 Categories=Network;
 MimeType=x-scheme-handler/sms;x-scheme-handler/tel;
 DBusActivatable=true

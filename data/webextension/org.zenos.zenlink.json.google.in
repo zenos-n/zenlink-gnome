@@ -1,6 +1,6 @@
 {
-    "name": "org.gnome.shell.extensions.gsconnect",
-    "description": "Native messaging host for GSConnect WebExtension",
+    "name": "org.zenos.zenlink",
+    "description": "Native messaging host for ZenLink WebExtension",
     "path": "@PACKAGE_DATADIR@/service/nativeMessagingHost.js",
     "type": "stdio",
     "allowed_origins": [ "chrome-extension://jfnifeihccihocjbfcfhicmmgpjicaec/" ]

@@ -10,7 +10,7 @@ import Adw from 'gi://Adw';
 import * as Setup from './utils/setup.js';
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-export default class GSConnectExtensionPreferences extends ExtensionPreferences {
+export default class ZenLinkExtensionPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
         Setup.setup(this.path);
@@ -28,6 +28,6 @@ export default class GSConnectExtensionPreferences extends ExtensionPreferences 
 
         const _launcher = Gio.SubprocessLauncher.new({flags: Gio.SubprocessFlags.NONE});
         _launcher.set_cwd(this.path);
-        _launcher.spawnv(['gjs', '-m', 'gsconnect-preferences.js']);
+        _launcher.spawnv(['gjs', '-m', 'zenlink-preferences.js']);
     }
 }

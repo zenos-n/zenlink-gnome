@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
 
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <template class="GSConnectPreferencesShortcutEditor" parent="GtkDialog">
+  <template class="ZenLinkPreferencesShortcutEditor" parent="GtkDialog">
     <property name="can_focus">False</property>
     <property name="modal">True</property>
     <property name="title">Set Shortcut</property>
@@ -64,7 +64,7 @@ SPDX-License-Identifier: GPL-2.0-or-later
                 <child>
                   <object class="GtkImage" id="edit-image">
                     <property name="can_focus">False</property>
-                    <property name="resource">/org/gnome/Shell/Extensions/GSConnect/images/enter-keyboard-shortcut.svg</property>
+                    <property name="resource">/org/zenos/ZenLink/images/enter-keyboard-shortcut.svg</property>
                     <property name="visible">True</property>
                   </object>
                   <packing>

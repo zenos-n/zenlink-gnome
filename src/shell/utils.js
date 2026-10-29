@@ -15,7 +15,7 @@ export const HAS_ST_ORIENTATION = SHELL_MAJOR_VERSION >= 48;
 export const HAS_MESSAGELIST_NOTIFICATIONMESSAGE = SHELL_MAJOR_VERSION >= 48;
 
 /**
- * Get a themed icon, using fallbacks from GSConnect's GResource when necessary.
+ * Get a themed icon, using fallbacks from ZenLink's GResource when necessary.
  *
  * @param {string} name - A themed icon name
  * @returns {Gio.Icon} A themed icon
@@ -31,10 +31,10 @@ export function getIcon(name) {
         });
 
         // Preload our fallbacks
-        const iconPath = 'resource://org/gnome/Shell/Extensions/GSConnect/icons';
+        const iconPath = 'resource://org/zenos/ZenLink/icons';
         const iconNames = [
-            'org.gnome.Shell.Extensions.GSConnect',
-            'org.gnome.Shell.Extensions.GSConnect-symbolic',
+            'org.zenos.ZenLink',
+            'org.zenos.ZenLink-symbolic',
             'computer-symbolic',
             'laptop-symbolic',
             'smartphone-symbolic',

@@ -14,7 +14,7 @@ import '../utils/ui.js';
  * A dialog for repliable notifications.
  */
 const ReplyDialog = GObject.registerClass({
-    GTypeName: 'GSConnectNotificationReplyDialog',
+    GTypeName: 'ZenLinkNotificationReplyDialog',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',
@@ -38,7 +38,7 @@ const ReplyDialog = GObject.registerClass({
             null
         ),
     },
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/notification-reply-dialog.ui',
+    Template: 'resource:///org/zenos/ZenLink/ui/notification-reply-dialog.ui',
     Children: ['infobar', 'notification-title', 'notification-body', 'entry'],
 }, class ReplyDialog extends Gtk.Dialog {
 

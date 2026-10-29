@@ -127,7 +127,7 @@ export class Packet {
  * underlying protocol.
  */
 export const Channel = GObject.registerClass({
-    GTypeName: 'GSConnectChannel',
+    GTypeName: 'ZenLinkChannel',
     Properties: {
         'closed': GObject.ParamSpec.boolean(
             'closed',
@@ -302,7 +302,7 @@ export const Channel = GObject.registerClass({
  * ChannelService::channel signal when a new connection has been accepted.
  */
 export const ChannelService = GObject.registerClass({
-    GTypeName: 'GSConnectChannelService',
+    GTypeName: 'ZenLinkChannelService',
     Properties: {
         'active': GObject.ParamSpec.boolean(
             'active',
@@ -465,7 +465,7 @@ export const ChannelService = GObject.registerClass({
  * A class representing a file transfer.
  */
 export const Transfer = GObject.registerClass({
-    GTypeName: 'GSConnectTransfer',
+    GTypeName: 'ZenLinkTransfer',
     Properties: {
         'channel': GObject.ParamSpec.object(
             'channel',

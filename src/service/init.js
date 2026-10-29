@@ -53,9 +53,9 @@ Gio._promisify(Gio.DtlsConnection.prototype, 'handshake_async');
 
 
 // User Directories
-Config.CACHEDIR = GLib.build_filenamev([GLib.get_user_cache_dir(), 'gsconnect']);
-Config.CONFIGDIR = GLib.build_filenamev([GLib.get_user_config_dir(), 'gsconnect']);
-Config.RUNTIMEDIR = GLib.build_filenamev([GLib.get_user_runtime_dir(), 'gsconnect']);
+Config.CACHEDIR = GLib.build_filenamev([GLib.get_user_cache_dir(), 'zenlink']);
+Config.CONFIGDIR = GLib.build_filenamev([GLib.get_user_config_dir(), 'zenlink']);
+Config.RUNTIMEDIR = GLib.build_filenamev([GLib.get_user_runtime_dir(), 'zenlink']);
 
 // Bootstrap
 const serviceFolder = GLib.path_get_dirname(GLib.filename_from_uri(import.meta.url)[0]);
@@ -144,9 +144,9 @@ const _debugFunc = function (error, prefix = null) {
     if (script.startsWith('file:///'))
         script = script.slice(8);
 
-    GLib.log_structured('GSConnect', GLib.LogLevelFlags.LEVEL_MESSAGE, {
+    GLib.log_structured('ZenLink', GLib.LogLevelFlags.LEVEL_MESSAGE, {
         'MESSAGE': `[${script}:${func}:${line}]: ${message}`,
-        'SYSLOG_IDENTIFIER': 'org.gnome.Shell.Extensions.GSConnect',
+        'SYSLOG_IDENTIFIER': 'org.zenos.ZenLink',
         'CODE_FILE': file,
         'CODE_FUNC': func,
         'CODE_LINE': line,
@@ -381,7 +381,7 @@ Gio.TlsCertificate.new_for_paths = function (certPath, keyPath, commonName = nul
                 '-keyout', keyPath,
                 '-new', '-x509', '-nodes',
                 '-days', '3650',
-                '-subj', `/O=andyholmes.github.io/OU=GSConnect/CN=${commonName}`,
+                '-subj', `/O=andyholmes.github.io/OU=ZenLink/CN=${commonName}`,
                 '-out', certPath,
             ],
             flags: (Gio.SubprocessFlags.STDOUT_SILENCE |

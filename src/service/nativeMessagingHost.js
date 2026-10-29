@@ -23,12 +23,12 @@ try {
 
 
 const NativeMessagingHost = GObject.registerClass({
-    GTypeName: 'GSConnectNativeMessagingHost',
+    GTypeName: 'ZenLinkNativeMessagingHost',
 }, class NativeMessagingHost extends Gio.Application {
 
     _init() {
         super._init({
-            application_id: 'org.gnome.Shell.Extensions.GSConnect.NativeMessagingHost',
+            application_id: 'org.zenos.ZenLink.NativeMessagingHost',
             flags: Gio.ApplicationFlags.NON_UNIQUE,
         });
     }
@@ -68,8 +68,8 @@ const NativeMessagingHost = GObject.registerClass({
             this._manager = Gio.DBusObjectManagerClient.new_for_bus_sync(
                 Gio.BusType.SESSION,
                 Gio.DBusObjectManagerClientFlags.DO_NOT_AUTO_START,
-                'org.gnome.Shell.Extensions.GSConnect',
-                '/org/gnome/Shell/Extensions/GSConnect',
+                'org.zenos.ZenLink',
+                '/org/zenos/ZenLink',
                 null,
                 null
             );

@@ -19,7 +19,7 @@ const {default: Plugin} = await import(`file://${Config.PACKAGE_DATADIR}/service
  */
 var Metadata = {
     label: 'FooBarBaz',
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.FooBarBaz',
+    id: 'org.zenos.ZenLink.Plugin.FooBarBaz',
     incomingCapabilities: ['kdeconnect.foo'],
     outgoingCapabilities: ['kdeconnect.bar', 'kdeconnect.qux'],
     actions: {
@@ -52,7 +52,7 @@ var Metadata = {
 
 
 const TestPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectTestPlugin',
+    GTypeName: 'ZenLinkTestPlugin',
 }, class TestPlugin extends Plugin {
     _init(device) {
         super._init(device, 'foobarbaz', Metadata);

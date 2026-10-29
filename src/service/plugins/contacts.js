@@ -27,7 +27,7 @@ try {
 export const Metadata = {
     label: _('Contacts'),
     description: _('Access contacts of the paired device'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.Contacts',
+    id: 'org.zenos.ZenLink.Plugin.Contacts',
     incomingCapabilities: [
         'kdeconnect.contacts.response_uids_timestamps',
         'kdeconnect.contacts.response_vcards',
@@ -56,7 +56,7 @@ const VCARD_TYPED_META = /([a-z]+)=(.*)/i;
  * https://github.com/KDE/kdeconnect-kde/tree/master/plugins/contacts
  */
 const ContactsPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectContactsPlugin',
+    GTypeName: 'ZenLinkContactsPlugin',
 }, class ContactsPlugin extends Plugin {
 
     _init(device) {

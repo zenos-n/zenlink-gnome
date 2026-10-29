@@ -12,7 +12,7 @@ import Plugin from '../plugin.js';
 export const Metadata = {
     label: _('Ping'),
     description: _('Send and receive pings'),
-    id: 'org.gnome.Shell.Extensions.GSConnect.Plugin.Ping',
+    id: 'org.zenos.ZenLink.Plugin.Ping',
     incomingCapabilities: ['kdeconnect.ping'],
     outgoingCapabilities: ['kdeconnect.ping'],
     actions: {
@@ -33,7 +33,7 @@ export const Metadata = {
  * https://github.com/KDE/kdeconnect-kde/tree/master/plugins/ping
  */
 const PingPlugin = GObject.registerClass({
-    GTypeName: 'GSConnectPingPlugin',
+    GTypeName: 'ZenLinkPingPlugin',
 }, class PingPlugin extends Plugin {
 
     _init(device) {

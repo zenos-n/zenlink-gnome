@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "Udostępnianie odnośników za pomocą GSConnect, bezpośrednio do przeglądarki lub przez wiadomość SMS.",
+        "message": "Udostępnianie odnośników za pomocą ZenLink, bezpośrednio do przeglądarki lub przez wiadomość SMS.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

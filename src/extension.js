@@ -33,19 +33,19 @@ const QuickSettingsMenu = Main.panel.statusArea.quickSettings;
  * indicating that the extension is active when there are none.
  */
 const ServiceToggle = GObject.registerClass({
-    GTypeName: 'GSConnectServiceIndicator',
+    GTypeName: 'ZenLinkServiceIndicator',
 }, class ServiceToggle extends QuickSettings.QuickMenuToggle {
 
     _init() {
         super._init({
-            title: 'GSConnect',
+            title: 'ZenLink',
             toggleMode: true,
         });
 
-        this.set({iconName: 'org.gnome.Shell.Extensions.GSConnect-symbolic'});
+        this.set({iconName: 'org.zenos.ZenLink-symbolic'});
 
         // Set QuickMenuToggle header.
-        this.menu.setHeader('org.gnome.Shell.Extensions.GSConnect-symbolic', 'GSConnect',
+        this.menu.setHeader('org.zenos.ZenLink-symbolic', 'ZenLink',
             _('Sync between your devices'));
 
         this._menus = {};
@@ -55,10 +55,10 @@ const ServiceToggle = GObject.registerClass({
         // GSettings
         this.settings = new Gio.Settings({
             settings_schema: Config.GSCHEMA.lookup(
-                'org.gnome.Shell.Extensions.GSConnect',
+                'org.zenos.ZenLink',
                 null
             ),
-            path: '/org/gnome/shell/extensions/gsconnect/',
+            path: '/org/zenos/zenlink/',
         });
 
         // Bind the toggle to enabled key
@@ -111,7 +111,7 @@ const ServiceToggle = GObject.registerClass({
         // Service Menu -> "Mobile Settings"
         this.menu.addSettingsAction(
             _('Mobile Settings'),
-            'org.gnome.Shell.Extensions.GSConnect.Preferences.desktop');
+            'org.zenos.ZenLink.Preferences.desktop');
 
         // Prime the service
         this._initService();
@@ -124,7 +124,7 @@ const ServiceToggle = GObject.registerClass({
             else
                 await this.service.reload();
         } catch (e) {
-            logError(e, 'GSConnect');
+            logError(e, 'ZenLink');
         }
     }
 
@@ -172,7 +172,7 @@ const ServiceToggle = GObject.registerClass({
                 properties.hasOwnProperty('Paired'))
                 this._sync();
         } catch (e) {
-            logError(e, 'GSConnect');
+            logError(e, 'ZenLink');
         }
     }
 
@@ -193,10 +193,10 @@ const ServiceToggle = GObject.registerClass({
             // Device Settings
             device.settings = new Gio.Settings({
                 settings_schema: Config.GSCHEMA.lookup(
-                    'org.gnome.Shell.Extensions.GSConnect.Device',
+                    'org.zenos.ZenLink.Device',
                     true
                 ),
-                path: `/org/gnome/shell/extensions/gsconnect/device/${device.id}/`,
+                path: `/org/zenos/zenlink/device/${device.id}/`,
             });
 
             // Keyboard Shortcuts
@@ -214,7 +214,7 @@ const ServiceToggle = GObject.registerClass({
 
             this._sync();
         } catch (e) {
-            logError(e, 'GSConnect');
+            logError(e, 'ZenLink');
         }
     }
 
@@ -240,7 +240,7 @@ const ServiceToggle = GObject.registerClass({
             if (sync)
                 this._sync();
         } catch (e) {
-            logError(e, 'GSConnect');
+            logError(e, 'ZenLink');
         }
     }
 
@@ -268,7 +268,7 @@ const ServiceToggle = GObject.registerClass({
                     device._keybindings.push(actionId);
             }
         } catch (e) {
-            logError(e, 'GSConnect');
+            logError(e, 'ZenLink');
         }
     }
 
@@ -279,7 +279,7 @@ const ServiceToggle = GObject.registerClass({
             else
                 await this.service.stop();
         } catch (e) {
-            logError(e, 'GSConnect');
+            logError(e, 'ZenLink');
         }
     }
 
@@ -289,7 +289,7 @@ const ServiceToggle = GObject.registerClass({
             if (this.settings.get_boolean('enabled'))
                 await this.service.start();
         } catch (e) {
-            logError(e, 'GSConnect');
+            logError(e, 'ZenLink');
         }
     }
 
@@ -330,7 +330,7 @@ class ServiceIndicator extends QuickSettings.SystemIndicator {
 
         // Create the icon for the indicator
         this._indicator = this._addIndicator();
-        this._indicator.icon_name = 'org.gnome.Shell.Extensions.GSConnect-symbolic';
+        this._indicator.icon_name = 'org.zenos.ZenLink-symbolic';
         // Hide the indicator by default
         this._indicator.visible = false;
 
@@ -352,7 +352,7 @@ class ServiceIndicator extends QuickSettings.SystemIndicator {
 
 let serviceIndicator = null;
 
-export default class GSConnectExtension extends Extension {
+export default class ZenLinkExtension extends Extension {
     lockscreenInput = null;
 
     constructor(metadata) {
@@ -370,14 +370,14 @@ export default class GSConnectExtension extends Extension {
         // If installed as a user extension, this will install the Desktop entry,
         // DBus and systemd service files necessary for DBus activation and
         // GNotifications. Since there's no uninit()/uninstall() hook for extensions
-        // and they're only used *by* GSConnect, they should be okay to leave.
+        // and they're only used *by* ZenLink, they should be okay to leave.
         Setup.installService();
 
-        // These modify the notification source for GSConnect's GNotifications and
+        // These modify the notification source for ZenLink's GNotifications and
         // need to be active even when the extension is disabled (eg. lock screen).
-        // Since they *only* affect notifications from GSConnect, it should be okay
+        // Since they *only* affect notifications from ZenLink, it should be okay
         // to leave them applied.
-        Notification.patchGSConnectNotificationSource();
+        Notification.patchZenLinkNotificationSource();
         Notification.patchGtkNotificationDaemon();
 
         // This watches for the service to start and exports a custom clipboard

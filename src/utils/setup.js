@@ -25,7 +25,7 @@ export function setupGettext() {
  * Get the contents of a GResource file, replacing `@PACKAGE_DATADIR@` where
  * necessary.
  *
- * @param {string} relativePath - A path relative to GSConnect's resource path
+ * @param {string} relativePath - A path relative to ZenLink's resource path
  * @returns {string} The file contents as a string
  */
 function getResource(relativePath) {
@@ -39,7 +39,7 @@ function getResource(relativePath) {
 
         return source.replace('@PACKAGE_DATADIR@', Config.PACKAGE_DATADIR);
     } catch (e) {
-        logError(e, 'GSConnect');
+        logError(e, 'ZenLink');
         return null;
     }
 }
@@ -60,7 +60,7 @@ function _installFile(dirname, basename, contents) {
 
         return GLib.file_set_contents(filename, contents);
     } catch (e) {
-        logError(e, 'GSConnect');
+        logError(e, 'ZenLink');
         return false;
     }
 }
@@ -70,7 +70,7 @@ function _installFile(dirname, basename, contents) {
  *
  * @param {string} dirname - An absolute directory path
  * @param {string} basename - The file name
- * @param {string} relativePath - A path relative to GSConnect's resource path
+ * @param {string} relativePath - A path relative to ZenLink's resource path
  * @returns {boolean} A success boolean
  */
 function _installResource(dirname, basename, relativePath) {
@@ -79,7 +79,7 @@ function _installResource(dirname, basename, relativePath) {
 
         return _installFile(dirname, basename, contents);
     } catch (e) {
-        logError(e, 'GSConnect');
+        logError(e, 'ZenLink');
         return false;
     }
 }
@@ -113,7 +113,7 @@ function _setExecutable(filepath) {
             Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
             null);
     } catch (e) {
-        logError(e, 'GSConnect');
+        logError(e, 'ZenLink');
         return false;
     }
 }
@@ -125,7 +125,7 @@ function _setExecutable(filepath) {
 export function ensurePermissions() {
     if (Config.IS_USER) {
         const executableFiles = [
-            'gsconnect-preferences',
+            'zenlink-preferences',
             'service/daemon.js',
             'service/nativeMessagingHost.js',
         ];
@@ -135,15 +135,15 @@ export function ensurePermissions() {
 }
 
 /**
- * Install the files necessary for the GSConnect service to run.
+ * Install the files necessary for the ZenLink service to run.
  */
 export function installService() {
     const settings = new Gio.Settings({
         settings_schema: Config.GSCHEMA.lookup(
-            'org.gnome.Shell.Extensions.GSConnect',
+            'org.zenos.ZenLink',
             null
         ),
-        path: '/org/gnome/shell/extensions/gsconnect/',
+        path: '/org/zenos/zenlink/',
     });
 
     const confDir = GLib.get_user_config_dir();
@@ -166,12 +166,12 @@ export function installService() {
 
     // File Manager Extensions
     const fileManagers = [
-        [`${dataDir}/nautilus-python/extensions`, 'nautilus-gsconnect.py'],
-        [`${dataDir}/nemo-python/extensions`, 'nemo-gsconnect.py'],
+        [`${dataDir}/nautilus-python/extensions`, 'nautilus-zenlink.py'],
+        [`${dataDir}/nemo-python/extensions`, 'nemo-zenlink.py'],
     ];
 
     // WebExtension Manifests
-    const manifestFile = 'org.gnome.shell.extensions.gsconnect.json';
+    const manifestFile = 'org.zenos.zenlink.json';
     const google = getResource(`webextension/${manifestFile}.google.in`);
     const mozilla = getResource(`webextension/${manifestFile}.mozilla.in`);
     const manifests = [
@@ -192,7 +192,7 @@ export function installService() {
     if (Config.IS_USER) {
         // DBus Service
         if (!_installResource(dbusDir, dbusFile, `${dbusFile}.in`))
-            throw Error('GSConnect: Failed to install DBus Service');
+            throw Error('ZenLink: Failed to install DBus Service');
 
         // Desktop Entries
         _installResource(appDir, appFile, appFile);
@@ -203,7 +203,7 @@ export function installService() {
         _installResource(iconDir, iconSym, `icons/${iconSym}`);
 
         // File Manager Extensions
-        const target = `${Config.PACKAGE_DATADIR}/nautilus-gsconnect.py`;
+        const target = `${Config.PACKAGE_DATADIR}/nautilus-zenlink.py`;
 
         for (const [dir, name] of fileManagers) {
             const script = Gio.File.new_for_path(GLib.build_filenamev([dir, name]));

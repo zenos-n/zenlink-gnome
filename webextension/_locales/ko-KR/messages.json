@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "GSConnect로 링크를 공유하여 웹 브라우저에서 열거나 메시지를 통해 공유합니다.",
+        "message": "ZenLink로 링크를 공유하여 웹 브라우저에서 열거나 메시지를 통해 공유합니다.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

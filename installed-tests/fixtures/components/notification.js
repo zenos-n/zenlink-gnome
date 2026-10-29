@@ -7,7 +7,7 @@ import GObject from 'gi://GObject';
 
 
 const Component = GObject.registerClass({
-    GTypeName: 'GSConnectMockNotificationListener',
+    GTypeName: 'ZenLinkMockNotificationListener',
     Signals: {
         'notification-added': {
             flags: GObject.SignalFlags.RUN_LAST,

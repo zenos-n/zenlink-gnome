@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "GSConnect",
+        "message": "ZenLink",
         "description": "The extension name"
     },
     "extensionDescription": {
-        "message": "Hivatkozások megosztása GSConnecttel, közvetlenül a böngészőből vagy SMS-ben.",
+        "message": "Hivatkozások megosztása ZenLinktel, közvetlenül a böngészőből vagy SMS-ben.",
         "description": "The extension description"
     },
     "contextMenuMultipleDevices": {

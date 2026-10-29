@@ -8,6 +8,7 @@ import * as connectivity_report from './connectivity_report.js';
 import * as contacts from './contacts.js';
 import * as findmyphone from './findmyphone.js';
 import * as mousepad from './mousepad.js';
+import * as media from './media.js';
 import * as mpris from './mpris.js';
 import * as notification from './notification.js';
 import * as ping from './ping.js';
@@ -26,6 +27,7 @@ export default {
     contacts,
     findmyphone,
     mousepad,
+    media,
     mpris,
     notification,
     ping,

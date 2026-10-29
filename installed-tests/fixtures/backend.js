@@ -34,7 +34,7 @@ const TRANSFER_MAX = 2764;
  * date with backends/lan.js as it is essentially a clone without the TLS parts.
  */
 export const ChannelService = GObject.registerClass({
-    GTypeName: 'GSConnectMockChannelService',
+    GTypeName: 'ZenLinkMockChannelService',
     Properties: {
         'port': GObject.ParamSpec.uint(
             'port',
@@ -357,7 +357,7 @@ export const ChannelService = GObject.registerClass({
  * A simple IP-based channel for tests
  */
 export const Channel = GObject.registerClass({
-    GTypeName: 'GSConnectMockChannel',
+    GTypeName: 'ZenLinkMockChannel',
 }, class MockChannel extends Core.Channel {
 
     _init(params) {

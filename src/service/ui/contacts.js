@@ -185,7 +185,7 @@ export function getDisplayNumber(contact, address) {
 const AvatarCache = new WeakMap();
 
 export const Avatar = GObject.registerClass({
-    GTypeName: 'GSConnectContactAvatar',
+    GTypeName: 'ZenLinkContactAvatar',
 }, class ContactAvatar extends Gtk.DrawingArea {
 
     _init(contact = null) {
@@ -310,8 +310,8 @@ export const Avatar = GObject.registerClass({
  * A row for a contact address (usually a phone number).
  */
 const AddressRow = GObject.registerClass({
-    GTypeName: 'GSConnectContactsAddressRow',
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/contacts-address-row.ui',
+    GTypeName: 'ZenLinkContactsAddressRow',
+    Template: 'resource:///org/zenos/ZenLink/ui/contacts-address-row.ui',
     Children: ['avatar', 'name-label', 'address-label', 'type-label'],
 }, class AddressRow extends Gtk.ListBoxRow {
 
@@ -373,7 +373,7 @@ const AddressRow = GObject.registerClass({
  * A widget for selecting contact addresses (usually phone numbers)
  */
 export const ContactChooser = GObject.registerClass({
-    GTypeName: 'GSConnectContactChooser',
+    GTypeName: 'ZenLinkContactChooser',
     Properties: {
         'device': GObject.ParamSpec.object(
             'device',
@@ -396,7 +396,7 @@ export const ContactChooser = GObject.registerClass({
             param_types: [GObject.TYPE_STRING],
         },
     },
-    Template: 'resource:///org/gnome/Shell/Extensions/GSConnect/ui/contact-chooser.ui',
+    Template: 'resource:///org/zenos/ZenLink/ui/contact-chooser.ui',
     Children: ['entry', 'list', 'scrolled'],
 }, class ContactChooser extends Gtk.Grid {
 
