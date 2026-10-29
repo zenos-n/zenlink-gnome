@@ -3,7 +3,8 @@
 Fork of https://github.com/GSConnect/gnome-shell-extension-gsconnect, based on
 upstream tag `v72`. Full upstream Git history has been fetched. The imported
 snapshot is preserved on branch `snapshot-import`; development is on `zenlink`.
-No hosted fork has been created. Original licenses and attribution are retained.
+Hosted at https://github.com/zenos-n/zenlink-gnome.
+Original licenses and attribution are retained.
 
 Identity: `zenlink@zenos-n.github.io`, application/D-Bus ID `org.zenos.ZenLink`,
 and separate `zenlink` configuration/cache/runtime directories.
