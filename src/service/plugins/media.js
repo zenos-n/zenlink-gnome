@@ -251,11 +251,22 @@ const MediaPlugin = GObject.registerClass({GTypeName: 'ZenLinkMediaPlugin'}, cla
         if (!this._session || !this._remote || now - this._remote.seen > 6000 ||
             !this._remote[kind === Media.AUDIO ? 'audio' : 'video'])
             return;
-        const pending = this._pending.get(kind);
-        if (pending && now - pending.time < 1000)
+        let pending = this._pending.get(kind);
+        if (!pending) {
+            pending = new Map();
+            this._pending.set(kind, pending);
+        }
+        for (const [sequence, time] of pending) {
+            if (now - time >= 1000)
+                pending.delete(sequence);
+        }
+        // PCM cannot use video's stop-and-wait policy: it discards samples
+        // whenever reads arrive in a burst or an ACK takes over one frame.
+        // Four 20ms packets match the phone's bounded receive queue.
+        if (pending.size >= (kind === Media.AUDIO ? 4 : 1))
             return;
         const sequence = ++this._sequence;
-        this._pending.set(kind, {sequence, time: now});
+        pending.set(sequence, now);
         this.device.sendPacket({type: kind, body: {version: 1, session: this._remote.session,
             sequence, format: kind === Media.AUDIO ? 's16le' : 'jpeg', rate: Media.RATE,
             channels: 1, data: GLib.base64_encode(bytes)}});
@@ -287,9 +298,8 @@ const MediaPlugin = GObject.registerClass({GTypeName: 'ZenLinkMediaPlugin'}, cla
                 this._remote = null;
                 this._configuredSession = null;
                 this._pending.clear();
-            } else if (body.action === 'ack' && body.session === this._remote?.session &&
-                this._pending.get(body.kind)?.sequence === body.sequence) {
-                this._pending.delete(body.kind);
+            } else if (body.action === 'ack' && body.session === this._remote?.session) {
+                this._pending.get(body.kind)?.delete(body.sequence);
             }
             return;
         }

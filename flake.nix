@@ -19,6 +19,7 @@
         nativeBuildInputs = [ pkgs.gjs ];
       } ''
         gjs -m ${package.src}/installed-tests/test-media.js
+        gjs -m ${package.src}/installed-tests/test-media-window.js ${package.src}/src/service/plugins/media.js
         touch "$out"
       '';
     };
