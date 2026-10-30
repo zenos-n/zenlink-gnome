@@ -149,6 +149,9 @@ export function installService() {
     const confDir = GLib.get_user_config_dir();
     const dataDir = GLib.get_user_data_dir();
     const homeDir = GLib.get_home_dir();
+    // ZenOS relocates Firefox's legacy home directory through ZenFS.
+    const mozillaDir = confDir.startsWith(`${homeDir}/.private/`)
+        ? `${confDir}/mozilla` : `${homeDir}/.mozilla`;
 
     // DBus Service
     const dbusDir = GLib.build_filenamev([dataDir, 'dbus-1', 'services']);
@@ -182,9 +185,9 @@ export function installService() {
         [`${confDir}/BraveSoftware/Brave-Browser/NativeMessagingHosts/`, google],
         [`${confDir}/BraveSoftware/Brave-Browser-Beta/NativeMessagingHosts/`, google],
         [`${confDir}/BraveSoftware/Brave-Browser-Nightly/NativeMessagingHosts/`, google],
-        [`${homeDir}/.mozilla/native-messaging-hosts/`, mozilla],
-        [`${homeDir}/.config/microsoft-edge-dev/NativeMessagingHosts`, google],
-        [`${homeDir}/.config/microsoft-edge-beta/NativeMessagingHosts`, google],
+        [`${mozillaDir}/native-messaging-hosts/`, mozilla],
+        [`${confDir}/microsoft-edge-dev/NativeMessagingHosts`, google],
+        [`${confDir}/microsoft-edge-beta/NativeMessagingHosts`, google],
     ];
 
     // If running as a user extension, ensure the DBus service, desktop entry,
