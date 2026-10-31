@@ -56,6 +56,11 @@ function getResource(relativePath) {
 function _installFile(dirname, basename, contents) {
     try {
         const filename = GLib.build_filenamev([dirname, basename]);
+        // Declarative managers and user overrides own their existing symlinks.
+        const file = Gio.File.new_for_path(filename);
+        if (file.query_exists(null) && file.query_file_type(
+            Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS, null) === Gio.FileType.SYMBOLIC_LINK)
+            return true;
         GLib.mkdir_with_parents(dirname, 0o755);
 
         return GLib.file_set_contents(filename, contents);
