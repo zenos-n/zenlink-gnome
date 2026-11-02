@@ -7,6 +7,7 @@ import Gtk from 'gi://Gtk';
 import Plugin from '../plugin.js';
 import {MediaPipe} from '../utils/mediaPipe.js';
 import * as Media from '../utils/mediaProtocol.js';
+import {cameraPipeline, VideoFrames, PREVIEW_WIDTH, PREVIEW_HEIGHT} from '../utils/mediaVideo.js';
 
 export const Metadata = {
     label: _('Audio and camera'),
@@ -178,16 +179,12 @@ const MediaPlugin = GObject.registerClass({GTypeName: 'ZenLinkMediaPlugin'}, cla
                 const properties = `stream-properties=props,application.name=ZenLink-Microphone,module-stream-restore.id=${this._microphoneFeed},node.dont-fallback=true,node.dont-reconnect=true,node.linger=true`;
                 this._audioOutput = this._pipe(['fdsrc', 'fd=0', '!', `audio/x-raw,format=S16LE,rate=${Media.RATE},channels=1,layout=interleaved`, '!', 'audioconvert', '!', 'audioresample', '!', 'pulsesink', 'client-name=ZenLink-Microphone', properties, 'sync=false', ...sink]);
             }
-            if (this._receiveVideoEnabled && settings.virtualCamera) {
-                const path = '/dev/video10';
-                if (!/^\/dev\/video[0-9]+$/.test(path))
-                    throw new Error(_('Choose a virtual webcam device such as /dev/video10'));
-                if (GLib.file_test(path, GLib.FileTest.EXISTS)) {
-                    this._videoOutput = this._pipe(['fdsrc', 'fd=0', 'do-timestamp=true', '!', 'jpegparse', '!', 'jpegdec', '!', 'videoconvert', '!', 'videoscale', '!', 'video/x-raw,format=YUY2,width=640,height=480', '!', 'v4l2sink', `device=${path}`, 'sync=false']);
-                } else {
-                    this._warning = _('Camera preview is active. The virtual webcam needs v4l2loopback on this computer.');
-                }
-            }
+            this._videoFormat = settings.videoFormat || 'jpeg';
+            this._videoRotation = null;
+            this._videoVirtual = settings.virtualCamera;
+            this._videoOutput = null;
+            if (this._receiveVideoEnabled && this._videoFormat === 'jpeg')
+                this._startCamera(0);
             if (settings.sendAudio) {
                 // Capture only the playback node, never a default or microphone monitor.
                 const source = [`device=${this._playbackSink}.monitor`];
@@ -240,10 +237,35 @@ const MediaPlugin = GObject.registerClass({GTypeName: 'ZenLinkMediaPlugin'}, cla
         }
     }
 
+    _startCamera(rotation) {
+        if (this._videoOutput) {
+            this._videoOutput.close();
+            this._pipes = this._pipes.filter(pipe => pipe !== this._videoOutput);
+        }
+        this._videoRotation = rotation;
+        const path = this._videoVirtual && GLib.file_test('/dev/video10', GLib.FileTest.EXISTS) ? '/dev/video10' : null;
+        const id = this.device.id.replace(/[^a-zA-Z0-9_]/g, '_');
+        const frames = new VideoFrames(bytes => {
+            this._decodedVideo = (this._decodedVideo || 0) + 1;
+            if (this._preview) {
+                this._preview.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_bytes(new GLib.Bytes(bytes),
+                    GdkPixbuf.Colorspace.RGB, false, 8, PREVIEW_WIDTH, PREVIEW_HEIGHT, PREVIEW_WIDTH * 3));
+            }
+        });
+        this._videoOutput = this._pipe(cameraPipeline(this._videoFormat, rotation, id, path), bytes => frames.push(bytes));
+    }
+
+    _ackMedia(packet) {
+        if (!this._session || packet.body.session !== this._session)
+            return;
+        this.device.sendPacket(Media.control('ack', this._session,
+            {kind: packet.type, sequence: packet.body.sequence}));
+    }
+
     _announce() {
         if (this._session)
             this.device.sendPacket(Media.control('ready', this._session,
-                {audio: this._receiveAudioEnabled, video: this._receiveVideoEnabled, message: this._warning || ''}));
+                {h264: true, audio: this._receiveAudioEnabled, video: this._receiveVideoEnabled, message: this._warning || ''}));
     }
 
     _send(kind, bytes) {
@@ -312,22 +334,32 @@ const MediaPlugin = GObject.registerClass({GTypeName: 'ZenLinkMediaPlugin'}, cla
             this._audioOutput?.write(bytes);
             this._receivedAudio++;
         } else if (packet.type === Media.VIDEO && this._receiveVideoEnabled) {
-            const loader = GdkPixbuf.PixbufLoader.new_with_type('jpeg');
-            try {
-                loader.write(bytes);
-                loader.close();
-                this._preview?.set_from_pixbuf(loader.get_pixbuf());
-                this._videoOutput?.write(bytes);
-                this._receivedVideo++;
-            } catch (e) {
-                debug(e, 'ZenLink media frame');
+            if (body.format !== this._videoFormat)
+                return;
+            const rotation = body.format === 'h264' ? body.rotation : 0;
+            if (!this._videoOutput || this._videoRotation !== rotation) {
+                if (body.format === 'h264' && !body.keyframe) {
+                    this._ackMedia(packet);
+                    return;
+                }
+                try {
+                    this._startCamera(rotation);
+                } catch (e) {
+                    this._stop(e.message);
+                    return;
+                }
+            }
+            if (!this._videoOutput.enqueue(bytes, () => this._ackMedia(packet))) {
+                this._stop(_('Camera decoder could not keep up with the video stream'));
                 return;
             }
+            this._receivedVideo++;
+            this._updateStatus();
+            return;
         } else {
             return;
         }
-        this.device.sendPacket(Media.control('ack', this._session,
-            {kind: packet.type, sequence: body.sequence}));
+        this._ackMedia(packet);
         this._updateStatus();
     }
 

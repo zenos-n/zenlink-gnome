@@ -36,3 +36,16 @@ const settings = settingsFromControl(configuration, 'phone-session');
 check(settings.sendAudio && !settings.sendVideo && settings.receiveAudio && settings.receiveVideo && settings.virtualMic && settings.virtualCamera,
     'Default phone configuration did not produce the requested routes');
 print('Phone control: session gating, field types and default routes passed');
+
+const avc = {type: VIDEO, body: {version: 1, session: 'consent', format: 'h264', sequence: 1,
+    width: 1280, height: 720, rotation: 90, fps: 30, keyframe: true,
+    data: GLib.base64_encode(new Uint8Array([0, 0, 0, 1, 0x67, 0x42]))}};
+check(decodeFrame(avc, 'consent')?.length === 6, 'Rejected bounded H264');
+for (const changes of [{width: 1281}, {height: 721}, {fps: 5}, {rotation: 45}, {keyframe: 1},
+    {sequence: -1}, {data: GLib.base64_encode(new Uint8Array([1, 2, 3, 4, 5]))}]) {
+    check(decodeFrame({...avc, body: {...avc.body, ...changes}}, 'consent') === null,
+        'Accepted invalid H264 parameters');
+}
+check(settingsFromControl({...configuration, body: {...configuration.body, phoneVideoFormat: 'h264'}},
+    'phone-session').videoFormat === 'h264', 'Camera codec negotiation failed');
+print('H264 camera: format, dimensions, frame rate, Annex B and negotiation passed');

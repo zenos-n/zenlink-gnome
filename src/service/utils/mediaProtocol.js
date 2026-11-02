@@ -7,6 +7,7 @@ export const VIDEO = 'zenlink.media.video';
 export const RATE = 48000;
 export const AUDIO_BYTES = 1920;
 export const MAX_JPEG = 49152;
+export const MAX_H264 = 262144;
 
 export function jpegDimensions(bytes) {
     if (bytes.length < 4 || bytes[0] !== 0xff || bytes[1] !== 0xd8)
@@ -45,6 +46,13 @@ export function decodeFrame(packet, session) {
         if (body.rate !== RATE || body.channels !== 1 || body.format !== 's16le')
             return null;
         limit = AUDIO_BYTES;
+    } else if (packet.type === VIDEO && body.format === 'h264') {
+        if (!Number.isInteger(body.width) || body.width < 1 || body.width > 1280 ||
+            !Number.isInteger(body.height) || body.height < 1 || body.height > 720 ||
+            ![0, 90, 180, 270].includes(body.rotation) || body.fps !== 30 ||
+            typeof body.keyframe !== 'boolean' || !Number.isSafeInteger(body.sequence) || body.sequence < 1)
+            return null;
+        limit = MAX_H264;
     } else if (packet.type === VIDEO && body.format === 'jpeg') {
         limit = MAX_JPEG;
     } else {
@@ -57,7 +65,12 @@ export function decodeFrame(packet, session) {
     const bytes = GLib.base64_decode(body.data);
     if (bytes.length > limit || (packet.type === AUDIO && bytes.length !== AUDIO_BYTES))
         return null;
-    if (packet.type === VIDEO) {
+    if (packet.type === VIDEO && body.format === 'h264') {
+        // Annex B access units, never an arbitrary container or unbounded file.
+        if (bytes.length < 5 || bytes[0] !== 0 || bytes[1] !== 0 ||
+            !((bytes[2] === 1) || (bytes[2] === 0 && bytes[3] === 1)))
+            return null;
+    } else if (packet.type === VIDEO) {
         const dimensions = jpegDimensions(bytes);
         if (!dimensions || dimensions.some(size => size < 1 || size > 640))
             return null;
@@ -75,7 +88,9 @@ export function settingsFromControl(packet, remoteSession) {
         body.action !== 'configure' || body.session !== remoteSession ||
         !['desktopAudio', 'desktopVideo', 'phoneAudio', 'phoneVideo'].every(key => typeof body[key] === 'boolean'))
         return null;
-    return {sendAudio: body.desktopAudio, sendVideo: body.desktopVideo,
+    if (body.phoneVideoFormat !== undefined && body.phoneVideoFormat !== 'h264')
+        return null;
+    return {videoFormat: body.phoneVideoFormat || 'jpeg', sendAudio: body.desktopAudio, sendVideo: body.desktopVideo,
         receiveAudio: body.phoneAudio, receiveVideo: body.phoneVideo,
         audioSource: 'system', virtualMic: true, virtualCamera: true};
 }

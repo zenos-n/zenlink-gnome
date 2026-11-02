@@ -66,7 +66,7 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
     for file in daemon nativeMessagingHost; do
       wrapGApp "$extensionDir/service/$file.js" \
         --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.gst_all_1.gstreamer pkgs.pulseaudio ]} \
-        --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : ${pkgs.lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [ pkgs.gst_all_1.gstreamer pkgs.gst_all_1.gst-plugins-base pkgs.gst_all_1.gst-plugins-good pkgs.gst_all_1.gst-plugins-bad ]}
+        --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : ${pkgs.lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [ pkgs.gst_all_1.gstreamer pkgs.gst_all_1.gst-plugins-base pkgs.gst_all_1.gst-plugins-good pkgs.gst_all_1.gst-plugins-bad pkgs.pipewire ]}
     done
     mkdir -p "$out/bin"
     makeWrapper "$extensionDir/service/daemon.js" "$out/bin/zenlink"

@@ -7,10 +7,12 @@ export class MediaPipe {
     constructor(args, onError, onBytes = null) {
         this.active = true;
         this.busy = false;
+        this.queue = [];
         this.errorText = '';
         this.cancel = new Gio.Cancellable();
-        let flags = Gio.SubprocessFlags.STDERR_PIPE;
-        flags |= onBytes ? Gio.SubprocessFlags.STDOUT_PIPE : Gio.SubprocessFlags.STDIN_PIPE;
+        let flags = Gio.SubprocessFlags.STDERR_PIPE | Gio.SubprocessFlags.STDIN_PIPE;
+        if (onBytes)
+            flags |= Gio.SubprocessFlags.STDOUT_PIPE;
         this.process = Gio.Subprocess.new(args, flags);
         this._read(this.process.get_stderr_pipe(), bytes => {
             if (this.errorText.length < 4096)
@@ -41,7 +43,17 @@ export class MediaPipe {
         });
     }
 
-    write(bytes) {
+    enqueue(bytes, onWritten) {
+        if (!this.active || this.queue.length + (this.busy ? 1 : 0) >= 4)
+            return false;
+        if (this.busy)
+            this.queue.push({bytes, onWritten});
+        else
+            this.write(bytes, onWritten);
+        return true;
+    }
+
+    write(bytes, onWritten = null) {
         if (!this.active || this.busy)
             return false;
         this.busy = true;
@@ -49,11 +61,15 @@ export class MediaPipe {
             this.cancel, (stream, result) => {
                 try {
                     stream.write_all_finish(result);
+                    onWritten?.();
                 } catch (e) {
                     if (this.active)
                         this.onError(e.message);
                 } finally {
                     this.busy = false;
+                    const next = this.queue.shift();
+                    if (next && this.active)
+                        this.write(next.bytes, next.onWritten);
                 }
             });
         return true;
@@ -61,6 +77,7 @@ export class MediaPipe {
 
     close() {
         this.active = false;
+        this.queue.length = 0;
         this.cancel.cancel();
         this.process.force_exit();
     }
