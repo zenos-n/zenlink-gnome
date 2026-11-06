@@ -13,7 +13,14 @@ if not os.environ.get('ZENLINK_DISPOSABLE_COMPOSITOR'):
         for key in ('DISPLAY','WAYLAND_DISPLAY','SESSION_MANAGER','GNOME_SETUP_DISPLAY'):env.pop(key,None)
         extension=path/'data/gnome-shell/extensions/zenlink-test@local';extension.mkdir(parents=True)
         (extension/'metadata.json').write_text(json.dumps({'uuid':'zenlink-test@local','name':'Disposable workspace test','description':'Isolated test fixture','shell-version':['50']}))
-        (extension/'extension.js').write_text("import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';\nimport Bridge from './workspace.js';\nexport default class Test extends Extension {enable(){this.bridge=new Bridge();this.bridge.enable();}disable(){this.bridge.disable();}}\n")
+        (extension/'extension.js').write_text("""import Gio from 'gi://Gio';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import Bridge from './workspace.js';
+export default class Test extends Extension {
+ enable(){this.bridge=new Bridge();this.bridge.enable();this.test=Gio.DBusExportedObject.wrapJSObject('<node><interface name="org.zenos.ZenLink.Test"><method name="Paint"/></interface></node>',{Paint(){global.stage.queue_redraw();}});this.test.export(Gio.DBus.session,'/org/zenos/ZenLink/Test');}
+ disable(){this.test.unexport();this.bridge.disable();}
+}
+""")
         shutil.copy2(root/'src/shell/workspace.js',extension/'workspace.js')
         result=subprocess.run(['dbus-run-session','--',sys.executable,__file__,sys.argv[1]],env=env,timeout=90)
         raise SystemExit(result.returncode)

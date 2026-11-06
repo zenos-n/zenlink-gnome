@@ -38,6 +38,17 @@ int main() {
             }
             assert(rate);std::cout<<"VIRTUAL_MONITOR_SIZE_PASS "<<width<<'x'<<height<<"@120 same_session same_stream\n";
         }
+        // Simulate focus pause: leave the virtual output's transport connected
+        // and bounded, while no capture consumption/encoding/input runs.
+        for(int i=0;i<30;++i){while(g_main_context_iteration(nullptr,false)){};g_usleep(10000);}
+        auto paused=call(bus.get(),"org.gnome.Mutter.DisplayConfig","/org/gnome/Mutter/DisplayConfig","org.gnome.Mutter.DisplayConfig","GetCurrentState");
+        Variant monitors(g_variant_get_child_value(paused.get(),1));assert(g_variant_n_children(monitors.get())==count+1);
+        assert(capture.session==session&&capture.stream==stream);
+        call(bus.get(),"org.gnome.Shell","/org/zenos/ZenLink/Test","org.zenos.ZenLink.Test","Paint");
+        auto deadline=g_get_monotonic_time()+5000000;bool resumed=false;
+        while(g_get_monotonic_time()<deadline){while(g_main_context_iteration(nullptr,false)){};if(!capture.poll().empty()){resumed=true;break;}g_usleep(1000);}
+        assert(resumed);
+        std::cout<<"VIRTUAL_MONITOR_PAUSE_PASS output retained and capture resumes\n";
     }
     for(int i=0;i<50;++i){while(g_main_context_iteration(nullptr,false)){};g_usleep(10000);}
     auto final=call(bus.get(),"org.gnome.Mutter.DisplayConfig","/org/gnome/Mutter/DisplayConfig","org.gnome.Mutter.DisplayConfig","GetCurrentState");

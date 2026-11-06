@@ -313,14 +313,16 @@ void Client::receive(const char* data, size_t length) {
         active=false;focused=UINT32_MAX;
         for(auto it=captures.begin();it!=captures.end();) {
             it->second->release();
-            if(it->second->virtual_output){if(it->second->pipeline)gst_element_set_state(it->second->pipeline.get(),GST_STATE_PAUSED);++it;}
+            // Disconnecting/pausing pipewiresrc breaks renegotiation on resume.
+            // Keep its one-buffer leaky consumer; tick() stops encoding/input.
+            if(it->second->virtual_output)++it;
             else it=captures.erase(it);
         }
         return;
     }
     if (type == "resume") {
         if(workspace::pcvr::mode_active()) throw std::runtime_error("End PC VR before resuming standalone streaming");
-        active=true;for(auto& [id,capture]:captures){(void)id;if(capture->pipeline)gst_element_set_state(capture->pipeline.get(),GST_STATE_PLAYING);}
+        active=true;
         last_catalog.clear();catalog();return;
     }
     if (type == "pcvr") {
@@ -351,6 +353,10 @@ void Client::receive(const char* data, size_t length) {
             if(!monitors.contains(id)||!used.insert(id).second||!tags.insert(tag).second)throw std::runtime_error("Monitor disconnected or duplicate marker");
             auto monitor=monitors.at(id);double width=number(pattern,"physical_width",0.15,3.0);monitor.mm_width=std::lround(width*1000);monitor.mm_height=std::lround(width*monitor.height/monitor.width*1000);
             auto* cells=json_object_get_member(pattern,"cells");if(!cells||!JSON_NODE_HOLDS_ARRAY(cells)||json_array_get_length(json_node_get_array(cells))!=64)throw std::runtime_error("Expected8x8 marker cells");
+            for(unsigned cell=0;cell<64;++cell) {
+                auto* value=json_array_get_element(json_node_get_array(cells),cell);
+                if(json_node_get_value_type(value)!=G_TYPE_INT64 || (json_node_get_int(value)!=0&&json_node_get_int(value)!=1))throw std::runtime_error("Invalid marker cell");
+            }
             auto display=monitor_json(monitor);json_object_set_member(object(display.get()),"cells",json_node_copy(cells));json_array_add_element(displayed,display.release());
             auto info=monitor_json(monitor);json_object_set_int_member(object(info.get()),"tag_id",tag);
             json_object_set_double_member(object(info.get()),"marker_size",width*0.6*std::min(monitor.width,monitor.height)/monitor.width);json_array_add_element(selected,info.release());
