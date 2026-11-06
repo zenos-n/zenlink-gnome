@@ -31,3 +31,22 @@ without recording media. `test-media.js` verifies protocol validation and defaul
 
 Initial video is JPEG at up to 320 pixels on the long edge / 5 fps, and audio is
 48 kHz mono PCM. See the workspace README for device-test limitations.
+
+
+## VR and desktop workspace
+
+ZenLink now includes the native C++ Quest desktop/PCVR backend and GNOME bridge.
+Open **VR & Desktop** in ZenLink's quick-settings menu or preferences. The
+libadwaita window selects WiVRn/SteamVR, startup applications and immersive
+window overlays. OVR Advanced Settings is available as a SteamVR startup preset.
+
+The native backend is socket-activated and exits without a receiver; unused
+workspace streaming adds no resident encoder, host process or VR runtime.
+The existing Quest receiver and private pairing files remain compatible.
+On the first integrated login, ZenLink disables the prototype service and backs
+up/removes the separate Quest Workspace extension and launcher. A fresh GNOME
+login is required to load changed extension code. Pairing data is preserved.
+
+Source and PC-only validation details are in workspace/README.md. Native code
+is MIT licensed; ZenLink shell/service integration retains its respective
+SPDX notices. HDR panoramas are CC0 with attribution alongside the assets.

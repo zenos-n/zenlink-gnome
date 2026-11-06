@@ -16,6 +16,9 @@ PC-rendered scenery is a separate immersive Godot environment with no desktop
 stream inside it. Installed launchers use packaged executables; no runtime Nix
 builds, repository paths or Python are required.
 
-2026-11-06 integration in progress. User requests PC/offscreen verification only;
+2026-11-06 native configuration/CTest, private-bus TLS/socket activation and
+idle shutdown, controller lifecycle/migration/archive and independent PC
+scene tests pass. Packaged settings entry and libadwaita preferences construction pass offscreen UI checks.
+Actual WiVRn/SteamVR headset acceptance remains unverified. User requests PC/offscreen verification only;
 no headset wearing/tests, Quest app launches, phone modifications, GNOME logout
 or OS activation unless needed and coordinated. Preserve pairing files.

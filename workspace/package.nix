@@ -4,7 +4,7 @@ pkgs.stdenv.mkDerivation {
   version = "0.1.0";
   src = pkgs.lib.fileset.toSource {
     root = ./.;
-    fileset = pkgs.lib.fileset.unions [ ./CMakeLists.txt ./scripts ./environment ./host ./tests/tiles.cpp ./tests/hevc.cpp ./tests/pcvr_settings.cpp ./tests/overlay.cpp ./tests/overlay_gl.cpp ./tests/overlay_xr.cpp ./tests/compositor_guard.cpp ];
+    fileset = pkgs.lib.fileset.unions [ ./CMakeLists.txt ./LICENSE ./scripts ./environment ./host ./tests/tiles.cpp ./tests/hevc.cpp ./tests/pcvr_settings.cpp ./tests/overlay.cpp ./tests/overlay_gl.cpp ./tests/overlay_xr.cpp ./tests/compositor_guard.cpp ];
   };
   nativeBuildInputs = with pkgs; [ cmake pkg-config makeWrapper wrapGAppsHook4 godot_4 ];
   buildInputs = with pkgs; [ openxr-loader openvr libGL libx11 libadwaita glib libsoup_3 json-glib libpng libjpeg gst_all_1.gstreamer gst_all_1.gst-plugins-base ];
@@ -13,6 +13,7 @@ pkgs.stdenv.mkDerivation {
     install -m755 $src/scripts/pcvr $out/bin/zenlink-pcvr
     install -m755 $src/scripts/run-openxr $out/bin/zenlink-run-openxr
     install -m755 $src/scripts/pc-environment $out/bin/zenlink-pc-environment
+    install -Dm644 $src/LICENSE $out/share/doc/zenlink-workspace/LICENSE
     mkdir -p $out/share/zenlink
     cp -r $src/environment $out/share/zenlink/environment
     export XDG_DATA_HOME=$TMPDIR/zenlink-data XDG_CONFIG_HOME=$TMPDIR/zenlink-config XDG_CACHE_HOME=$TMPDIR/zenlink-cache

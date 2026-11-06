@@ -15,6 +15,10 @@
           gst_all_1.gstreamer gst_all_1.gst-plugins-base
           gst_all_1.gst-plugins-good gst_all_1.gst-plugins-bad pipewire ];
       };
+      checks.${system}.workspace-units = pkgs.runCommand "zenlink-workspace-units" { nativeBuildInputs = [ pkgs.gjs ]; } ''
+        gjs -m ${self}/installed-tests/test-workspace-units.js
+        touch "$out"
+      '';
       checks.${system}.media-protocol = pkgs.runCommand "zenlink-media-protocol" {
         nativeBuildInputs = [ pkgs.gjs ];
       } ''

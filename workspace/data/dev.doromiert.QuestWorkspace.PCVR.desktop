@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=PC VR Settings
-Comment=OpenXR runtime, startup applications and workspace overlay
-Exec=quest-workspace-settings
-Icon=computer-symbolic
-Terminal=false
-Categories=Settings;Utility;

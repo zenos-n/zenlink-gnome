@@ -4,7 +4,7 @@
 
 project('gsconnect',
   'c',
-  version: '72',
+  version: '73',
   meson_version: '>= 0.59.0',
 )
 
@@ -47,6 +47,9 @@ extconfig.set('APPLICATION_ID', app_id)
 extconfig.set('APPLICATION_PATH', app_path)
 
 extconfig.set('GNOME_SHELL_LIBDIR', gnome_shell_libdir)
+extconfig.set('WORKSPACE_BINDIR', get_option('workspace_bindir'))
+extconfig.set('WORKSPACE_MUTTER_LIBRARY', get_option('workspace_mutter_library'))
+extconfig.set('WORKSPACE_SUPPORTED', get_option('workspace_supported') ? 'true' : 'false')
 extconfig.set('FFMPEG_PATH', get_option('ffmpeg_path'))
 extconfig.set('OPENSSL_PATH', get_option('openssl_path'))
 extconfig.set('SSHADD_PATH', get_option('sshadd_path'))

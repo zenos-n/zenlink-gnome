@@ -1,6 +1,9 @@
 { pkgs }:
 
-pkgs.stdenv.mkDerivation (finalAttrs: {
+let
+  workspace = import ../workspace/package.nix { inherit pkgs; };
+  workspaceSupported = pkgs.mutter.version != "50.4" || (pkgs.mutter.zenosTouchFocusGuard or false);
+in pkgs.stdenv.mkDerivation (finalAttrs: {
   pname = "zenlink-extension";
   version = "0.1.0";
   src = pkgs.lib.cleanSourceWith {
@@ -28,6 +31,9 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
   ];
 
   mesonFlags = [
+    "-Dworkspace_bindir=${workspace}/bin"
+    "-Dworkspace_mutter_library=${pkgs.mutter}/lib/libmutter-${pkgs.mutter.libmutter_api_version}.so.0.0.0"
+    "-Dworkspace_supported=${if workspaceSupported then "true" else "false"}"
     "-Dgnome_shell_libdir=${pkgs.gnome-shell}/lib"
     "-Dopenssl_path=${pkgs.openssl}/bin/openssl"
     "-Dsshadd_path=${pkgs.openssh}/bin/ssh-add"
@@ -73,6 +79,7 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
     makeWrapper "$extensionDir/zenlink-preferences" "$out/bin/zenlink-preferences"
   '';
 
+  passthru.workspace = workspace;
   passthru.extensionUuid = "zenlink@zenos-n.github.io";
 
   meta = {

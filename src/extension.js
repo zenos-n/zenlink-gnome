@@ -24,6 +24,8 @@ import * as Notification from './shell/notification.js';
 import * as Input from './shell/input.js';
 import * as Remote from './utils/remote.js';
 import * as Setup from './utils/setup.js';
+import WorkspaceBridge from './shell/workspace.js';
+import {WorkspaceService, openPreferences as openWorkspacePreferences} from './utils/workspace.js';
 
 const QuickSettingsMenu = Main.panel.statusArea.quickSettings;
 
@@ -112,6 +114,9 @@ const ServiceToggle = GObject.registerClass({
         this.menu.addSettingsAction(
             _('Mobile Settings'),
             'org.zenos.ZenLink.Preferences.desktop');
+
+        if (Config.WORKSPACE_BINDIR)
+            this.menu.addAction(_('VR & Desktop'), openWorkspacePreferences);
 
         // Prime the service
         this._initService();
@@ -387,6 +392,7 @@ export default class ZenLinkExtension extends Extension {
 
     enable() {
         serviceIndicator = new ServiceIndicator();
+        this.workspace = new WorkspaceService(new WorkspaceBridge());
         Notification.patchGtkNotificationSources();
 
         this.lockscreenInput = new Input.LockscreenRemoteAccess();
@@ -394,6 +400,8 @@ export default class ZenLinkExtension extends Extension {
     }
 
     disable() {
+        this.workspace?.destroy();
+        this.workspace = null;
         serviceIndicator.destroy();
         serviceIndicator = null;
         Notification.unpatchGtkNotificationSources();

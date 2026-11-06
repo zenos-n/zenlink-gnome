@@ -14,6 +14,7 @@ import system from 'system';
 import Config from '../config.js';
 import {Panel, rowSeparators} from './device.js';
 import {Service} from '../utils/remote.js';
+import {openPreferences as openWorkspacePreferences} from '../utils/workspace.js';
 
 
 /*
@@ -221,6 +222,11 @@ export const Window = GObject.registerClass({
 
         // Application Menu
         this._initMenu();
+        if (Config.WORKSPACE_BINDIR) {
+            const button = new Gtk.Button({label: _('VR & Desktop'), visible: true, tooltip_text: _('Desktop streaming, OpenXR runtime and PC VR applications')});
+            button.connect('clicked', openWorkspacePreferences);
+            this.headerbar.pack_end(button);
+        }
 
         // Setting: Keep Alive When Locked
         this.add_action(this.settings.create_action('keep-alive-when-locked'));

@@ -111,3 +111,7 @@ option(
   description: 'Install tests'
 )
 
+
+option('workspace_bindir', type: 'string', value: '', description: 'Native ZenLink workspace executable directory')
+option('workspace_mutter_library', type: 'string', value: '', description: 'Expected compositor library for capture safety')
+option('workspace_supported', type: 'boolean', value: true, description: 'Compositor is supported for desktop streaming')
