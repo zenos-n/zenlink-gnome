@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 #include "capture.hpp"
 #include "pcvr_settings.hpp"
+#include "monitors.hpp"
 
 struct Host;
 struct Client {
@@ -10,8 +11,13 @@ struct Client {
     Object<GSettings> settings;
     bool authenticated = false, active = true;
     bool interactive = false, hevc = false;
+    workspace::StreamSettings stream_settings;
     guint timeout = 0, timer = 0, catalog_timer = 0;
     std::map<uint32_t, uint64_t> windows;
+    std::map<uint32_t,Monitor> monitors;
+    std::map<std::string,uint32_t> monitor_ids;
+    uint32_t next_virtual=VIRTUAL_BASE;
+    std::string last_monitors;
     std::map<uint32_t, workspace::FrameCrop> frame_bounds;
     std::map<uint32_t, std::pair<unsigned,unsigned>> window_limits;
     std::unique_ptr<VirtualDisplay> virtual_display;
@@ -41,7 +47,33 @@ struct Client {
         send(node.get());
     }
     void catalog();
+    void monitor_catalog() {
+        std::map<uint32_t,Monitor> current;
+        for(auto monitor:monitor_list(bus.get())) {
+            auto [entry,inserted]=monitor_ids.try_emplace(monitor.connector,MONITOR_BASE+monitor_ids.size());(void)inserted;
+            monitor.id=entry->second;current[monitor.id]=monitor;
+        }
+        monitors=std::move(current);auto* array=json_array_new();
+        for(const auto& [id,monitor]:monitors){(void)id;json_array_add_element(array,monitor_json(monitor).release());}
+        for(const auto& [id,capture]:captures)if(capture->virtual_output) {
+            Monitor monitor;monitor.id=id;monitor.title="Virtual monitor "+std::to_string(id-VIRTUAL_BASE+1);monitor.refresh=120;
+            monitor.width=capture->mode_width;monitor.height=capture->mode_height;auto item=monitor_json(monitor);
+            json_object_set_boolean_member(object(item.get()),"virtual",true);json_array_add_element(array,item.release());
+        }
+        Node node=message("monitors");json_object_set_array_member(object(node.get()),"monitors",array);
+        auto serialized=dump(node.get());if(serialized!=last_monitors){send(node.get());last_monitors=serialized;}
+    }
     void appearance();
+    void stream_profile() {
+        auto next=workspace::StreamSettings::load();stream_settings=next;
+        for(auto& [id,capture]:captures) {
+            (void)id;
+            if(capture->stream_settings.quality!=next.quality)capture->retained.clear();
+            capture->stream_settings=next;
+        }
+        Node node=message("stream_settings");auto* obj=object(node.get());
+        json_object_set_int_member(obj,"quality",next.quality);json_object_set_int_member(obj,"max_fps",next.max_fps);send(node.get());
+    }
     void receive(const char* data, size_t length);
     void touch(JsonObject* object);
     void tick();
@@ -115,6 +147,12 @@ void Client::appearance() {
 }
 
 void Client::catalog() {
+    auto locked=call(bus.get(),"org.gnome.ScreenSaver","/org/gnome/ScreenSaver","org.gnome.ScreenSaver","GetActive");gboolean is_locked=false;g_variant_get(locked.get(),"(b)",&is_locked);
+    if(is_locked) {
+        for(const auto& [id,capture]:captures){(void)capture;Node node=message("closed");json_object_set_int_member(object(node.get()),"id",id);send(node.get());}
+        clear_captures();return;
+    }
+    monitor_catalog();
     Variant reply = call(bus.get(), "org.gnome.Shell", BRIDGE_PATH, BRIDGE, "List");
     const char* text = nullptr; g_variant_get(reply.get(), "(&s)", &text);
     Node list = parse(text);
@@ -137,7 +175,8 @@ void Client::catalog() {
     windows = std::move(valid);
     for (auto it = captures.begin(); it != captures.end();) {
         // An empty list also means the shell is locked; stop desktop capture too.
-        if (windows.empty() || (it->first && !windows.contains(it->first))) {
+        if ((!it->second->monitor_output && !windows.contains(it->first)) ||
+            (it->second->monitor_output && !it->second->virtual_output && it->first && !monitors.contains(it->first))) {
             Node node = message("closed"); json_object_set_int_member(object(node.get()), "id", it->first); send(node.get());
             canvas_windows.erase(it->first);
             it = captures.erase(it);
@@ -185,7 +224,7 @@ void Client::touch(JsonObject* obj) {
         if (found==captures.end() || !active) continue;
         Capture& capture=*found->second;
         if (event.phase=="down") {
-            if (event.id && focused!=event.id) {
+            if (!capture.monitor_output && focused!=event.id) {
                 auto reply=call(bus.get(),"org.gnome.Shell",BRIDGE_PATH,BRIDGE,"Focus",g_variant_new("(u)",event.id));
                 gboolean success; g_variant_get(reply.get(),"(b)",&success);
                 if (!success) throw std::runtime_error("Touch target cannot be focused");
@@ -236,23 +275,39 @@ void Client::receive(const char* data, size_t length) {
         json_object_set_int_member(info, "touch_slots", 6);
         json_object_set_string_member(info, "transport", hevc ? "hevc-hardware-jpeg-still" : interactive ? "jpeg-motion-lossless-still" : "lossless-damage-tiles");
         json_object_set_boolean_member(info, "pcvr", !host.pcvr.empty());
-        send(welcome.get()); appearance();
+        send(welcome.get()); appearance();stream_profile();
         // Let the shell's NameOwnerChanged callback run before requesting List.
         catalog_timer = g_timeout_add(1000, +[](gpointer data) -> gboolean {
             auto& client = *static_cast<Client*>(data);
-            try { client.catalog(); } catch (const std::exception& e) { client.clear_captures(); client.error(e.what()); }
+            try { client.catalog(); if(workspace::StreamSettings::load().quality!=client.stream_settings.quality)client.stream_profile(); } catch (const std::exception& e) { client.clear_captures(); client.error(e.what()); }
             return G_SOURCE_CONTINUE;
         }, this);
-        timer = g_timeout_add(interactive ? 4 : 67, +[](gpointer data) -> gboolean {
-            static_cast<Client*>(data)->tick(); return G_SOURCE_CONTINUE;
-        }, this);
+        static GSourceFuncs tick_functions={nullptr,nullptr,+[](GSource*,GSourceFunc callback,gpointer data)->gboolean {return callback(data);},nullptr,nullptr,nullptr};
+        auto* source=g_source_new(&tick_functions,sizeof(GSource));
+        g_source_set_callback(source,+[](gpointer data)->gboolean {
+            auto* client=static_cast<Client*>(data);auto started=g_get_monotonic_time();client->tick();
+            g_source_set_ready_time(g_main_current_source(),std::max(g_get_monotonic_time(),started+(client->interactive?workspace::StreamSettings::interval_us:67000)));
+            return G_SOURCE_CONTINUE;
+        },this,nullptr);g_source_set_ready_time(source,g_get_monotonic_time());timer=g_source_attach(source,nullptr);g_source_unref(source);
         g_message("receiver authenticated; capture remains on demand");
         return;
     }
     heartbeat = now;
     if (type == "ping") { Node pong = message("pong"); send(pong.get()); return; }
-    if (type == "pause") { active = false; focused = UINT32_MAX; clear_captures(); return; }
-    if (type == "resume") { if(workspace::pcvr::mode_active()) throw std::runtime_error("End PC VR before resuming standalone streaming"); active = true; last_catalog.clear(); catalog(); return; }
+    if (type == "pause") {
+        active=false;focused=UINT32_MAX;
+        for(auto it=captures.begin();it!=captures.end();) {
+            it->second->release();
+            if(it->second->virtual_output){if(it->second->pipeline)gst_element_set_state(it->second->pipeline.get(),GST_STATE_PAUSED);++it;}
+            else it=captures.erase(it);
+        }
+        return;
+    }
+    if (type == "resume") {
+        if(workspace::pcvr::mode_active()) throw std::runtime_error("End PC VR before resuming standalone streaming");
+        active=true;for(auto& [id,capture]:captures){(void)id;if(capture->pipeline)gst_element_set_state(capture->pipeline.get(),GST_STATE_PLAYING);}
+        last_catalog.clear();catalog();return;
+    }
     if (type == "pcvr") {
         if (host.pcvr.empty()) throw std::runtime_error("PC VR integration is not configured");
         std::string selected;
@@ -267,14 +322,27 @@ void Client::receive(const char* data, size_t length) {
         Node response = message("pcvr_started"); json_object_set_string_member(object(response.get()),"runtime",workspace::pcvr::default_runtime().c_str()); send(response.get()); return;
     }
     if (type == "catalog") { last_catalog.clear(); catalog(); return; }
+    if (type == "stream_settings") {
+        auto next=stream_settings;next.quality=integer(obj,"quality",0,100);next.save();stream_profile();return;
+    }
     if (type == "touch") { touch(obj); return; }
+    if(type=="create_virtual") {
+        if(!active||workspace::pcvr::mode_active())throw std::runtime_error("Resume the workspace before creating a virtual monitor");
+        if(captures.size()>=4)throw std::runtime_error("At most four panels can be streamed");
+        auto width=unsigned(integer(obj,"width",320,4096)),height=unsigned(integer(obj,"height",240,4096));auto id=next_virtual++;
+        auto capture=std::make_unique<Capture>(bus.get(),id,0,interactive,hevc,false,"",true,width,height);capture->stream_settings=stream_settings;
+        captures.emplace(id,std::move(capture));Monitor monitor;monitor.id=id;monitor.width=width;monitor.height=height;monitor.title="Virtual monitor "+std::to_string(id-VIRTUAL_BASE+1);
+        auto item=monitor_json(monitor);json_object_set_boolean_member(object(item.get()),"virtual",true);
+        Node response=message("created");json_object_set_member(object(response.get()),"window",item.release());send(response.get());monitor_catalog();return;
+    }
     uint32_t id = integer(obj, "id", 0, UINT32_MAX);
     if (type == "select") {
         if (!active || workspace::pcvr::mode_active()) throw std::runtime_error("Standalone receiver is paused during PC VR");
         if (captures.contains(id)) return;
         if (captures.size() >= 4) throw std::runtime_error("At most four windows can be streamed");
-        if (id && !windows.contains(id)) throw std::runtime_error("Window no longer exists");
-        captures.emplace(id, std::make_unique<Capture>(bus.get(), id, id ? windows.at(id) : 0, interactive, hevc));
+        if (id && !windows.contains(id) && !monitors.contains(id)) throw std::runtime_error("Window or monitor no longer exists");
+        captures.emplace(id, std::make_unique<Capture>(bus.get(), id, windows.contains(id)?windows.at(id):0, interactive, hevc,false,monitors.contains(id)?monitors.at(id).connector:""));
+        captures.at(id)->stream_settings=stream_settings;
         if (frame_bounds.contains(id)) captures.at(id)->update_bounds(frame_bounds.at(id));
         return;
     }
@@ -284,6 +352,10 @@ void Client::receive(const char* data, size_t length) {
     if (found == captures.end() || !active) throw std::runtime_error("Window is not being streamed");
     Capture& capture = *found->second;
     if (type == "resize") {
+        if(capture.virtual_output) {
+            capture.resize_monitor(integer(obj,"width",320,4096),integer(obj,"height",240,4096));monitor_catalog();return;
+        }
+        if(capture.monitor_output)throw std::runtime_error("Physical monitors are resized through display settings");
         if (!id) throw std::runtime_error("A monitor is resized through its display settings");
         guint32 width = integer(obj, "width", 320, 4096), height = integer(obj, "height", 240, 4096);
         auto limit=window_limits.contains(id) ? window_limits.at(id) : std::pair<unsigned,unsigned>{1920,1080};
@@ -307,7 +379,7 @@ void Client::receive(const char* data, size_t length) {
     if (type == "release") { capture.release(); return; }
     if (type == "focus") {
         for (auto& [other, entry] : captures) { (void)other; entry->release(); }
-        if (id) {
+        if (!capture.monitor_output) {
             auto reply = call(bus.get(), "org.gnome.Shell", BRIDGE_PATH, BRIDGE, "Focus", g_variant_new("(u)", id));
             gboolean success; g_variant_get(reply.get(), "(b)", &success);
             if (!success) throw std::runtime_error("Window cannot be focused");

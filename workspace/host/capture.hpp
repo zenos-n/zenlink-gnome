@@ -141,6 +141,8 @@ struct Capture {
     bool geometry_dirty = false;
     bool awaiting_home = false, canvas_ready = false;
     unsigned desired_width = 0, desired_height = 0;
+    bool virtual_output=false,monitor_output=false;
+    unsigned mode_width=1920,mode_height=1080;
 
     void update_bounds(workspace::FrameCrop bounds) {
         if (bounds == frame_bounds) return;
@@ -160,13 +162,18 @@ struct Capture {
     uint32_t encoder_epoch=0;
     std::deque<std::pair<uint32_t,gint64>> video_inflight;
     unsigned encoder_width=0,encoder_height=0;
+    workspace::StreamSettings stream_settings;
+    unsigned encoder_quality=UINT_MAX;
     Bytes retained;
     gint64 last_change = 0, last_poll = 0;
     unsigned retained_width = 0, retained_height = 0;
 
-    Capture(GDBusConnection* connection, uint32_t window_id, uint64_t native_id, bool fast = false, bool video = false, bool raw_frames = false) : bus(connection), id(window_id), interactive(fast), hevc(video), raw(raw_frames) {
+    Capture(GDBusConnection* connection, uint32_t window_id, uint64_t native_id, bool fast = false, bool video = false, bool raw_frames = false,
+            std::string connector="",bool virtual_monitor=false,unsigned requested_width=1920,unsigned requested_height=1080) : bus(connection), id(window_id), interactive(fast), hevc(video), raw(raw_frames) {
+        virtual_output=virtual_monitor;monitor_output=virtual_monitor||!connector.empty()||!id;
+        restore_window=!monitor_output;mode_width=requested_width;mode_height=requested_height;
         try {
-            if (id) call(bus, "org.gnome.Shell", BRIDGE_PATH, BRIDGE, "Float", g_variant_new("(u)",id));
+            if (!monitor_output) call(bus, "org.gnome.Shell", BRIDGE_PATH, BRIDGE, "Float", g_variant_new("(u)",id));
             call(bus, "org.gnome.Shell", BRIDGE_PATH, BRIDGE, "TouchDevice");
             remote = path_result(call(bus, RD, "/org/gnome/Mutter/RemoteDesktop", RD, "CreateSession").get());
             Variant properties = call(bus, RD, remote, "org.freedesktop.DBus.Properties", "Get",
@@ -179,13 +186,17 @@ struct Capture {
                 g_variant_new("(a{sv})", &builder)).get());
             g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
             g_variant_builder_add(&builder, "{sv}", "cursor-mode", g_variant_new_uint32(0));
-            if (id) {
+            if(virtual_output) {
+                g_variant_builder_add(&builder,"{sv}","is-platform",g_variant_new_boolean(true));
+                // No fixed modes: PipeWire negotiates/resizes this same virtual output.
+                stream=path_result(call(bus,SC,session,"org.gnome.Mutter.ScreenCast.Session","RecordVirtual",g_variant_new("(a{sv})",&builder)).get());
+            } else if (!monitor_output) {
                 g_variant_builder_add(&builder, "{sv}", "window-id", g_variant_new_uint64(native_id));
                 stream = path_result(call(bus, SC, session, "org.gnome.Mutter.ScreenCast.Session", "RecordWindow",
                     g_variant_new("(a{sv})", &builder)).get());
             } else {
                 stream = path_result(call(bus, SC, session, "org.gnome.Mutter.ScreenCast.Session", "RecordMonitor",
-                    g_variant_new("(sa{sv})", "", &builder)).get());
+                    g_variant_new("(sa{sv})", connector.c_str(), &builder)).get());
             }
             subscription = g_dbus_connection_signal_subscribe(bus, SC, "org.gnome.Mutter.ScreenCast.Stream",
                 "PipeWireStreamAdded", stream.c_str(), nullptr, G_DBUS_SIGNAL_FLAGS_NONE,
@@ -201,7 +212,9 @@ struct Capture {
     void start_pipewire(unsigned node) {
         if (pipeline) return;
         string description = "pipewiresrc path=" + std::to_string(node) +
-            " do-timestamp=true ! queue max-size-buffers=1 max-size-bytes=0 max-size-time=0 leaky=downstream"
+            " do-timestamp=true";
+        if(virtual_output)description+=" ! capsfilter name=virtual_mode caps=video/x-raw,width="+std::to_string(mode_width)+",height="+std::to_string(mode_height)+",framerate=0/1,max-framerate=120/1";
+        description+=" ! queue max-size-buffers=1 max-size-bytes=0 max-size-time=0 leaky=downstream"
             " ! videoconvert ! video/x-raw,format=RGBx ! appsink name=frames sync=false max-buffers=1 drop=true";
         GError* error = nullptr;
         pipeline.reset(gst_parse_launch(description.c_str(), &error));
@@ -212,6 +225,16 @@ struct Capture {
         if (gst_element_set_state(pipeline.get(), GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE)
             throw std::runtime_error("PipeWire pipeline did not start");
         g_message("capture started id=%u pipewire=%u", id, node);
+    }
+
+    void resize_monitor(unsigned width,unsigned height) {
+        if(!virtual_output||!pipeline)throw std::runtime_error("Virtual monitor is not ready to resize");
+        auto* filter=gst_bin_get_by_name(GST_BIN(pipeline.get()),"virtual_mode");
+        if(!filter)throw std::runtime_error("Virtual monitor mode filter is missing");
+        auto* caps=gst_caps_new_simple("video/x-raw","width",G_TYPE_INT,int(width),"height",G_TYPE_INT,int(height),
+            "framerate",GST_TYPE_FRACTION,0,1,"max-framerate",GST_TYPE_FRACTION,120,1,nullptr);
+        g_object_set(filter,"caps",caps,nullptr);gst_caps_unref(caps);gst_object_unref(filter);
+        mode_width=width;mode_height=height;geometry_dirty=true;
     }
 
     void input(const char* method, GVariant* args) {
@@ -249,7 +272,7 @@ struct Capture {
         if (hevc && !video_inflight.empty()) {
             if (g_get_monotonic_time()-video_inflight.front().second>10000000)
                 throw std::runtime_error("Receiver stopped acknowledging HEVC frames");
-            if (video_inflight.size()>=3) return {};
+            if (video_inflight.size()>=stream_settings.inflight()) return {};
         }
         if (hevc && encoder) {
             auto payload=encoder->poll();
@@ -268,7 +291,7 @@ struct Capture {
             return {};
         }
         gint64 now = g_get_monotonic_time();
-        if (now - last_poll < (interactive ? 8000 : 67000)) return {};
+        if (now - last_poll < (interactive ? workspace::StreamSettings::interval_us : 67000)) return {};
         last_poll = now;
         GstSample* sample = gst_app_sink_try_pull_sample(sink, 0);
         if (sample) {
@@ -291,7 +314,7 @@ struct Capture {
                 crop_x = crop->x; crop_y = crop->y; width = crop->width; height = crop->height;
             }
         }
-        if (id) {
+        if (!monitor_output) {
             auto content = frame_bounds.inside({crop_x,crop_y,width,height});
             crop_x=content.x; crop_y=content.y; width=content.width; height=content.height;
         }
@@ -314,8 +337,9 @@ struct Capture {
         Bytes bytes;
         if (hevc) {
             if (retained_width == width && retained_height == height && retained == rgb) return settle(now);
-            if (!encoder || encoder_width!=width || encoder_height!=height) {
-                encoder=std::make_unique<workspace::HevcEncoder>(width,height);
+            if (!encoder || encoder_width!=width || encoder_height!=height || encoder_quality!=stream_settings.quality) {
+                encoder=std::make_unique<workspace::HevcEncoder>(width,height,stream_settings);
+                encoder_quality=stream_settings.quality;
                 encoder_width=width; encoder_height=height; ++encoder_epoch;
                 g_message("HEVC hardware encoder ready id=%u size=%ux%u epoch=%u",id,width,height,encoder_epoch);
             }

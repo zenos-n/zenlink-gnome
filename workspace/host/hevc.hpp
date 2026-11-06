@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 #include "tiles.hpp"
+#include "stream_settings.hpp"
 #include <gst/app/gstappsrc.h>
 #include <gst/app/gstappsink.h>
 #include <gst/video/video.h>
@@ -15,13 +16,14 @@ class HevcEncoder {
     GstVideoInfo input{};
     unsigned pending=0, source_width=0,source_height=0;
 public:
-    HevcEncoder(unsigned width,unsigned height) : source_width(width),source_height(height) {
+    HevcEncoder(unsigned width,unsigned height,StreamSettings settings={}) : source_width(width),source_height(height) {
         GError* error=nullptr;
-        pipeline=gst_parse_launch("appsrc name=input is-live=true format=time block=false max-buffers=2 "
+        std::string description="appsrc name=input is-live=true format=time block=false max-buffers=2 "
             "! videoconvert ! video/x-raw,format=NV12 "
-            "! vah265enc b-frames=0 ref-frames=1 key-int-max=60 bitrate=40000 aud=true "
+            "! vah265enc b-frames=0 ref-frames=1 key-int-max=120 bitrate="+std::to_string(settings.bitrate(width,height))+" aud=true "
             "! h265parse config-interval=-1 ! video/x-h265,stream-format=byte-stream,alignment=au "
-            "! appsink name=output sync=false async=false max-buffers=2 drop=false",&error);
+            "! appsink name=output sync=false async=false max-buffers=2 drop=false";
+        pipeline=gst_parse_launch(description.c_str(),&error);
         if (error || !pipeline) {
             std::string reason=error?error->message:"Could not create HEVC pipeline";
             g_clear_error(&error); if (pipeline) gst_object_unref(pipeline);

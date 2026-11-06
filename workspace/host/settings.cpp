@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 #include "pcvr_settings.hpp"
+#include "stream_settings.hpp"
 #include <adwaita.h>
 #include <iostream>
 using namespace workspace::pcvr;
@@ -80,6 +81,44 @@ static void activate(GtkApplication* application,gpointer data) {
     gtk_window_set_title(state->window,"ZenLink VR & Desktop");gtk_window_set_default_size(state->window,600,620);
     auto* view=ADW_TOOLBAR_VIEW(adw_toolbar_view_new());adw_toolbar_view_add_top_bar(view,adw_header_bar_new());
     auto* page=ADW_PREFERENCES_PAGE(adw_preferences_page_new());
+    auto* connection_group=ADW_PREFERENCES_GROUP(adw_preferences_group_new());adw_preferences_group_set_title(connection_group,"Headset connection");
+    adw_preferences_group_set_description(connection_group,"Pair the Workspace app using USB or an existing wireless debugging connection. USB carries the encrypted stream over the cable; no Wi-Fi is needed.");
+    for(bool wired:{true,false}) {
+        auto* row=ADW_ACTION_ROW(adw_action_row_new());adw_preferences_row_set_title(ADW_PREFERENCES_ROW(row),wired?"USB wired mode":"Wireless debugging");
+        adw_action_row_set_subtitle(row,wired?"Connect a USB data cable and allow debugging in the headset.":"Reconnect a Quest already listed in Android debugging.");
+        auto* button=gtk_button_new_with_label(wired?"Connect USB":"Reconnect");gtk_widget_set_valign(button,GTK_ALIGN_CENTER);adw_action_row_add_suffix(row,button);
+        g_object_set_data(G_OBJECT(button),"wired",GINT_TO_POINTER(wired));
+        g_signal_connect(button,"clicked",G_CALLBACK(+[](GtkButton* button,gpointer data) {
+            auto* state=static_cast<Preferences*>(data);const char* command=g_getenv("ZENLINK_WORKSPACE_CONNECT");
+            if(!command){state->error("Headset connection helper is not installed.");return;}
+            GError* error=nullptr;auto* process=g_subprocess_new(GSubprocessFlags(G_SUBPROCESS_FLAGS_STDOUT_PIPE|G_SUBPROCESS_FLAGS_STDERR_PIPE),&error,command,g_object_get_data(G_OBJECT(button),"wired")?"--usb":"--adb",nullptr);
+            if(!process){state->error(error->message);g_clear_error(&error);return;}
+            gtk_widget_set_sensitive(GTK_WIDGET(button),false);state->error("Connecting headset…");
+            // Keep the widget alive if the preferences window closes during ADB.
+            g_object_set_data_full(G_OBJECT(process),"button",g_object_ref(button),g_object_unref);
+            g_object_set_data_full(G_OBJECT(process),"status",g_object_ref(state->status),g_object_unref);
+            g_subprocess_communicate_utf8_async(process,nullptr,nullptr,+[](GObject* object,GAsyncResult* result,gpointer) {
+                auto* process=G_SUBPROCESS(object);gchar *output=nullptr,*detail=nullptr;GError* error=nullptr;
+                bool success=g_subprocess_communicate_utf8_finish(process,result,&output,&detail,&error)&&g_subprocess_get_successful(process);
+                gtk_label_set_text(GTK_LABEL(g_object_get_data(object,"status")),success?output:error?error->message:detail);
+                gtk_widget_set_sensitive(GTK_WIDGET(g_object_get_data(object,"button")),true);g_free(output);g_free(detail);g_clear_error(&error);g_object_unref(process);
+            },nullptr);
+        }),state);
+        adw_preferences_group_add(connection_group,GTK_WIDGET(row));
+    }
+    adw_preferences_page_add(page,connection_group);
+    auto* streaming=ADW_PREFERENCES_GROUP(adw_preferences_group_new());adw_preferences_group_set_title(streaming,"Streaming");
+    adw_preferences_group_set_description(streaming,"HEVC streams are capped at120fps; virtual monitors use120Hz. Responsiveness reduces bitrate and queued frames. Quality gives moving detail more bandwidth. Still images receive a full-quality refresh.");
+    auto* quality=gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL,0,100,1);gtk_scale_set_draw_value(GTK_SCALE(quality),false);
+    gtk_range_set_value(GTK_RANGE(quality),workspace::StreamSettings::load().quality);
+    gtk_scale_add_mark(GTK_SCALE(quality),0,GTK_POS_BOTTOM,"Responsiveness");gtk_scale_add_mark(GTK_SCALE(quality),100,GTK_POS_BOTTOM,"Quality");
+    gtk_widget_set_margin_bottom(quality,12);gtk_widget_set_tooltip_text(quality,"Quality versus responsiveness");
+    g_signal_connect(quality,"value-changed",G_CALLBACK(+[](GtkRange* range,gpointer data) {
+        auto* state=static_cast<Preferences*>(data);
+        try {workspace::StreamSettings value;value.quality=unsigned(std::lround(gtk_range_get_value(range)));value.save();state->error("");}
+        catch(const std::exception& error){state->error(error.what());}
+    }),state);
+    adw_preferences_group_add(streaming,quality);adw_preferences_page_add(page,streaming);
     auto* runtime_group=ADW_PREFERENCES_GROUP(adw_preferences_group_new());adw_preferences_group_set_title(runtime_group,"OpenXR runtime");
     adw_preferences_group_set_description(runtime_group,"Choose the default runtime for OpenXR applications. Changes apply to newly launched apps.");
     auto* runtime=ADW_COMBO_ROW(adw_combo_row_new());adw_preferences_row_set_title(ADW_PREFERENCES_ROW(runtime),"Default runtime");
