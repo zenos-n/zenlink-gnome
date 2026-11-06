@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+exec "${ZENLINK_GODOT:?Godot is not installed}" --xr-mode on --rendering-method mobile --rendering-driver vulkan --path "${ZENLINK_PC_ENVIRONMENT:?PC environment is not installed}" -- "$@"

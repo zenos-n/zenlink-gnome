@@ -1,0 +1,11 @@
+config_version=5
+[application]
+config/name="ZenLink PC Environment"
+run/main_scene="res://main.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="zenlink-workspace"
+[xr]
+openxr/enabled=true
+shaders/enabled=true
+[rendering]
+renderer/rendering_method="mobile"

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+nativebin=${ZENLINK_WORKSPACE_BIN_DIR:-$(cd -- "$(dirname -- "$0")" && pwd)}
+if [[ $# == 0 ]]; then printf '%s\n' 'Usage: scripts/run-openxr command [arguments…]' >&2; exit 2; fi
+if ! systemctl --user is-active --quiet zenlink-pcvr.service; then "$nativebin/zenlink-pcvr" start; fi
+connected=false
+for attempt in $(seq 1 180); do
+  if [[ $("$nativebin/quest-workspace-settings" --pcvr-status) == ready ]]; then connected=true; break; fi
+  if ! systemctl --user is-active --quiet zenlink-pcvr.service; then break; fi
+  sleep 1
+done
+if [[ "$connected" != true ]]; then printf '%s\n' 'No PC VR headset connected.' >&2; exit 1; fi
+runtime=$("$nativebin/quest-workspace-settings" --get-runtime)
+export XR_RUNTIME_JSON=$("$nativebin/quest-workspace-settings" --runtime-manifest "$runtime")
+exec "$@"

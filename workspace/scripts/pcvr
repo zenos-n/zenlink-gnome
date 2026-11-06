@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+nativebin=${ZENLINK_WORKSPACE_BIN_DIR:-$(cd -- "$(dirname -- "$0")" && pwd)}
+config_root="${XDG_CONFIG_HOME:-$HOME/.config}"
+config="$config_root/quest-workspace"
+mode=${1:-start}
+windows=''
+if [[ $# -gt 1 ]]; then
+  if [[ $# != 3 || "$2" != --windows ]]; then printf '%s\n' 'Usage: zenlink-pcvr [start|environment|pair|settings|stop] [--windows id,id]' >&2; exit 2; fi
+  windows=$3
+fi
+case "$mode" in
+stop) systemctl --user stop zenlink-pcvr.service; exit ;;
+start|environment|pair|settings) ;;
+*) printf '%s\n' 'Usage: zenlink-pcvr [start|environment|pair|settings|stop]' >&2; exit 2 ;;
+esac
+if [[ "$mode" == settings ]]; then exec "$nativebin/quest-workspace-settings"; fi
+if systemctl --user is-active --quiet zenlink-pcvr.service; then
+  printf '%s\n' 'PC VR is already running. Stop it before changing modes.'
+  exit 0
+fi
+runtime=$("$nativebin/quest-workspace-settings" --get-runtime)
+if [[ "$runtime" != wivrn && "$runtime" != steamvr ]]; then
+  printf '%s\n' 'Choose WiVRn or SteamVR in zenlink-pcvr settings first.' >&2; exit 1
+fi
+manifest=$("$nativebin/quest-workspace-settings" --runtime-manifest "$runtime")
+mkdir -p "$config/pcvr-state"
+chmod 700 "$config/pcvr-state"
+args=(--runtime "$runtime" --runtime-json "$manifest" --overlay "$nativebin/quest-workspace-overlay" --windows "$windows")
+environment=("--setenv=QUEST_WORKSPACE_CONFIG=$config_root")
+if [[ "$runtime" == wivrn ]]; then
+  wivrn_server=${WORKSPACE_WIVRN_SERVER:?WiVRn is not installed}
+  session_config=$("$nativebin/zenlink-workspace-configure" --wivrn "$mode")
+  args+=(--server "$wivrn_server" --server-config "$session_config")
+  environment+=("--setenv=XDG_CONFIG_HOME=$config/pcvr-state")
+else
+  if [[ "$mode" != start ]]; then printf '%s\n' 'Pairing and local environment mode currently use WiVRn. Choose WiVRn in PC VR settings.' >&2; exit 1; fi
+fi
+systemd-run --user --unit zenlink-pcvr --collect \
+  --property=RuntimeMaxSec=14400 --property=TimeoutStopSec=10 \
+  "${environment[@]}" "$nativebin/quest-workspace-pcvr" "${args[@]}"
+if [[ "$runtime" == wivrn ]]; then
+  for attempt in $(seq 1 20); do
+    if gdbus call --session --dest io.github.wivrn.Server --object-path /io/github/wivrn/Server \
+      --method org.freedesktop.DBus.Properties.Get io.github.wivrn.Server HeadsetConnected >/dev/null 2>&1; then break; fi
+    sleep 0.2
+  done
+  if [[ "$mode" == pair ]]; then
+    gdbus call --session --dest io.github.wivrn.Server --object-path /io/github/wivrn/Server --method io.github.wivrn.Server.EnablePairing 180 >/dev/null
+  fi
+fi
+serial=''
+while read -r candidate state details; do
+  if [[ "$state" == device && "$details" == *model:Quest_3* ]]; then serial=$candidate; break; fi
+done < <(timeout 6 adb devices -l 2>/dev/null || true)
+if [[ -n "$serial" ]]; then
+  if [[ "$runtime" == wivrn ]]; then
+    version=$(timeout 6 adb -s "$serial" shell dumpsys package org.meumeu.wivrn.github | sed -n 's/.*versionName=//p')
+    expected=$("$wivrn_server" --version | awk '{print $NF}')
+    if [[ "$version" != "$expected" ]]; then
+      systemctl --user stop zenlink-pcvr.service
+      printf 'WiVRn version mismatch: headset=%s PC=%s. Install the matching GitHub APK.\n' "$version" "$expected" >&2; exit 1
+    fi
+    adb -s "$serial" reverse tcp:9757 tcp:9757
+    pin=$(gdbus call --session --dest io.github.wivrn.Server --object-path /io/github/wivrn/Server --method org.freedesktop.DBus.Properties.Get io.github.wivrn.Server Pin | sed -n "s/.*'\([0-9]\{6\}\)'.*/\1/p")
+    endpoint=wivrn+tcp://127.0.0.1:9757
+    if [[ "$pin" =~ ^[0-9]{6}$ ]]; then endpoint="wivrn+tcp://:$pin@127.0.0.1:9757"; fi
+    adb -s "$serial" shell am start -a android.intent.action.VIEW -d "$endpoint" org.meumeu.wivrn.github >/dev/null
+  else
+    activity=$(timeout 6 adb -s "$serial" shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER com.valvesoftware.steamlink | tail -1)
+    if [[ "$activity" == com.valvesoftware.steamlink/* ]]; then timeout 6 adb -s "$serial" shell am start -n "$activity" >/dev/null; fi
+  fi
+fi
+printf '%s\n' 'PC VR starts on demand. Startup apps and the desktop overlay begin after a headset connects.'
