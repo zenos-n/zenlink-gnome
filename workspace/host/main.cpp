@@ -18,6 +18,16 @@ struct Client {
     std::map<std::string,uint32_t> monitor_ids;
     uint32_t next_virtual=VIRTUAL_BASE;
     std::string last_monitors;
+    Object<GSubprocess> alignment_process;
+    gint64 alignment_deadline=0,alignment_resume=0;
+    void stop_alignment(bool complete=false) {
+        if(!alignment_process)return;
+        if(g_subprocess_get_identifier(alignment_process.get()))g_subprocess_force_exit(alignment_process.get());
+        alignment_process.reset();alignment_deadline=0;alignment_resume=g_get_monotonic_time()+150000;
+        if(soup_websocket_connection_get_state(ws.get())==SOUP_WEBSOCKET_STATE_OPEN) {
+            Node node=message("alignment_finished");json_object_set_boolean_member(object(node.get()),"complete",complete);send(node.get());
+        }
+    }
     std::map<uint32_t, workspace::FrameCrop> frame_bounds;
     std::map<uint32_t, std::pair<unsigned,unsigned>> window_limits;
     std::unique_ptr<VirtualDisplay> virtual_display;
@@ -122,6 +132,7 @@ Client::Client(Host& owner, SoupWebsocketConnection* connection) : host(owner), 
     }), this);
 }
 Client::~Client() {
+    stop_alignment();
     if (timeout) g_source_remove(timeout);
     if (timer) g_source_remove(timer);
     if (catalog_timer) g_source_remove(catalog_timer);
@@ -161,6 +172,7 @@ void Client::catalog() {
     std::map<uint32_t, uint64_t> valid;
     for (guint i = 0; i < json_array_get_length(array); ++i) {
         JsonObject* item = object(json_array_get_element(array, i));
+        if(str(item,"title")=="ZenLink Monitor Alignment"){json_array_remove_element(array,i--);continue;}
         uint32_t id = integer(item, "id", 1, UINT32_MAX);
         valid.emplace(id, std::stoull(str(item, "native_id")));
         if (json_object_has_member(item,"monitor_width"))
@@ -273,6 +285,8 @@ void Client::receive(const char* data, size_t length) {
         json_object_set_int_member(info, "version", 1);
         json_object_set_int_member(info, "max_windows", 4);
         json_object_set_int_member(info, "touch_slots", 6);
+        json_object_set_boolean_member(info,"monitor_streams",true);
+        json_object_set_boolean_member(info,"monitor_alignment",g_getenv("ZENLINK_WORKSPACE_ALIGNMENT")!=nullptr);
         json_object_set_string_member(info, "transport", hevc ? "hevc-hardware-jpeg-still" : interactive ? "jpeg-motion-lossless-still" : "lossless-damage-tiles");
         json_object_set_boolean_member(info, "pcvr", !host.pcvr.empty());
         send(welcome.get()); appearance();stream_profile();
@@ -295,6 +309,7 @@ void Client::receive(const char* data, size_t length) {
     heartbeat = now;
     if (type == "ping") { Node pong = message("pong"); send(pong.get()); return; }
     if (type == "pause") {
+        stop_alignment();
         active=false;focused=UINT32_MAX;
         for(auto it=captures.begin();it!=captures.end();) {
             it->second->release();
@@ -322,6 +337,32 @@ void Client::receive(const char* data, size_t length) {
         Node response = message("pcvr_started"); json_object_set_string_member(object(response.get()),"runtime",workspace::pcvr::default_runtime().c_str()); send(response.get()); return;
     }
     if (type == "catalog") { last_catalog.clear(); catalog(); return; }
+    if(type=="alignment_start") {
+        if(!active)throw std::runtime_error("Resume the workspace before aligning monitors");
+        stop_alignment();monitor_catalog();auto* member=json_object_get_member(obj,"patterns");
+        if(!member||!JSON_NODE_HOLDS_ARRAY(member))throw std::runtime_error("Expected monitor markers");
+        auto* patterns=json_node_get_array(member);auto count=json_array_get_length(patterns);
+        if(!count||count>4)throw std::runtime_error("Choose1..4 physical monitors");
+        Node request=message("alignment");auto* displayed=json_array_new();auto* selected=json_array_new();std::set<uint32_t> used;std::set<unsigned> tags;
+        json_object_set_array_member(object(request.get()),"monitors",displayed);
+        Node response=message("alignment_started");json_object_set_array_member(object(response.get()),"monitors",selected);
+        for(guint i=0;i<count;++i) {
+            auto* pattern=object(json_array_get_element(patterns,i));auto id=uint32_t(integer(pattern,"id",MONITOR_BASE,VIRTUAL_BASE-1));auto tag=unsigned(integer(pattern,"tag_id",0,49));
+            if(!monitors.contains(id)||!used.insert(id).second||!tags.insert(tag).second)throw std::runtime_error("Monitor disconnected or duplicate marker");
+            auto monitor=monitors.at(id);double width=number(pattern,"physical_width",0.15,3.0);monitor.mm_width=std::lround(width*1000);monitor.mm_height=std::lround(width*monitor.height/monitor.width*1000);
+            auto* cells=json_object_get_member(pattern,"cells");if(!cells||!JSON_NODE_HOLDS_ARRAY(cells)||json_array_get_length(json_node_get_array(cells))!=64)throw std::runtime_error("Expected8x8 marker cells");
+            auto display=monitor_json(monitor);json_object_set_member(object(display.get()),"cells",json_node_copy(cells));json_array_add_element(displayed,display.release());
+            auto info=monitor_json(monitor);json_object_set_int_member(object(info.get()),"tag_id",tag);
+            json_object_set_double_member(object(info.get()),"marker_size",width*0.6*std::min(monitor.width,monitor.height)/monitor.width);json_array_add_element(selected,info.release());
+        }
+        const char* command=g_getenv("ZENLINK_WORKSPACE_ALIGNMENT");if(!command)throw std::runtime_error("Monitor alignment helper is not installed");
+        GError* error=nullptr;alignment_process.reset(g_subprocess_new(G_SUBPROCESS_FLAGS_STDIN_PIPE,&error,command,nullptr));
+        if(!alignment_process)throw std::runtime_error(take_error(error));
+        auto text=dump(request.get());auto* input=g_subprocess_get_stdin_pipe(alignment_process.get());
+        if(!g_output_stream_write_all(input,text.data(),text.size(),nullptr,nullptr,&error)||!g_output_stream_close(input,nullptr,&error)){stop_alignment();throw std::runtime_error(take_error(error));}
+        alignment_deadline=g_get_monotonic_time()+30000000;send(response.get());return;
+    }
+    if(type=="alignment_end"){stop_alignment(boolean(obj,"complete"));return;}
     if (type == "stream_settings") {
         auto next=stream_settings;next.quality=integer(obj,"quality",0,100);next.save();stream_profile();return;
     }
@@ -413,6 +454,11 @@ void Client::receive(const char* data, size_t length) {
 }
 
 void Client::tick() {
+    if(alignment_process) {
+        if(g_get_monotonic_time()>=alignment_deadline||!g_subprocess_get_identifier(alignment_process.get()))stop_alignment();
+        return;
+    }
+    if(g_get_monotonic_time()<alignment_resume)return;
     if(active && workspace::pcvr::mode_active()) {
         active=false;clear_captures();close(SOUP_WEBSOCKET_CLOSE_GOING_AWAY,"PC VR owns desktop composition");return;
     }

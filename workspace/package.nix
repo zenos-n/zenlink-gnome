@@ -34,6 +34,6 @@ pkgs.stdenv.mkDerivation {
 
     wrapProgram $out/bin/quest-workspace-settings --set-default WORKSPACE_WIVRN_RUNTIME ${pkgs.wivrn}/share/openxr/1/openxr_wivrn.json --set ZENLINK_WORKSPACE_CONNECT $out/bin/zenlink-workspace-connect
     wrapProgram $out/bin/quest-workspace-overlay --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : ${pkgs.lib.makeSearchPath "lib/gstreamer-1.0" (map pkgs.lib.getLib [ pkgs.pipewire pkgs.gst_all_1.gst-plugins-base ])}
-    wrapProgram $out/bin/quest-workspace-host --set ZENLINK_PCVR_COMMAND $out/bin/zenlink-pcvr --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.systemd ]} --prefix GIO_EXTRA_MODULES : ${pkgs.glib-networking}/lib/gio/modules --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : ${pkgs.lib.makeSearchPath "lib/gstreamer-1.0" (map pkgs.lib.getLib [ pkgs.pipewire pkgs.gst_all_1.gstreamer pkgs.gst_all_1.gst-plugins-base pkgs.gst_all_1.gst-plugins-good pkgs.gst_all_1.gst-plugins-bad ])}
+    wrapProgram $out/bin/quest-workspace-host --set ZENLINK_WORKSPACE_ALIGNMENT $out/bin/zenlink-workspace-alignment --set ZENLINK_PCVR_COMMAND $out/bin/zenlink-pcvr --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.systemd ]} --prefix GIO_EXTRA_MODULES : ${pkgs.glib-networking}/lib/gio/modules --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : ${pkgs.lib.makeSearchPath "lib/gstreamer-1.0" (map pkgs.lib.getLib [ pkgs.pipewire pkgs.gst_all_1.gstreamer pkgs.gst_all_1.gst-plugins-base pkgs.gst_all_1.gst-plugins-good pkgs.gst_all_1.gst-plugins-bad ])}
   '';
 }
