@@ -314,12 +314,18 @@ void Client::receive(const char* data, size_t length) {
         }
         focused = id; return;
     }
-    if (focused != id) throw std::runtime_error("Focus the target before sending input");
     if (type == "pointer") {
+        // Hover may target another panel without moving keyboard focus. A held
+        // button still owns the mouse until release, so another ray cannot drag it.
+        for (const auto& [other,entry]:captures)
+            if (other!=id && !entry->buttons.empty()) return;
         double x = number(obj, "x", 0, 1), y = number(obj, "y", 0, 1);
         if (capture.width && capture.height)
             capture.input("NotifyPointerMotionAbsolute", g_variant_new("(sdd)", capture.stream.c_str(), capture.crop_x + x * (capture.width - 1), capture.crop_y + y * (capture.height - 1)));
-    } else if (type == "button") {
+        return;
+    }
+    if (focused != id) throw std::runtime_error("Focus the target before sending input");
+    if (type == "button") {
         unsigned button = integer(obj, "button", 272, 274); bool down = boolean(obj, "down");
         capture.input("NotifyPointerButton", g_variant_new("(ib)", int(button), down));
         if (down) capture.buttons.insert(button); else capture.buttons.erase(button);
