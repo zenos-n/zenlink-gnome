@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, ... }:
 
 let
   workspace = import ../workspace/package.nix { inherit pkgs; };
@@ -80,6 +80,8 @@ in pkgs.stdenv.mkDerivation (finalAttrs: {
   '';
 
   passthru.workspace = workspace;
+  passthru.workspaceSupported = workspaceSupported;
+  passthru.workspaceMutter = pkgs.mutter;
   passthru.extensionUuid = "zenlink@zenos-n.github.io";
 
   meta = {
